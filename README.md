@@ -72,7 +72,7 @@ python main.py
     - [ ] Translation service
     - [ ] TTS service
 - **Application**
-    - [ ] Upstream pipeline
+    - [x] Upstream pipeline
     - [ ] Settings
         - [ ] Upstream/downstream controls
         - [ ] Audio device selector
