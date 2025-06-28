@@ -9,6 +9,7 @@ from vpipe.capsules.services.tran import TranslationTransform
 from services.google_translator_service import GoogleTranslatorService
 from services.google_tts_service import GoogleTTSService
 from services.deepgram_asr_service import DeepGramASRService
+from services.whisper_asr_service import WhisperASRService
 
 
 class TextCompleteFilter(VpBaseTransform):
@@ -26,7 +27,7 @@ class SpeechTranslator(VpComposite):
     """
 
     def __init__(self, name=None,
-                 asr_service_cls=DeepGramASRService,
+                 asr_service_cls=DeepGramASRService, #WhisperASRService
                  tts_service_cls=GoogleTTSService,
                  tran_service_cls=GoogleTranslatorService,
                  src_lang='en',

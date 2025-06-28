@@ -79,18 +79,29 @@ Rectangle {
                 width: 120
                 height: 32
                 property string appState: pipeline.appState
-                // property bool running: appState === "Running"
+
                 label: appState === "Stopped" ? "Start"
-                       : appState === "Starting" ? "Starting..."
-                       : appState === "Running" ? "Stop"
-                       : appState === "Stopping" ? "Stopping..."
-                       : ""
+                    : appState === "Starting" ? "Starting..."
+                    : appState === "Running" ? "Stop"
+                    : appState === "Stopping" ? "Stopping..."
+                    : ""
+
                 iconSource: appState === "Stopped" ? "../assets/run.svg"
-                           : appState === "Starting" ? "../assets/hourglass.svg"
-                           : appState === "Running" ? "../assets/stop.svg"
-                           : appState === "Stopping" ? "../assets/hourglass.svg"
-                           : ""
-                enabled: appState === "Stopped" || appState === "Running"
+                    : appState === "Starting" ? "../assets/hourglass.svg"
+                    : appState === "Running" ? "../assets/stop.svg"
+                    : appState === "Stopping" ? "../assets/hourglass.svg"
+                    : ""
+
+                allowSpin: appState === "Starting" || appState === "Stopping"
+                spinning: appState === "Starting" || appState === "Stopping"
+                blinking: appState === "Starting"
+
+                backgroundColor: appState === "Stopped" ? "#E8F5E9"
+                    : appState === "Starting" ? "#E3F2FD"
+                    : appState === "Running" ? "#FFEBEE"
+                    : appState === "Stopping" ? "#FFF8E1"
+                    : "#F5F5F5"
+
                 onClicked: {
                     if (appState === "Stopped") {
                         pipeline.start()
