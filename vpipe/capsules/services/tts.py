@@ -1,0 +1,62 @@
+from abc import ABC, abstractmethod
+from vpipe.core.transform import VpBaseTransform
+
+
+class TTSServiceInterface(ABC):
+    @abstractmethod
+    async def start(self):
+        """Start the TTS service."""
+        pass
+
+    @abstractmethod
+    async def stop(self):
+        """Stop the TTS service."""
+        pass
+
+    @abstractmethod
+    async def synthesize(self, text: str, lang: str) -> bytes:
+        """
+        Synthesize speech from the given text and return audio data.
+        Returns:
+            np.ndarray: Audio data in shape (frames, channels), dtype typically np.int16
+            Refer to vpipe.core.config for audio format details.
+        """
+        pass
+
+
+class TTSTransform(VpBaseTransform):
+    def __init__(self, name=None, service: TTSServiceInterface = None, lang='en'):
+        super().__init__(name=name)
+        self.service = service
+        self.lang = lang
+
+    def set_service(self, service: TTSServiceInterface):
+        self.service = service
+
+    def set_prop(self, key: str, value):
+        match key:
+            case 'lang':
+                self.lang = value
+            case _:
+                raise ValueError(f"Unknown property: {key}")
+    
+    def get_prop(self, key: str):
+        match key:
+            case 'lang':
+                return self.lang
+            case _:
+                raise ValueError(f"Unknown property: {key}")
+
+    async def start(self):
+        print(f"Starting TTS service: {self.service.__class__.__name__}")
+        await self.service.start()
+        print(f"TTS service {self.service.__class__.__name__} started")
+
+    async def stop(self):
+        print(f"Stopping TTS service: {self.service.__class__.__name__}")
+        await self.service.stop()
+        print(f"TTS service {self.service.__class__.__name__} stopped")
+
+    async def transform(self, text: str) -> bytes:
+        audio = await self.service.synthesize(text, lang=self.lang)
+        return audio

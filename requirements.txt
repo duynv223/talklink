@@ -1,0 +1,11 @@
+numpy
+resampy
+pydub
+sounddevice
+pywin32
+gTTS
+deepgram-sdk
+googletrans
+PySide6
+qasync
+aioconsole
