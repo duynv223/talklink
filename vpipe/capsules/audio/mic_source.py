@@ -6,8 +6,8 @@ from vpipe.core.config import GLOBAL_AUDIO_CONFIG
 
 
 class VpMicSource(VpAudioSource):
-    def __init__(self, samplewidth=2, audio_config=None):
-        super().__init__(audio_config=audio_config or GLOBAL_AUDIO_CONFIG)
+    def __init__(self, name=None, samplewidth=2, audio_config=None):
+        super().__init__(name=name, audio_config=audio_config or GLOBAL_AUDIO_CONFIG)
         self.stream = None
         self.silence = np.zeros((self.audio_config.blocksize,
                                   self.audio_config.format.channels),
