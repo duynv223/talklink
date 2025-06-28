@@ -33,7 +33,7 @@ class TranslatedScriptWriter(VpBaseTransform):
 
 class UpStreamPipeline(VpPipeline):
     """
-    (virtual speaker source) → [augmented speech translator] → (speaker sink)
+    (Mic source) → [augmented speech translator] → (virtual mic sink)
     """
     def __init__(self,
                  name="downstream-pipeline",
