@@ -9,3 +9,4 @@ googletrans
 PySide6
 qasync
 aioconsole
+websocket
