@@ -9,6 +9,10 @@ Item {
     property alias label: btnLabel.text
     property bool showLabel: true
     property bool enabled: true
+    property bool spinning: false
+    property bool blinking: false
+    property color backgroundColor: "#f5f5f5"
+    property bool allowSpin: false
     signal clicked
 
     width: contentRow.implicitWidth + 16
@@ -17,10 +21,24 @@ Item {
     Rectangle {
         id: bg
         anchors.fill: parent
-        color: !iconBtn.enabled ? "#e0e0e0" : (mouseArea.pressed ? "#e0e0e0" : "#f8f8f8")
+        radius: 6
         border.color: "#cccccc"
         border.width: 1
-        radius: 6
+        opacity: 1.0
+        color: !iconBtn.enabled ? "#eeeeee"
+              : mouseArea.containsMouse ? Qt.darker(iconBtn.backgroundColor, 1.1)
+              : iconBtn.backgroundColor
+
+        Behavior on color {
+            ColorAnimation { duration: 150 }
+        }
+
+        SequentialAnimation on opacity {
+            running: iconBtn.blinking
+            loops: Animation.Infinite
+            NumberAnimation { to: 0.6; duration: 400; easing.type: Easing.InOutQuad }
+            NumberAnimation { to: 1.0; duration: 400; easing.type: Easing.InOutQuad }
+        }
     }
 
     Row {
@@ -34,12 +52,30 @@ Item {
             height: 20
             fillMode: Image.PreserveAspectFit
             visible: icon.source !== ""
+            rotation: spinning && allowSpin ? rotation : 0
+
+            RotationAnimator on rotation {
+                running: spinning && allowSpin
+                from: 0
+                to: 360
+                loops: Animation.Infinite
+                duration: 2000
+            }
+
+            Behavior on rotation {
+                enabled: !(spinning && allowSpin)
+                NumberAnimation {
+                    duration: 150
+                    easing.type: Easing.OutQuad
+                }
+            }
         }
+
         Text {
             id: btnLabel
             text: ""
             visible: iconBtn.showLabel
-            color: "#444"
+            color: "#333"
             font.pixelSize: 15
         }
     }
@@ -47,6 +83,7 @@ Item {
     MouseArea {
         id: mouseArea
         anchors.fill: parent
+        hoverEnabled: true
         enabled: iconBtn.enabled
         cursorShape: Qt.PointingHandCursor
         onClicked: iconBtn.clicked()

@@ -37,6 +37,13 @@ class SpeechTranslatorPipeline(QObject):
             script_writer_callback=self._on_script,
             translated_script_writer_callback=self._on_translated,
         )
+
+        # self._downstream = DownStreamPipeline(
+        #     name="downstream-pipeline",
+        #     script_writer_callback=self._on_script,
+        #     translated_script_writer_callback=self._on_translated,
+        # )
+        
         # async def log(msg): print(msg) 
         # self._downstream.bus.add_watch(log)
 
