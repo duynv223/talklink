@@ -52,9 +52,6 @@ class WhisperASRService(ASRServiceInterface):
             self.ws_thread.join()
 
     async def transcribe(self, buf: np.ndarray) -> Optional[Tuple[str, bool]]:
-        if self._last_error:
-            raise self._last_error
-
         if not self.ws or not self.ws.sock or not self.ws.sock.connected:
             raise RuntimeError("WebSocket is not connected")
 
@@ -67,8 +64,8 @@ class WhisperASRService(ASRServiceInterface):
 
         try:
             self.ws.send(message, opcode=websocket.ABNF.OPCODE_BINARY)
-        except Exception as e:
-            raise RuntimeError(f"Failed to send message: {e}")
+        except Exception:
+            return None
 
         try:
             return self.recv_queue.get_nowait()
@@ -88,7 +85,6 @@ class WhisperASRService(ASRServiceInterface):
         self._connected.clear()
         self._last_error = RuntimeError(f"WebSocket error: {error}")
         self._stop_flag.set()
-
 
     def _on_message(self, ws, message):
         try:
