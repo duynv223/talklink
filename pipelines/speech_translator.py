@@ -27,7 +27,7 @@ class SpeechTranslator(VpComposite):
     """
 
     def __init__(self, name=None,
-                 asr_service_cls=DeepGramASRService, #WhisperASRService
+                 asr_service_cls=DeepGramASRService, #WhisperASRService or DeepGramASRService
                  tts_service_cls=GoogleTTSService,
                  tran_service_cls=GoogleTranslatorService,
                  src_lang='en',
