@@ -8,7 +8,7 @@ and better support for multiple configuration contexts within the same applicati
 """
 
 class SettingModel(QObject):
-    valueChanged = Signal(str, object)
+    valueChanged = Signal(str, 'QVariant')
 
     def __init__(self, filepath="setting.yaml"):
         super().__init__()

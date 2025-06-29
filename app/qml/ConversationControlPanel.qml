@@ -140,24 +140,46 @@ Rectangle {
                 spacing: 6
                 Label { text: "Other"; font.bold: true; color: "#333" }
                 ToggleButton {
+                    id: otherAsrEnable
                     iconSource: "../assets/asr.svg";
                     width: 28;
                     height: 28
-                    active: true
+                    active: settingModel.get("conference.downstream.asr_enable")
                     onClicked: {
-                        if (pipeline.toggleASR)
-                            pipeline.toggleASR()
+                        if (settingModel.set)  {
+                            var next = active ? false : true
+                            settingModel.set("conference.downstream.asr_enable", next)
+                        }
+                    }
+                    Connections {
+                        target: settingModel
+                        function onValueChanged(path, value) {
+                            if (path === "conference.downstream.asr_enable") {
+                                otherAsrEnable.active = value
+                            }
+                        }
                     }
                 }
 
                 ToggleButton {
+                    id: otherTtsEnable
                     iconSource: "../assets/tts.svg";
                     width: 28;
                     height: 28
-                    active: true
+                    active: settingModel.get("conference.downstream.tts_enable")
                     onClicked: {
-                        if (pipeline.toggleOtherTTS)
-                            pipeline.toggleOtherTTS()
+                        if (settingModel.set)  {
+                            var next = active ? false : true
+                            settingModel.set("conference.downstream.tts_enable", next)
+                        }
+                    }
+                    Connections {
+                        target: settingModel
+                        function onValueChanged(path, value) {
+                            if (path === "conference.downstream.tts_enable") {
+                                otherTtsEnable.active = value
+                            }
+                        }
                     }
                 }
             }
@@ -166,24 +188,46 @@ Rectangle {
                 spacing: 6
                 Label { text: "You"; font.bold: true; color: "#333" }
                 ToggleButton {
+                    id: youAsrEnable
                     iconSource: "../assets/asr.svg";
                     width: 28;
                     height: 28
-                    active: true
+                    active: settingModel.get("conference.upstream.asr_enable")
                     onClicked: {
-                        if (pipeline.toggleYourASR)
-                            pipeline.toggleYourASR()
+                        if (settingModel.set)  {
+                            var next = active ? false : true
+                            settingModel.set("conference.upstream.asr_enable", next)
+                        }
+                    }
+                    Connections {
+                        target: settingModel
+                        function onValueChanged(path, value) {
+                            if (path === "conference.upstream.asr_enable") {
+                                youAsrEnable.active = value
+                            }
+                        }
                     }
                 }
 
                 ToggleButton {
+                    id: youTtsEnable
                     iconSource: "../assets/tts.svg";
                     width: 28;
                     height: 28
-                    active: true
+                    active: settingModel.get("conference.upstream.tts_enable")
                     onClicked: {
-                        if (pipeline.toggleYourTTS)
-                            pipeline.toggleYourTTS()
+                        if (settingModel.set)  {
+                            var next = active ? false : true
+                            settingModel.set("conference.upstream.tts_enable", next)
+                        }
+                    }
+                    Connections {
+                        target: settingModel
+                        function onValueChanged(path, value) {
+                            if (path === "conference.upstream.tts_enable") {
+                                youTtsEnable.active = value
+                            }
+                        }
                     }
                 }
             }
