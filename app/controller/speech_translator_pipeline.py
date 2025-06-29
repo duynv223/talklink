@@ -109,6 +109,7 @@ class SpeechTranslatorPipeline(QObject):
         self._set_error("")
         self._set_app_state(AppState.STARTING)
         try:
+            await self._initialize_pipeline_from_settings()
             await self._loop.run(self._pipeline.set_state(VpState.RUNNING))
             self._set_app_state(AppState.RUNNING)
         except Exception as e:
@@ -173,6 +174,13 @@ class SpeechTranslatorPipeline(QObject):
             "ja": "Japanese"
         }
         return mapping.get(code, code)
+    
+    @asyncSlot(str, object)
+    async def _initialize_pipeline_from_settings(self):
+        await self.setYourLanguage(self.setting_model.get("conference.your_lang"))
+        await self.setOtherLanguage(self.setting_model.get("conference.other_lang"))
+        await self.setOriginalVolume(self.setting_model.get("conference.volume.original"))
+        await self.setTranslatedVolume(self.setting_model.get("conference.volume.translated"))
 
     @asyncSlot(str, object)
     async def _on_setting_changed(self, path, value):
