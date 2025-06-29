@@ -30,14 +30,15 @@ Rectangle {
                 ]
                 textRole: "label"
                 currentIndex: {
+                    let lang = settingModel.get("conference.other_lang");
                     for (var i = 0; i < model.length; ++i)
-                        if (model[i].code === pipeline.sourceLanguage)
+                        if (model[i].code === lang)
                             return i;
                     return 0;
                 }
                 onCurrentIndexChanged: {
-                    if (pipeline.setOtherLanguage)
-                        pipeline.setOtherLanguage(model[currentIndex].code)
+                    if (settingModel.set)
+                        settingModel.set("conference.other_lang", model[currentIndex].code)
                 }
             }
 
@@ -61,14 +62,15 @@ Rectangle {
                 ]
                 textRole: "label"
                 currentIndex: {
+                    let lang = settingModel.get("conference.your_lang");
                     for (var i = 0; i < model.length; ++i)
-                        if (model[i].code === pipeline.targetLanguage)
+                        if (model[i].code === lang)
                             return i;
                     return 1;
                 }
                 onCurrentIndexChanged: {
-                    if (pipeline.setYourLanguage)
-                        pipeline.setYourLanguage(model[currentIndex].code)
+                    if (settingModel.set)
+                        settingModel.set("conference.your_lang", model[currentIndex].code)
                 }
             }
 
@@ -252,12 +254,12 @@ Rectangle {
                             Slider {
                                 id: originalVolumeSlider
                                 from: 0; to: 50
-                                value: 40
+                                value: settingModel.get("conference.volume.original") * 50
                                 stepSize: 1
                                 width: 140
                                 onValueChanged: {
-                                    if (pipeline.setOriginalVolume)
-                                        pipeline.setOriginalVolume(value / 50)
+                                    if (settingModel.set)
+                                        settingModel.set("conference.volume.original", value / 50)
                                 }
                             }
                             Label { text: Math.round(originalVolumeSlider.value).toString(); width: 50 }
@@ -268,12 +270,12 @@ Rectangle {
                             Slider {
                                 id: ttsVolumeSlider
                                 from: 0; to: 50
-                                value: 40
+                                value: settingModel.get("conference.volume.translated") * 50
                                 stepSize: 1
                                 width: 140
                                 onValueChanged: {
-                                    if (pipeline.setTranslatedVolume)
-                                        pipeline.setTranslatedVolume(value / 100)
+                                    if (settingModel.set)
+                                        settingModel.set("conference.volume.translated", value / 50)
                                 }
                             }
                             Label { text: Math.round(ttsVolumeSlider.value).toString(); width: 30 }

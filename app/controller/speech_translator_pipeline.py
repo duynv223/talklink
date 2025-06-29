@@ -24,10 +24,12 @@ class SpeechTranslatorPipeline(QObject):
     actionStateChanged = Signal(str)
     errorChanged = Signal(str)
 
-    def __init__(self, conversation_model, parent=None):
+    def __init__(self, conversation_model, setting_model, parent=None):
         super().__init__(parent)
 
         self.conversation_model = conversation_model
+        self.setting_model = setting_model
+        self.setting_model.valueChanged.connect(self._on_setting_changed)
 
         # Async event loop for pipeline
         self._loop = AsyncLoopThread()
@@ -39,17 +41,10 @@ class SpeechTranslatorPipeline(QObject):
             translated_script_writer_callback=self._on_translated,
         )
         
-        # async def log(msg): print(msg) 
-        # self._downstream.bus.add_watch(log)
-
         # Initial states
         self._app_state = AppState.STOPPED
         self._action_state = ActionState.IDLE
         self._error_message = ""
-
-        # Language settings
-        self._other_lang = "en"
-        self._your_lang = "vi"
 
         # UI state
         self._current_you_index = None
@@ -85,11 +80,12 @@ class SpeechTranslatorPipeline(QObject):
 
     @Property(str)
     def otherLanguage(self):
-        return self._other_lang
+        print("Other Language:", self.setting_model.get("conference.other_lang"))
+        return self.setting_model.get("conference.other_lang")
 
     @Property(str)
     def yourLanguage(self):
-        return self._your_lang
+        return self.setting_model.get("conference.your_lang")
 
     # --- Script Callbacks ---
     def _on_script(self, speaker, text, is_final):
@@ -140,7 +136,6 @@ class SpeechTranslatorPipeline(QObject):
     async def setOtherLanguage(self, lang):
         self._set_error("")
         self._set_action_state(ActionState.CHANGING_LANGUAGE)
-        self._other_lang = lang
         try:
             await self._loop.run(self._pipeline.downstream.set_prop("src-lang", lang))
             await self._loop.run(self._pipeline.upstream.set_prop("dest-lang", lang))
@@ -152,7 +147,6 @@ class SpeechTranslatorPipeline(QObject):
     async def setYourLanguage(self, lang):
         self._set_error("")
         self._set_action_state(ActionState.CHANGING_LANGUAGE)
-        self._your_lang = lang
         try:
             await self._loop.run(self._pipeline.downstream.set_prop("dest-lang", lang))
             await self._loop.run(self._pipeline.upstream.set_prop("src-lang", lang))
@@ -179,3 +173,14 @@ class SpeechTranslatorPipeline(QObject):
             "ja": "Japanese"
         }
         return mapping.get(code, code)
+
+    @asyncSlot(str, object)
+    async def _on_setting_changed(self, path, value):
+        if path == "conference.your_lang":
+            await self.setYourLanguage(value)
+        elif path == "conference.other_lang":
+            await self.setOtherLanguage(value)
+        elif path == "conference.volume.original":
+            await self.setOriginalVolume(value)
+        elif path == "conference.volume.translated":
+            await self.setTranslatedVolume(value)

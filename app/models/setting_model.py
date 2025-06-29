@@ -1,4 +1,4 @@
-from PySide6.QtCore import QObject, Signal
+from PySide6.QtCore import QObject, Signal, Slot
 import yaml
 import os
 
@@ -53,14 +53,16 @@ class SettingModel(QObject):
         with open(self._filepath, "w", encoding="utf-8") as f:
             yaml.safe_dump(self._data, f, allow_unicode=True)
 
+    @Slot(str, result='QVariant')
     def get(self, path: str):
         parts = path.split(".")
         d = self._data
-        d = self._data
         for p in parts:
             d = d[p]
+
         return d
 
+    @Slot(str, "QVariant")
     def set(self, path: str, value):
         parts = path.split(".")
         d = self._data
@@ -70,6 +72,7 @@ class SettingModel(QObject):
         if d[key] != value:
             d[key] = value
             self.valueChanged.emit(path, value)
+            self.save() # todo: adjust save policy
 
     def get_all(self):
         return self._data
