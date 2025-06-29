@@ -142,7 +142,8 @@ class SpeechTranslatorPipeline(QObject):
         self._set_action_state(ActionState.CHANGING_LANGUAGE)
         self._other_lang = lang
         try:
-            await self._loop.run(self._pipeline.set_prop("other-lang", lang))
+            await self._loop.run(self._pipeline.downstream.set_prop("src-lang", lang))
+            await self._loop.run(self._pipeline.upstream.set_prop("dest-lang", lang))
         except Exception as e:
             self._set_error(f"Language Change Error: {e}")
         self._set_action_state(ActionState.IDLE)
@@ -153,7 +154,8 @@ class SpeechTranslatorPipeline(QObject):
         self._set_action_state(ActionState.CHANGING_LANGUAGE)
         self._your_lang = lang
         try:
-            await self._loop.run(self._pipeline.set_prop("your-lang", lang))
+            await self._loop.run(self._pipeline.downstream.set_prop("dest-lang", lang))
+            await self._loop.run(self._pipeline.upstream.set_prop("src-lang", lang))
         except Exception as e:
             self._set_error(f"Language Change Error: {e}")
         self._set_action_state(ActionState.IDLE)
@@ -161,11 +163,13 @@ class SpeechTranslatorPipeline(QObject):
     # --- Adjust Volume ---
     @asyncSlot(float)
     async def setOriginalVolume(self, volume):
-        await self._loop.run(self._pipeline.set_prop("src-volume", volume))
+        await self._loop.run(self._pipeline.downstream.set_prop("src-volume", volume))
+        await self._loop.run(self._pipeline.upstream.set_prop("src-volume", volume))
 
     @asyncSlot(float)
     async def setTranslatedVolume(self, volume):
-        await self._loop.run(self._pipeline.set_prop("tts-volume", volume))
+        await self._loop.run(self._pipeline.downstream.set_prop("tts-volume", volume))
+        await self._loop.run(self._pipeline.upstream.set_prop("tts-volume", volume))
 
     # --- Helper ---
     def _code_to_lang(self, code):
