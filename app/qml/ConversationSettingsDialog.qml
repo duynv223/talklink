@@ -14,6 +14,11 @@ Dialog {
     z: 100
     property var model
 
+    onVisibleChanged: {
+        if (settingsDialog.visible && audioDeviceManager && audioDeviceManager.refresh)
+            audioDeviceManager.refresh();
+    }
+
     contentItem: ColumnLayout {
         spacing: 12
         anchors.fill: parent

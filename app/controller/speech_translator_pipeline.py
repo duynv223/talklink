@@ -195,12 +195,26 @@ class SpeechTranslatorPipeline(QObject):
             case _:
                 raise ValueError(f"Unknown stream: {stream}")
             
+    @asyncSlot()
+    async def set_input_device(self, device: str):
+        await self._loop.run(self._pipeline.upstream.set_prop("input-device", device))
+
+    @asyncSlot()
+    async def set_output_device(self, device: str):
+        await self._loop.run(self._pipeline.downstream.set_prop("output-device", device))
+            
     @asyncSlot(str, object)
     async def _initialize_pipeline_from_settings(self):
         await self.setYourLanguage(self.setting_model.get("conference.your_lang"))
         await self.setOtherLanguage(self.setting_model.get("conference.other_lang"))
         await self.setOriginalVolume(self.setting_model.get("conference.volume.original"))
         await self.setTranslatedVolume(self.setting_model.get("conference.volume.translated"))
+        await self.set_asr_enable("downstream", self.setting_model.get("conference.downstream.asr_enable"))
+        await self.set_tts_enable("downstream", self.setting_model.get("conference.downstream.tts_enable"))
+        await self.set_asr_enable("upstream", self.setting_model.get("conference.upstream.asr_enable"))
+        await self.set_tts_enable("upstream", self.setting_model.get("conference.upstream.tts_enable"))
+        await self.set_input_device(self.setting_model.get("conference.input_device"))
+        await self.set_output_device(self.setting_model.get("conference.output_device"))
 
     @asyncSlot(str, object)
     async def _on_setting_changed(self, path, value):
@@ -222,8 +236,13 @@ class SpeechTranslatorPipeline(QObject):
                 await self.set_tts_enable("downstream", value)
             case "conference.upstream.asr_enable":
                 await self.set_asr_enable("upstream", value)
-            case "conference.upstream.tts_enable":
+            case "audio.upstream.tts_enable":
                 await self.set_tts_enable("upstream", value)
+            # Audio device settings
+            case "conference.input_device":
+                await self.set_input_device(value)
+            case "conference.output_device":
+                await self.set_output_device(value)
             # Unhandled settings
             case _:
                 print(f"Unhandled setting change: {path} = {value}")
