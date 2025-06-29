@@ -6,6 +6,7 @@ from vpipe.core.capsule import VpState
 from ..controller.async_loop_thread import AsyncLoopThread
 from pipelines.downstream_pipeline import DownStreamPipeline
 from pipelines.selftalk_pipeline import SelfTalkPipeline
+from pipelines.dualstream_pipeline import DualStreamPipeline
 
 
 class AppState(Enum):
@@ -29,20 +30,14 @@ class SpeechTranslatorPipeline(QObject):
         self.conversation_model = conversation_model
 
         # Async event loop for pipeline
-        self._downstream_loop = AsyncLoopThread()
-        self._downstream_loop.start()
+        self._loop = AsyncLoopThread()
+        self._loop.start()
 
-        self._downstream = SelfTalkPipeline(
-            name="selfttalk-pipeline",
+        self._pipeline = DualStreamPipeline(
+            name="downstream-pipeline",
             script_writer_callback=self._on_script,
             translated_script_writer_callback=self._on_translated,
         )
-
-        # self._downstream = DownStreamPipeline(
-        #     name="downstream-pipeline",
-        #     script_writer_callback=self._on_script,
-        #     translated_script_writer_callback=self._on_translated,
-        # )
         
         # async def log(msg): print(msg) 
         # self._downstream.bus.add_watch(log)
@@ -97,17 +92,17 @@ class SpeechTranslatorPipeline(QObject):
         return self._your_lang
 
     # --- Script Callbacks ---
-    def _on_script(self, text, is_final):
+    def _on_script(self, speaker, text, is_final):
         if self._current_you_index is not None:
-            self.conversation_model.update(self._current_you_index, "Other", text)
+            self.conversation_model.update(self._current_you_index, speaker, text)
             if is_final:
                 self._current_you_index = None
         else:
-            self.conversation_model.append("Other", text)
+            self.conversation_model.append(speaker, text)
             self._current_you_index = None if is_final else self.conversation_model.rowCount() - 1
 
-    def _on_translated(self, text):
-        self.conversation_model.append("Other (Translated)", text)
+    def _on_translated(self, speaker, text):
+        self.conversation_model.append(f"{speaker} (Translated)", text)
 
     # --- Control Actions ---
     @asyncSlot()
@@ -118,11 +113,11 @@ class SpeechTranslatorPipeline(QObject):
         self._set_error("")
         self._set_app_state(AppState.STARTING)
         try:
-            await self._downstream_loop.run(self._downstream.set_state(VpState.RUNNING))
+            await self._loop.run(self._pipeline.set_state(VpState.RUNNING))
             self._set_app_state(AppState.RUNNING)
         except Exception as e:
             self._set_error(f"Start Error: {e}")
-            await self._downstream_loop.run(self._downstream.set_state(VpState.NULL))
+            await self._loop.run(self._pipeline.set_state(VpState.NULL))
             self._set_app_state(AppState.STOPPED)
 
     @asyncSlot()
@@ -133,11 +128,11 @@ class SpeechTranslatorPipeline(QObject):
         self._set_error("")
         self._set_app_state(AppState.STOPPING)
         try:
-            await self._downstream_loop.run(self._downstream.set_state(VpState.NULL))
+            await self._loop.run(self._pipeline.set_state(VpState.NULL))
             self._set_app_state(AppState.STOPPED)
         except Exception as e:
             self._set_error(f"Stop Error: {e}")
-            await self._downstream_loop.run(self._downstream.set_state(VpState.NULL))
+            await self._loop.run(self._pipeline.set_state(VpState.NULL))
             self._set_app_state(AppState.STOPPED)
 
     # --- Change Language ---
@@ -147,7 +142,7 @@ class SpeechTranslatorPipeline(QObject):
         self._set_action_state(ActionState.CHANGING_LANGUAGE)
         self._other_lang = lang
         try:
-            await self._downstream_loop.run(self._downstream.set_prop("src-lang", lang))
+            await self._loop.run(self._pipeline.set_prop("other-lang", lang))
         except Exception as e:
             self._set_error(f"Language Change Error: {e}")
         self._set_action_state(ActionState.IDLE)
@@ -158,7 +153,7 @@ class SpeechTranslatorPipeline(QObject):
         self._set_action_state(ActionState.CHANGING_LANGUAGE)
         self._your_lang = lang
         try:
-            await self._downstream_loop.run(self._downstream.set_prop("dest-lang", lang))
+            await self._loop.run(self._pipeline.set_prop("your-lang", lang))
         except Exception as e:
             self._set_error(f"Language Change Error: {e}")
         self._set_action_state(ActionState.IDLE)
@@ -166,11 +161,11 @@ class SpeechTranslatorPipeline(QObject):
     # --- Adjust Volume ---
     @asyncSlot(float)
     async def setOriginalVolume(self, volume):
-        await self._downstream_loop.run(self._downstream.set_prop("src-volume", volume))
+        await self._loop.run(self._pipeline.set_prop("src-volume", volume))
 
     @asyncSlot(float)
     async def setTranslatedVolume(self, volume):
-        await self._downstream_loop.run(self._downstream.set_prop("tts-volume", volume))
+        await self._loop.run(self._pipeline.set_prop("tts-volume", volume))
 
     # --- Helper ---
     def _code_to_lang(self, code):
