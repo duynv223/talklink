@@ -5,7 +5,7 @@ import "."
 
 Rectangle {
     width: parent ? parent.width : 400
-    height: 80
+    height: 120
     color: "#f8f8f8"
     radius: 8
     border.color: "#e0e0e0"
@@ -116,6 +116,64 @@ Rectangle {
                 label: "Settings"
                 iconSource: "../assets/settings.svg"
                 onClicked: settingsDialog.open()
+            }
+        }
+
+        // Split line
+        Rectangle {
+            width: parent ? parent.width : 400
+            height: 1
+            color: "#e0e0e0"
+            Layout.fillWidth: true
+            Layout.topMargin: 8
+            Layout.bottomMargin: 8
+        }
+
+        // Audio control panel
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: 16
+
+            // Group: Other
+            ColumnLayout {
+                spacing: 2
+                RowLayout {
+                    spacing: 6
+                    Label { text: "Other"; font.bold: true; color: "#333" }
+                    IconButton { iconSource: "../assets/asr.svg"; width: 28; height: 28 }
+                    // IconButton { iconSource: "../assets/tran.svg"; width: 28; height: 28 }
+                    IconButton { iconSource: "../assets/tts.svg"; width: 28; height: 28 }
+                }
+            }
+            // Group: You
+            ColumnLayout {
+                spacing: 2
+                RowLayout {
+                    spacing: 6
+                    Label { text: "You"; font.bold: true; color: "#333" }
+                    IconButton { iconSource: "../assets/asr.svg"; width: 28; height: 28 }
+                    // IconButton { iconSource: "../assets/tran.svg"; width: 28; height: 28 }
+                    IconButton { iconSource: "../assets/tts.svg"; width: 28; height: 28 }
+                }
+            }
+
+            Item { Layout.fillWidth: true }
+
+            IconButton {
+                id: micButton
+                width: 40
+                height: 32
+                property bool micOn: true
+                iconSource: micOn ? "../assets/mic-on.svg" : "../assets/mic-off.svg"
+                onClicked: micOn = !micOn
+            }
+            IconButton {
+                id: speakerButton
+                width: 40
+                height: 32
+                property bool micOn: true
+                iconSource: micOn ? "../assets/sound-on.svg" : "../assets/sound-mute.svg"
+                onClicked: micOn = !micOn
             }
         }
 
