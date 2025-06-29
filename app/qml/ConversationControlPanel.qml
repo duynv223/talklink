@@ -254,7 +254,6 @@ Rectangle {
 
         ConversationSettingsDialog {
             id: settingsDialog
-            model: settingModel
         }
     }
 }

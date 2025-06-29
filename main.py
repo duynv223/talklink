@@ -9,6 +9,7 @@ from app.models.conversation_model import ConversationModel
 from app.models.setting_model import SettingModel
 from app.controller.speech_translator_pipeline import SpeechTranslatorPipeline
 from app.utils.qml_utils import init_engine, set_window_title
+from app.models.audio_device_manager import AudioDeviceManager  # Đăng ký AudioDeviceManager
 
 
 async def main():
@@ -16,6 +17,7 @@ async def main():
     loop = QEventLoop(app)
     asyncio.set_event_loop(loop)
 
+    audio_device_manager = AudioDeviceManager()
     conversation_model = ConversationModel()
     setting_model = SettingModel('setting.yaml')
     setting_model.load()
@@ -25,11 +27,13 @@ async def main():
         setting_model=setting_model
     )
 
+
     qml_path = Path(__file__).resolve().parent / "app" / "qml" / "main.qml"
     qml_engine = init_engine(qml_path, {
         "pipeline": pipeline,
         "conversationModel": conversation_model,
-        "settingModel": setting_model
+        "settingModel": setting_model,
+        "audioDeviceManager": audio_device_manager
     })
 
     if not qml_engine.rootObjects():
