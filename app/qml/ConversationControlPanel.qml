@@ -133,27 +133,56 @@ Rectangle {
         RowLayout {
             Layout.fillWidth: true
             spacing: 16
+            
+            RowLayout {
+                spacing: 6
+                Label { text: "Other"; font.bold: true; color: "#333" }
+                ToggleButton {
+                    iconSource: "../assets/asr.svg";
+                    width: 28;
+                    height: 28
+                    active: true
+                    onClicked: {
+                        if (pipeline.toggleASR)
+                            pipeline.toggleASR()
+                    }
+                }
 
-            // Group: Other
-            ColumnLayout {
-                spacing: 2
-                RowLayout {
-                    spacing: 6
-                    Label { text: "Other"; font.bold: true; color: "#333" }
-                    IconButton { iconSource: "../assets/asr.svg"; width: 28; height: 28 }
-                    // IconButton { iconSource: "../assets/tran.svg"; width: 28; height: 28 }
-                    IconButton { iconSource: "../assets/tts.svg"; width: 28; height: 28 }
+                ToggleButton {
+                    iconSource: "../assets/tts.svg";
+                    width: 28;
+                    height: 28
+                    active: true
+                    onClicked: {
+                        if (pipeline.toggleOtherTTS)
+                            pipeline.toggleOtherTTS()
+                    }
                 }
             }
-            // Group: You
-            ColumnLayout {
-                spacing: 2
-                RowLayout {
-                    spacing: 6
-                    Label { text: "You"; font.bold: true; color: "#333" }
-                    IconButton { iconSource: "../assets/asr.svg"; width: 28; height: 28 }
-                    // IconButton { iconSource: "../assets/tran.svg"; width: 28; height: 28 }
-                    IconButton { iconSource: "../assets/tts.svg"; width: 28; height: 28 }
+
+            RowLayout {
+                spacing: 6
+                Label { text: "You"; font.bold: true; color: "#333" }
+                ToggleButton {
+                    iconSource: "../assets/asr.svg";
+                    width: 28;
+                    height: 28
+                    active: true
+                    onClicked: {
+                        if (pipeline.toggleYourASR)
+                            pipeline.toggleYourASR()
+                    }
+                }
+
+                ToggleButton {
+                    iconSource: "../assets/tts.svg";
+                    width: 28;
+                    height: 28
+                    active: true
+                    onClicked: {
+                        if (pipeline.toggleYourTTS)
+                            pipeline.toggleYourTTS()
+                    }
                 }
             }
 
