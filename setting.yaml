@@ -1,0 +1,22 @@
+conference:
+  your_lang: vi
+  other_lang: en
+  volume:
+    original: 1.0
+    translated: 1.0
+  downstream:
+    asr_enable: true
+    tts_enable: true
+    dest_dev: "default"
+  upstream:
+    asr_enable: true
+    tts_enable: true
+    src_dev: "default"
+
+directalk:
+  src_lang: en
+  dest_lang: vi
+  volume:
+    original: 1.0
+    translated: 1.0
+
