@@ -69,7 +69,7 @@ class DownStreamPipeline(VpPipeline):
     
     async def set_prop(self, prop, value):
         match prop:
-            case 'src-lang' | 'dest-lang' | 'src-volume' | 'tts-volume':
+            case 'src-lang' | 'dest-lang' | 'src-volume' | 'tts-volume' | 'asr-enable' | 'tts-enable':
                 await self.get_capsule("augmented-speech-translator").set_prop(prop, value)
             case _:
                 raise ValueError(f"Unknown property: {prop}")

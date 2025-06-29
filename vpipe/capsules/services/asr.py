@@ -1,3 +1,4 @@
+import numpy as np
 from abc import ABC, abstractmethod
 from typing import Any
 from vpipe.core.transform import VpBaseTransform
@@ -33,12 +34,25 @@ class ASRServiceInterface(ABC):
 
 
 class ASRTransform(VpBaseTransform):
+    """
+    currently: forward silently to service in case disabled to keep ASR
+    service connection alive
+    future: delegate to service if it supports dynamic enabling/disabling
+    """
     def __init__(self, name, service: ASRServiceInterface):
         super().__init__(name=name)
         self.service = service
+        self.enable = True
 
     def set_service(self, service: ASRServiceInterface):
         self.service = service
+
+    def set_prop(self, key, value):
+        match key:
+            case "enable":
+                self.enable = value
+            case _:
+                raise AttributeError(f"Unknown property: {key}")
 
     async def start(self):
         print(f"Starting ASR service: {self.service.__class__.__name__}")
@@ -51,4 +65,6 @@ class ASRTransform(VpBaseTransform):
         print(f"ASR service {self.service.__class__.__name__} stopped")
 
     async def transform(self, buf):
+        if not self.enable:
+            buf = np.zeros_like(buf)
         return await self.service.transcribe(buf)

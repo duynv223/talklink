@@ -29,6 +29,7 @@ class TTSTransform(VpBaseTransform):
         super().__init__(name=name)
         self.service = service
         self.lang = lang
+        self.enable = True
 
     def set_service(self, service: TTSServiceInterface):
         self.service = service
@@ -37,6 +38,8 @@ class TTSTransform(VpBaseTransform):
         match key:
             case 'lang':
                 self.lang = value
+            case 'enable':
+                self.enable = value
             case _:
                 raise ValueError(f"Unknown property: {key}")
     
@@ -58,5 +61,6 @@ class TTSTransform(VpBaseTransform):
         print(f"TTS service {self.service.__class__.__name__} stopped")
 
     async def transform(self, text: str) -> bytes:
-        audio = await self.service.synthesize(text, lang=self.lang)
-        return audio
+        if self.enable:
+            audio = await self.service.synthesize(text, lang=self.lang)
+            return audio

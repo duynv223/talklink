@@ -176,6 +176,26 @@ class SpeechTranslatorPipeline(QObject):
         return mapping.get(code, code)
     
     @asyncSlot(str, object)
+    async def set_asr_enable(self, stream: str, enable: bool):
+        match stream:
+            case "upstream":
+                await self._loop.run(self._pipeline.upstream.set_prop("asr-enable", enable))
+            case "downstream":
+                await self._loop.run(self._pipeline.downstream.set_prop("asr-enable", enable))
+            case _:
+                raise ValueError(f"Unknown stream: {stream}")
+            
+    @asyncSlot(str, object)
+    async def set_tts_enable(self, stream: str, enable: bool):
+        match stream:
+            case "upstream":
+                await self._loop.run(self._pipeline.upstream.set_prop("tts-enable", enable))
+            case "downstream":
+                await self._loop.run(self._pipeline.downstream.set_prop("tts-enable", enable))
+            case _:
+                raise ValueError(f"Unknown stream: {stream}")
+            
+    @asyncSlot(str, object)
     async def _initialize_pipeline_from_settings(self):
         await self.setYourLanguage(self.setting_model.get("conference.your_lang"))
         await self.setOtherLanguage(self.setting_model.get("conference.other_lang"))
@@ -184,11 +204,26 @@ class SpeechTranslatorPipeline(QObject):
 
     @asyncSlot(str, object)
     async def _on_setting_changed(self, path, value):
-        if path == "conference.your_lang":
-            await self.setYourLanguage(value)
-        elif path == "conference.other_lang":
-            await self.setOtherLanguage(value)
-        elif path == "conference.volume.original":
-            await self.setOriginalVolume(value)
-        elif path == "conference.volume.translated":
-            await self.setTranslatedVolume(value)
+        match path:
+            # langeage settings
+            case "conference.your_lang":
+                await self.setYourLanguage(value)
+            case "conference.other_lang":
+                await self.setOtherLanguage(value)
+            # volume settings
+            case "conference.volume.original":
+                await self.setOriginalVolume(value)
+            case "conference.volume.translated":
+                await self.setTranslatedVolume(value)
+            # ASR and TTS settings
+            case "conference.downstream.asr_enable":
+                await self.set_asr_enable("downstream", value)
+            case "conference.downstream.tts_enable":
+                await self.set_tts_enable("downstream", value)
+            case "conference.upstream.asr_enable":
+                await self.set_asr_enable("upstream", value)
+            case "conference.upstream.tts_enable":
+                await self.set_tts_enable("upstream", value)
+            # Unhandled settings
+            case _:
+                print(f"Unhandled setting change: {path} = {value}")

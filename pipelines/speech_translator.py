@@ -83,6 +83,12 @@ class SpeechTranslator(VpComposite):
                 await self._set_src_lang(value)
             case "dest-lang":
                 await self._set_dest_lang(value)
+            case "asr-enable":
+                asr = self.get_capsule("asr")
+                asr.set_prop("enable", value)
+            case "tts-enable":
+                tts = self.get_capsule("tts")
+                tts.set_prop("enable", value)
             case _:
                 raise ValueError(f"Unknown property: {prop}")
 
