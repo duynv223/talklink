@@ -8,6 +8,8 @@ conference:
 
   input_device: Microphone (USB Audio Device)
   output_device: Speakers (USB Audio Device)
+  input_mute: false
+  output_mute: false
   other_lang: en
   your_lang: vi
   volume:

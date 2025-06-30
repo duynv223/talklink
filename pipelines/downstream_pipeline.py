@@ -5,6 +5,7 @@ from vpipe.core.pipeline import VpPipeline
 
 from vpipe.capsules.audio.speaker_sink import VpSpeakerSink
 from vpipe.capsules.audio.virtual_speaker_src import VpVirtualSpeakerSrc
+from vpipe.capsules.audio.volume import VpVolume
 from pipelines.augmented_speech_translator import AugmentedSpeechTranslator
 
 
@@ -48,9 +49,11 @@ class DownStreamPipeline(VpPipeline):
     def build(self):
         src = VpVirtualSpeakerSrc(name="virtual-speaker-src")
         sink = VpSpeakerSink(name="speaker-sink")
+        volume = VpVolume(name="volume-control")
+        
         translator = AugmentedSpeechTranslator(name="augmented-speech-translator",
                                                src_lang='en', dest_lang='vi')
-        src >> translator >> sink
+        src >> translator >> volume >> sink
 
         script_writer = ScriptWriter(name="script-writer",
                                     handler=self.script_writer_callback)
@@ -65,6 +68,7 @@ class DownStreamPipeline(VpPipeline):
             src,
             sink,
             translator,
+            volume
         )
     
     async def set_prop(self, prop, value):
@@ -74,5 +78,8 @@ class DownStreamPipeline(VpPipeline):
             case 'output-device':
                 sink = self.get_capsule("speaker-sink")
                 await sink.set_prop("device", value)
+            case 'output-mute':
+                volume = self.get_capsule("volume-control")
+                await volume.set_prop("mute", value)
             case _:
                 raise ValueError(f"Unknown property: {prop}")

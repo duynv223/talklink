@@ -19,6 +19,7 @@ class ActionState(Enum):
     IDLE = "Idle"
     CHANGING_LANGUAGE = "Changing Language"
     CHANGING_AUDIO_DEVICE = "Changing Audio Device"
+    CHANGING_AUDIO_MUTE = "Changing Audio Mute"
 
 class SpeechTranslatorPipeline(QObject):
     appStateChanged = Signal(str)
@@ -215,6 +216,29 @@ class SpeechTranslatorPipeline(QObject):
             self._set_error(f"Audio Device Change Error: {e}")
         finally:
             self._set_action_state(ActionState.IDLE)
+
+    @asyncSlot()
+    async def set_input_audio_mute(self, mute: bool):
+        self._set_action_state(ActionState.CHANGING_AUDIO_MUTE)
+        try:
+            await self._loop.run(self._pipeline.upstream.set_prop("input-mute", mute))
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            self._set_error(f"Audio Mute Change Error: {e}")
+        finally:
+            self._set_action_state(ActionState.IDLE)
+
+    @asyncSlot()
+    async def set_output_audio_mute(self, mute: bool):
+        self._set_action_state(ActionState.CHANGING_AUDIO_MUTE)
+        try:
+            await self._loop.run(self._pipeline.downstream.set_prop("output-mute", mute))
+        except Exception as e:
+            self._set_error(f"Audio Mute Change Error: {e}")
+        finally:
+            self._set_action_state(ActionState.IDLE)
+
             
     @asyncSlot(str, object)
     async def _initialize_pipeline_from_settings(self):
@@ -256,6 +280,11 @@ class SpeechTranslatorPipeline(QObject):
                 await self.set_input_device(value)
             case "conference.output_device":
                 await self.set_output_device(value)
+            # Audio mute
+            case "conference.input_mute":
+                await self.set_input_audio_mute(value)
+            case "conference.output_mute":
+                await self.set_output_audio_mute(value)
             # Unhandled settings
             case _:
                 print(f"Unhandled setting change: {path} = {value}")

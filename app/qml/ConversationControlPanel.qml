@@ -238,17 +238,41 @@ Rectangle {
                 id: micButton
                 width: 40
                 height: 32
-                property bool micOn: true
+                property bool micOn: !settingModel.get("conference.input_mute")
                 iconSource: micOn ? "../assets/mic-on.svg" : "../assets/mic-off.svg"
-                onClicked: micOn = !micOn
+                onClicked: {
+                    if (settingModel.set) {
+                        settingModel.set("conference.input_mute", micOn)
+                    }
+                }
+                Connections {
+                    target: settingModel
+                    function onValueChanged(path, value) {
+                        if (path === "conference.input_mute") {
+                            micButton.micOn = !value
+                        }
+                    }
+                }
             }
             IconButton {
                 id: speakerButton
                 width: 40
                 height: 32
-                property bool micOn: true
-                iconSource: micOn ? "../assets/sound-on.svg" : "../assets/sound-mute.svg"
-                onClicked: micOn = !micOn
+                property bool speakerOn: !settingModel.get("conference.output_mute")
+                iconSource: speakerOn ? "../assets/sound-on.svg" : "../assets/sound-mute.svg"
+                onClicked: {
+                    if (settingModel.set) {
+                        settingModel.set("conference.output_mute", speakerOn)
+                    }
+                }
+                Connections {
+                    target: settingModel
+                    function onValueChanged(path, value) {
+                        if (path === "conference.output_mute") {
+                            speakerButton.speakerOn = !value
+                        }
+                    }
+                }
             }
         }
 
