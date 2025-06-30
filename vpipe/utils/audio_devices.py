@@ -2,6 +2,7 @@ import sounddevice as sd
 
 """
 Default, we exclude "NS Team" virtual devices
+todo: fix device query is not updated when devices are added/removed
 """
 
 def default_input_filter(name, dev):
