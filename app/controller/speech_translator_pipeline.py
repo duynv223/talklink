@@ -136,7 +136,7 @@ class SpeechTranslatorPipeline(QObject):
 
     # --- Change Language ---
     @asyncSlot(str)
-    async def setOtherLanguage(self, lang):
+    async def set_other_language(self, lang):
         self._set_error("")
         self._set_action_state(ActionState.CHANGING_LANGUAGE)
         try:
@@ -147,7 +147,7 @@ class SpeechTranslatorPipeline(QObject):
         self._set_action_state(ActionState.IDLE)
 
     @asyncSlot(str)
-    async def setYourLanguage(self, lang):
+    async def set_your_language(self, lang):
         self._set_error("")
         self._set_action_state(ActionState.CHANGING_LANGUAGE)
         try:
@@ -159,12 +159,12 @@ class SpeechTranslatorPipeline(QObject):
 
     # --- Adjust Volume ---
     @asyncSlot(float)
-    async def setOriginalVolume(self, volume):
+    async def set_original_volume(self, volume):
         await self._loop.run(self._pipeline.downstream.set_prop("src-volume", volume))
         await self._loop.run(self._pipeline.upstream.set_prop("src-volume", volume))
 
     @asyncSlot(float)
-    async def setTranslatedVolume(self, volume):
+    async def set_translated_volume(self, volume):
         await self._loop.run(self._pipeline.downstream.set_prop("tts-volume", volume))
         await self._loop.run(self._pipeline.upstream.set_prop("tts-volume", volume))
 
@@ -239,33 +239,52 @@ class SpeechTranslatorPipeline(QObject):
         finally:
             self._set_action_state(ActionState.IDLE)
 
+    @asyncSlot()
+    async def set_tts_speed(self, stream: str, speed: float):
+        self._set_action_state(ActionState.CHANGING_LANGUAGE)
+        try:
+            if stream == "downstream":
+                await self._loop.run(self._pipeline.downstream.set_prop("tts-speed", speed))
+            elif stream == "upstream":
+                await self._loop.run(self._pipeline.upstream.set_prop("tts-speed", speed))
+            else:
+                raise ValueError(f"Unknown stream: {stream}")
+        except Exception as e:
+            self._set_error(f"TTS Speed Change Error: {e}")
+        finally:
+            self._set_action_state(ActionState.IDLE)
+
             
     @asyncSlot(str, object)
     async def _initialize_pipeline_from_settings(self):
-        await self.setYourLanguage(self.setting_model.get("conference.your_lang"))
-        await self.setOtherLanguage(self.setting_model.get("conference.other_lang"))
-        await self.setOriginalVolume(self.setting_model.get("conference.volume.original"))
-        await self.setTranslatedVolume(self.setting_model.get("conference.volume.translated"))
+        await self.set_your_language(self.setting_model.get("conference.your_lang"))
+        await self.set_other_language(self.setting_model.get("conference.other_lang"))
+        await self.set_original_volume(self.setting_model.get("conference.volume.original"))
+        await self.set_translated_volume(self.setting_model.get("conference.volume.translated"))
         await self.set_asr_enable("downstream", self.setting_model.get("conference.downstream.asr_enable"))
         await self.set_tts_enable("downstream", self.setting_model.get("conference.downstream.tts_enable"))
         await self.set_asr_enable("upstream", self.setting_model.get("conference.upstream.asr_enable"))
         await self.set_tts_enable("upstream", self.setting_model.get("conference.upstream.tts_enable"))
         await self.set_input_device(self.setting_model.get("conference.input_device"))
         await self.set_output_device(self.setting_model.get("conference.output_device"))
+        await self.set_input_audio_mute(self.setting_model.get("conference.input_mute"))
+        await self.set_output_audio_mute(self.setting_model.get("conference.output_mute"))
+        await self.set_tts_speed("downstream", self.setting_model.get("conference.downstream.tts_speed"))
+        await self.set_tts_speed("upstream", self.setting_model.get("conference.upstream.tts_speed"))
 
     @asyncSlot(str, object)
     async def _on_setting_changed(self, path, value):
         match path:
             # langeage settings
             case "conference.your_lang":
-                await self.setYourLanguage(value)
+                await self.set_your_language(value)
             case "conference.other_lang":
-                await self.setOtherLanguage(value)
+                await self.set_other_language(value)
             # volume settings
             case "conference.volume.original":
-                await self.setOriginalVolume(value)
+                await self.set_original_volume(value)
             case "conference.volume.translated":
-                await self.setTranslatedVolume(value)
+                await self.set_translated_volume(value)
             # ASR and TTS settings
             case "conference.downstream.asr_enable":
                 await self.set_asr_enable("downstream", value)
@@ -285,6 +304,11 @@ class SpeechTranslatorPipeline(QObject):
                 await self.set_input_audio_mute(value)
             case "conference.output_mute":
                 await self.set_output_audio_mute(value)
+            # TTS playback speed
+            case "conference.downstream.tts_speed":
+                await self.set_tts_speed("downstream", value)
+            case "conference.upstream.tts_speed":
+                await self.set_tts_speed("upstream", value)
             # Unhandled settings
             case _:
                 print(f"Unhandled setting change: {path} = {value}")

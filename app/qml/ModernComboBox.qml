@@ -3,6 +3,7 @@ import QtQuick.Controls 2.15
 
 ComboBox {
     id: modernCombo
+    implicitHeight: 32
     background: Rectangle {
         color: modernCombo.enabled ? "#fff" : "#f0f0f0"
         border.color: modernCombo.activeFocus ? "#448aff" : "#cccccc"
@@ -17,13 +18,14 @@ ComboBox {
         rightPadding: 10
         font.pixelSize: 15
         width: modernCombo.width - 20
+        height: 32
         elide: Text.ElideRight
         maximumLineCount: 1
         clip: true
     }
     indicator: Rectangle {
         width: 20
-        height: 20
+        height: 32
         color: "transparent"
         border.width: 0
         anchors.verticalCenter: parent.verticalCenter
@@ -40,7 +42,7 @@ ComboBox {
     popup: Popup {
         y: modernCombo.height
         width: modernCombo.width
-        implicitHeight: Math.max(contentItem.implicitHeight, delegateModel.count * 36)
+        implicitHeight: Math.max(contentItem.implicitHeight, delegateModel.count * 32)
         background: Rectangle {
             color: "#fff"
             border.color: "#cccccc"
@@ -49,7 +51,7 @@ ComboBox {
         }
         contentItem: ListView {
             clip: true
-            implicitHeight: delegateModel.count * 36
+            implicitHeight: delegateModel.count * 32
             model: modernCombo.delegateModel
             delegate: modernCombo.delegate
             currentIndex: modernCombo.highlightedIndex

@@ -9,7 +9,9 @@ from app.models.conversation_model import ConversationModel
 from app.models.setting_model import SettingModel
 from app.controller.speech_translator_pipeline import SpeechTranslatorPipeline
 from app.utils.qml_utils import init_engine, set_window_title
-from app.models.audio_device_manager import AudioDeviceManager  # Đăng ký AudioDeviceManager
+from app.models.audio_device_manager import AudioDeviceManager
+
+os.environ["QT_QUICK_CONTROLS_STYLE"] = "Fusion"
 
 
 async def main():

@@ -2,12 +2,14 @@ conference:
   downstream:
     asr_enable: true
     tts_enable: true
+    tts_speed: 1.0
   upstream:
     asr_enable: true
     tts_enable: true
+    tts_speed: 1.0
 
-  input_device: Microphone (USB Audio Device)
-  output_device: Speakers (USB Audio Device)
+  input_device: None
+  output_device: None
   input_mute: false
   output_mute: false
   other_lang: en
