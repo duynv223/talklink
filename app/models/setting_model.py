@@ -25,12 +25,18 @@ class SettingModel(QObject):
                 },
                 "upstream": {
                     "asr_enable": True,
-                    "tts_enable": True
+                    "tts_enable": True,
+                    "tts_speed": 1.0
                 },
                 "downstream": {
                     "asr_enable": True,
-                    "tts_enable": True
-                }
+                    "tts_enable": True,
+                    "tts_speed": 1.0
+                },
+                "input_device": None,
+                "output_device": None,
+                "input_mute": False,
+                "output_mute": False
             },
             "directalk": {
                 "src_lang": "en",
