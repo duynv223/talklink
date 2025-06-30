@@ -6,8 +6,8 @@ conference:
     asr_enable: true
     tts_enable: true
 
-  input_device: Microphone (USB Audio Device)
-  output_device: Speakers (USB Audio Device)
+  input_device: None
+  output_device: None
   input_mute: false
   output_mute: false
   other_lang: en

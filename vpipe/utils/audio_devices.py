@@ -1,32 +1,24 @@
 import sounddevice as sd
 
 """
-Default, we exclude "NS Team" virtual devices
 todo: fix device query is not updated when devices are added/removed
 """
-
 def default_input_filter(name, dev):
+    ingore_keys = ['virtual audio', 'sound mapper']
     return (
-        dev.get('hostapi', -1) == get_wasapi_index()
+        dev.get('hostapi', -1) == sd.default.hostapi
         and dev.get('max_input_channels', 0) > 0
-        and (not 'ns team' in name.lower())
+        and (not any(k in name.lower() for k in ingore_keys))
     )
 
 
 def default_output_filter(name, dev):
+    ingore_keys = ['virtual audio', 'sound mapper']
     return (
-        dev.get('hostapi', -1) == get_wasapi_index()
+        dev.get('hostapi', -1) == sd.default.hostapi
         and dev.get('max_output_channels', 0) > 0
-        and (not 'ns team' in name.lower())
+        and (not any(k in name.lower() for k in ingore_keys))
     )
-
-
-def get_wasapi_index():
-    hostapis = sd.query_hostapis()
-    for idx, api in enumerate(hostapis):
-        if "MME" in api['name']:
-            return idx
-    raise RuntimeError("WASAPI not found on this system.")
 
 
 def list_input_devices(filter=None):
