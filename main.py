@@ -11,7 +11,6 @@ from app.controller.speech_translator_pipeline import SpeechTranslatorPipeline
 from app.utils.qml_utils import init_engine, set_window_title
 from app.models.audio_device_manager import AudioDeviceManager
 
-import os
 os.environ["QT_QUICK_CONTROLS_STYLE"] = "Fusion"
 
 
