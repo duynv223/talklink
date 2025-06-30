@@ -3,8 +3,8 @@ import asyncio
 from vpipe.core.transform import VpBaseTransform
 from vpipe.core.pipeline import VpPipeline
 
-from vpipe.capsules.audio.speaker_sink import VpSpeakerSink
-from vpipe.capsules.audio.virtual_speaker_src import VpVirtualSpeakerSrc
+from vpipe.capsules.audio.virtual_mic_sink import VirtualMicSink
+from vpipe.capsules.audio.mic_source import VpMicSource
 from vpipe.capsules.audio.volume import VpVolume
 from pipelines.augmented_speech_translator import AugmentedSpeechTranslator
 
@@ -32,9 +32,9 @@ class TranslatedScriptWriter(VpBaseTransform):
         await asyncio.sleep(0)
 
 
-class DownStreamPipeline(VpPipeline):
+class UpStreamPipeline(VpPipeline):
     """
-    (virtual speaker source) → [augmented speech translator] → (speaker sink)
+    (Mic source) → [augmented speech translator] → (virtual mic sink)
     """
     def __init__(self,
                  name="downstream-pipeline",
@@ -47,13 +47,12 @@ class DownStreamPipeline(VpPipeline):
         self.build()
 
     def build(self):
-        src = VpVirtualSpeakerSrc(name="virtual-speaker-src")
-        sink = VpSpeakerSink(name="speaker-sink")
+        src = VpMicSource(name="mic-src")
+        sink = VirtualMicSink(name="virtual-mic-sink")
         volume = VpVolume(name="volume-control")
-        
         translator = AugmentedSpeechTranslator(name="augmented-speech-translator",
-                                               src_lang='en', dest_lang='vi')
-        src >> translator >> volume >> sink
+                                               src_lang='vi', dest_lang='en')
+        src >> volume >> translator >> sink
 
         script_writer = ScriptWriter(name="script-writer",
                                     handler=self.script_writer_callback)
@@ -75,10 +74,10 @@ class DownStreamPipeline(VpPipeline):
         match prop:
             case 'src-lang' | 'dest-lang' | 'src-volume' | 'tts-volume' | 'asr-enable' | 'tts-enable':
                 await self.get_capsule("augmented-speech-translator").set_prop(prop, value)
-            case 'output-device':
-                sink = self.get_capsule("speaker-sink")
-                await sink.set_prop("device", value)
-            case 'output-mute':
+            case 'input-device':
+                src = self.get_capsule("mic-src")
+                await src.set_prop("device", value)
+            case 'input-mute':
                 volume = self.get_capsule("volume-control")
                 await volume.set_prop("mute", value)
             case _:

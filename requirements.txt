@@ -10,3 +10,4 @@ PySide6
 qasync
 aioconsole
 websocket
+PyYAML

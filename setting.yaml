@@ -1,0 +1,17 @@
+conference:
+  downstream:
+    asr_enable: true
+    tts_enable: true
+  upstream:
+    asr_enable: true
+    tts_enable: true
+
+  input_device: Microphone (USB Audio Device)
+  output_device: Speakers (USB Audio Device)
+  input_mute: false
+  output_mute: false
+  other_lang: en
+  your_lang: vi
+  volume:
+    original: 1.0
+    translated: 1.0

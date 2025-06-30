@@ -1,62 +1,36 @@
-import numpy as np
-import resampy
 import asyncio
+import numpy as np
 from vpipe.core.audiosrc import VpAudioSource
-from .vadc import VirtualAudioDeviceClient
-from vpipe.core.config import GLOBAL_AUDIO_CONFIG, AudioFormat
-
-
-class StreamingResampler:
-    def __init__(self, sr_in: int, sr_out: int, cache_samples: int = 128):
-        self.sr_in = sr_in
-        self.sr_out = sr_out
-        self.cache = np.zeros(cache_samples, dtype=np.float32)
-        self.cache_samples = cache_samples
-
-    def warmup(self):
-        resampy.resample(np.zeros(1024), sr_orig=self.sr_in, sr_new=self.sr_out)
-
-    def process(self, mono: np.ndarray) -> np.ndarray:
-        padded = np.concatenate([self.cache, mono])
-
-        resampled = resampy.resample(
-            padded,
-            sr_orig=self.sr_in,
-            sr_new=self.sr_out,
-            filter='kaiser_best'
-        )
-
-        skip = int(self.cache_samples * self.sr_out / self.sr_in)
-        if skip > 0:
-            resampled = resampled[skip//2:-skip//2]
-
-        self.cache = mono[-self.cache_samples:].copy()
-
-        resampled *= 0.99
-        return np.clip(resampled * 32767, -32768, 32767).astype(np.int16)
+from vpipe.utils.virtual_audio_device_client import VirtualAudioDeviceClient
+from vpipe.utils.cache_resampler import CacheResampler
 
 
 class VpVirtualSpeakerSrc(VpAudioSource):
     def __init__(self, name=None, audio_config=None):
-        super().__init__(name=name, audio_config=audio_config or GLOBAL_AUDIO_CONFIG)
+        super().__init__(name=name, audio_config=audio_config)
 
         self.device = None
-        self.resampler = StreamingResampler(
+        self.resampler = CacheResampler(
             sr_in=48000,
             sr_out=self.audio_config.format.rate,
-            cache_samples=256
+            cache_size=128
         )
 
     async def open(self):
-        self.device = VirtualAudioDeviceClient()
-        self.resampler.warmup()
+        def open():
+            self.device = VirtualAudioDeviceClient()
+            self.resampler.warmup()
+        await asyncio.to_thread(open)
 
     async def close(self):
-        self.device.close()
+        def close():
+            if self.device:
+                self.device.close()
+                self.device = None
+        await asyncio.to_thread(close)
 
     async def read_chunk(self, length):
         fmt = self.audio_config.format
-        blocksize = self.audio_config.blocksize
         duration = self.audio_config.block_duration
 
         src_samplerate = 48000
@@ -78,4 +52,7 @@ class VpVirtualSpeakerSrc(VpAudioSource):
         mono = np.clip(mono, -1.0, 1.0)
 
         out = self.resampler.process(mono)
-        return out.reshape(blocksize, fmt.channels).astype(fmt.dtype)
+        out = out.reshape(-1, fmt.channels)
+        iinfo = np.iinfo(fmt.dtype)
+        out = np.clip(out * iinfo.max, iinfo.min, iinfo.max).astype(fmt.dtype)
+        return out

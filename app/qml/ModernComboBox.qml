@@ -16,6 +16,10 @@ ComboBox {
         leftPadding: 10
         rightPadding: 10
         font.pixelSize: 15
+        width: modernCombo.width - 20
+        elide: Text.ElideRight
+        maximumLineCount: 1
+        clip: true
     }
     indicator: Rectangle {
         width: 20

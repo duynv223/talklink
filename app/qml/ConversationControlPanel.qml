@@ -5,7 +5,7 @@ import "."
 
 Rectangle {
     width: parent ? parent.width : 400
-    height: 80
+    height: 120
     color: "#f8f8f8"
     radius: 8
     border.color: "#e0e0e0"
@@ -30,14 +30,15 @@ Rectangle {
                 ]
                 textRole: "label"
                 currentIndex: {
+                    let lang = settingModel.get("conference.other_lang");
                     for (var i = 0; i < model.length; ++i)
-                        if (model[i].code === pipeline.sourceLanguage)
+                        if (model[i].code === lang)
                             return i;
                     return 0;
                 }
                 onCurrentIndexChanged: {
-                    if (pipeline.setOtherLanguage)
-                        pipeline.setOtherLanguage(model[currentIndex].code)
+                    if (settingModel.set)
+                        settingModel.set("conference.other_lang", model[currentIndex].code)
                 }
             }
 
@@ -61,14 +62,15 @@ Rectangle {
                 ]
                 textRole: "label"
                 currentIndex: {
+                    let lang = settingModel.get("conference.your_lang");
                     for (var i = 0; i < model.length; ++i)
-                        if (model[i].code === pipeline.targetLanguage)
+                        if (model[i].code === lang)
                             return i;
                     return 1;
                 }
                 onCurrentIndexChanged: {
-                    if (pipeline.setYourLanguage)
-                        pipeline.setYourLanguage(model[currentIndex].code)
+                    if (settingModel.set)
+                        settingModel.set("conference.your_lang", model[currentIndex].code)
                 }
             }
 
@@ -119,81 +121,163 @@ Rectangle {
             }
         }
 
-        Dialog {
-            id: settingsDialog
-            title: "Settings"
-            modal: true
-            standardButtons: Dialog.Ok
-            width: 400
-            height: 300
-            x: (parent ? parent.width : Screen.width) / 2 - width / 2
-            y: (parent ? parent.height : Screen.height) / 2 - height / 2
-            z: 100
+        // Split line
+        Rectangle {
+            width: parent ? parent.width : 400
+            height: 1
+            color: "#e0e0e0"
+            Layout.fillWidth: true
+            Layout.topMargin: 8
+            Layout.bottomMargin: 8
+        }
 
-            contentItem: Column {
-                spacing: 12
-                padding: 16
-
-                Text {
-                    text: "Mixer"
-                    font.pixelSize: 13
-                    anchors.left: parent.left
-                    width: parent.width
-                    horizontalAlignment: Text.AlignLeft
+        // Audio control panel
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: 16
+            
+            RowLayout {
+                spacing: 6
+                Label { text: "Other"; font.bold: true; color: "#333" }
+                ToggleButton {
+                    id: otherAsrEnable
+                    iconSource: "../assets/asr.svg";
+                    width: 28;
+                    height: 28
+                    active: settingModel.get("conference.downstream.asr_enable")
+                    onClicked: {
+                        if (settingModel.set)  {
+                            var next = active ? false : true
+                            settingModel.set("conference.downstream.asr_enable", next)
+                        }
+                    }
+                    Connections {
+                        target: settingModel
+                        function onValueChanged(path, value) {
+                            if (path === "conference.downstream.asr_enable") {
+                                otherAsrEnable.active = value
+                            }
+                        }
+                    }
                 }
 
-                // Mixer rectangle
-                Rectangle {
-                    width: parent.width
-                    color: "#f0f0f0"
-                    radius: 8
-                    border.color: "#e0e0e0"
-                    border.width: 1
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.margins: 0
-                    height: 110
-
-                    Column {
-                        anchors.fill: parent
-                        anchors.margins: 12
-                        spacing: 10
-
-                        Row {
-                            spacing: 8
-                            Label { text: "Original"; width: 110 }
-                            Slider {
-                                id: originalVolumeSlider
-                                from: 0; to: 50
-                                value: 40
-                                stepSize: 1
-                                width: 140
-                                onValueChanged: {
-                                    if (pipeline.setOriginalVolume)
-                                        pipeline.setOriginalVolume(value / 50)
-                                }
-                            }
-                            Label { text: Math.round(originalVolumeSlider.value).toString(); width: 50 }
+                ToggleButton {
+                    id: otherTtsEnable
+                    iconSource: "../assets/tts.svg";
+                    width: 28;
+                    height: 28
+                    active: settingModel.get("conference.downstream.tts_enable")
+                    onClicked: {
+                        if (settingModel.set)  {
+                            var next = active ? false : true
+                            settingModel.set("conference.downstream.tts_enable", next)
                         }
-                        Row {
-                            spacing: 8
-                            Label { text: "Tranlated"; width: 110 }
-                            Slider {
-                                id: ttsVolumeSlider
-                                from: 0; to: 50
-                                value: 40
-                                stepSize: 1
-                                width: 140
-                                onValueChanged: {
-                                    if (pipeline.setTranslatedVolume)
-                                        pipeline.setTranslatedVolume(value / 100)
-                                }
+                    }
+                    Connections {
+                        target: settingModel
+                        function onValueChanged(path, value) {
+                            if (path === "conference.downstream.tts_enable") {
+                                otherTtsEnable.active = value
                             }
-                            Label { text: Math.round(ttsVolumeSlider.value).toString(); width: 30 }
                         }
                     }
                 }
             }
+
+            RowLayout {
+                spacing: 6
+                Label { text: "You"; font.bold: true; color: "#333" }
+                ToggleButton {
+                    id: youAsrEnable
+                    iconSource: "../assets/asr.svg";
+                    width: 28;
+                    height: 28
+                    active: settingModel.get("conference.upstream.asr_enable")
+                    onClicked: {
+                        if (settingModel.set)  {
+                            var next = active ? false : true
+                            settingModel.set("conference.upstream.asr_enable", next)
+                        }
+                    }
+                    Connections {
+                        target: settingModel
+                        function onValueChanged(path, value) {
+                            if (path === "conference.upstream.asr_enable") {
+                                youAsrEnable.active = value
+                            }
+                        }
+                    }
+                }
+
+                ToggleButton {
+                    id: youTtsEnable
+                    iconSource: "../assets/tts.svg";
+                    width: 28;
+                    height: 28
+                    active: settingModel.get("conference.upstream.tts_enable")
+                    onClicked: {
+                        if (settingModel.set)  {
+                            var next = active ? false : true
+                            settingModel.set("conference.upstream.tts_enable", next)
+                        }
+                    }
+                    Connections {
+                        target: settingModel
+                        function onValueChanged(path, value) {
+                            if (path === "conference.upstream.tts_enable") {
+                                youTtsEnable.active = value
+                            }
+                        }
+                    }
+                }
+            }
+
+            Item { Layout.fillWidth: true }
+
+            IconButton {
+                id: micButton
+                width: 40
+                height: 32
+                property bool micOn: !settingModel.get("conference.input_mute")
+                iconSource: micOn ? "../assets/mic-on.svg" : "../assets/mic-off.svg"
+                onClicked: {
+                    if (settingModel.set) {
+                        settingModel.set("conference.input_mute", micOn)
+                    }
+                }
+                Connections {
+                    target: settingModel
+                    function onValueChanged(path, value) {
+                        if (path === "conference.input_mute") {
+                            micButton.micOn = !value
+                        }
+                    }
+                }
+            }
+            IconButton {
+                id: speakerButton
+                width: 40
+                height: 32
+                property bool speakerOn: !settingModel.get("conference.output_mute")
+                iconSource: speakerOn ? "../assets/sound-on.svg" : "../assets/sound-mute.svg"
+                onClicked: {
+                    if (settingModel.set) {
+                        settingModel.set("conference.output_mute", speakerOn)
+                    }
+                }
+                Connections {
+                    target: settingModel
+                    function onValueChanged(path, value) {
+                        if (path === "conference.output_mute") {
+                            speakerButton.speakerOn = !value
+                        }
+                    }
+                }
+            }
+        }
+
+        ConversationSettingsDialog {
+            id: settingsDialog
         }
     }
 }

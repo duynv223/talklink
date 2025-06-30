@@ -72,18 +72,18 @@ python main.py
     - [ ] Translation service
     - [ ] TTS service
 - **Application**
-    - [ ] Upstream pipeline
-    - [ ] Settings
-        - [ ] Upstream/downstream controls
-        - [ ] Audio device selector
+    - [x] Upstream pipeline
+    - [-] Settings
+        - [x] Upstream/downstream controls
+        - [x] Audio device selector
         - [ ] Synthesis speed
-    - [ ] Implement setting manager
+    - [x] Implement setting manager
     - [ ] Audio signal visualization
     - [ ] Conversation list readability
     - [ ] New conversation/history
     - [ ] System messages
-    - [ ] Modes
-        - [ ] Conference (virtual mic/speaker)
+    - [-] Modes
+        - [x] Conference (virtual mic/speaker)
         - [ ] Self Talk (system mic/speaker)
     - [ ] List/read saved conversations
     - [ ] Advanced: model/service selection
