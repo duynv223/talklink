@@ -252,6 +252,8 @@ class SpeechTranslatorPipeline(QObject):
         await self.set_tts_enable("upstream", self.setting_model.get("conference.upstream.tts_enable"))
         await self.set_input_device(self.setting_model.get("conference.input_device"))
         await self.set_output_device(self.setting_model.get("conference.output_device"))
+        await self.set_input_audio_mute(self.setting_model.get("conference.input_mute"))
+        await self.set_output_audio_mute(self.setting_model.get("conference.output_mute"))
 
     @asyncSlot(str, object)
     async def _on_setting_changed(self, path, value):
