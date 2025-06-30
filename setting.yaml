@@ -2,9 +2,11 @@ conference:
   downstream:
     asr_enable: true
     tts_enable: true
+    tts_speed: 1.0
   upstream:
     asr_enable: true
     tts_enable: true
+    tts_speed: 1.0
 
   input_device: None
   output_device: None

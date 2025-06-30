@@ -239,6 +239,21 @@ class SpeechTranslatorPipeline(QObject):
         finally:
             self._set_action_state(ActionState.IDLE)
 
+    @asyncSlot()
+    async def set_tts_speed(self, stream: str, speed: float):
+        self._set_action_state(ActionState.CHANGING_LANGUAGE)
+        try:
+            if stream == "downstream":
+                await self._loop.run(self._pipeline.downstream.set_prop("tts-speed", speed))
+            elif stream == "upstream":
+                await self._loop.run(self._pipeline.upstream.set_prop("tts-speed", speed))
+            else:
+                raise ValueError(f"Unknown stream: {stream}")
+        except Exception as e:
+            self._set_error(f"TTS Speed Change Error: {e}")
+        finally:
+            self._set_action_state(ActionState.IDLE)
+
             
     @asyncSlot(str, object)
     async def _initialize_pipeline_from_settings(self):
@@ -254,6 +269,8 @@ class SpeechTranslatorPipeline(QObject):
         await self.set_output_device(self.setting_model.get("conference.output_device"))
         await self.set_input_audio_mute(self.setting_model.get("conference.input_mute"))
         await self.set_output_audio_mute(self.setting_model.get("conference.output_mute"))
+        await self.set_tts_speed("downstream", self.setting_model.get("conference.downstream.tts_speed"))
+        await self.set_tts_speed("upstream", self.setting_model.get("conference.upstream.tts_speed"))
 
     @asyncSlot(str, object)
     async def _on_setting_changed(self, path, value):
@@ -287,6 +304,11 @@ class SpeechTranslatorPipeline(QObject):
                 await self.set_input_audio_mute(value)
             case "conference.output_mute":
                 await self.set_output_audio_mute(value)
+            # TTS playback speed
+            case "conference.downstream.tts_speed":
+                await self.set_tts_speed("downstream", value)
+            case "conference.upstream.tts_speed":
+                await self.set_tts_speed("upstream", value)
             # Unhandled settings
             case _:
                 print(f"Unhandled setting change: {path} = {value}")

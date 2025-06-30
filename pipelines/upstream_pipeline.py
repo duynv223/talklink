@@ -72,7 +72,7 @@ class UpStreamPipeline(VpPipeline):
     
     async def set_prop(self, prop, value):
         match prop:
-            case 'src-lang' | 'dest-lang' | 'src-volume' | 'tts-volume' | 'asr-enable' | 'tts-enable':
+            case 'src-lang' | 'dest-lang' | 'src-volume' | 'tts-volume' | 'asr-enable' | 'tts-enable' | 'tts-speed':
                 await self.get_capsule("augmented-speech-translator").set_prop(prop, value)
             case 'input-device':
                 src = self.get_capsule("mic-src")

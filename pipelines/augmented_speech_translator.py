@@ -52,16 +52,15 @@ class AugmentedSpeechTranslator(VpComposite):
 
     async def set_prop(self, prop, value):
         match prop:
-            case 'src-lang' | 'dest-lang':
+            case 'src-lang' | 'dest-lang' | 'asr-enable' | 'tts-enable':
                 await self.get_capsule("speech-translator").set_prop(prop, value)
             case 'src-volume':
                 self.get_capsule("audio-mixer").get_input("src").set_property('volume', value)
             case 'tts-volume':
                 self.get_capsule("audio-mixer").get_input("tts").set_property('volume', value)
-            case 'asr-enable':
-                await self.get_capsule("speech-translator").set_prop("asr-enable", value)
-            case 'tts-enable':
-                await self.get_capsule("speech-translator").set_prop("tts-enable", value)
+            case 'tts-speed':
+                audio_queue_player = self.get_capsule("audio-queue-player")
+                await audio_queue_player.set_prop("speed", value)
             case _:
                 raise ValueError(f"Unknown property: {prop}")
             

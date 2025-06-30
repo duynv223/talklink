@@ -17,6 +17,13 @@ class VpAudioQueuePlayer(VpAudioSource):
         self.silence = np.zeros((self.audio_config.blocksize,
                                  self.audio_config.format.channels), 
                                  dtype=self.audio_config.format.dtype)
+    
+    async def set_prop(self, prop, value):
+        match prop:
+            case "speed":
+                self.speed = value
+            case _:
+                raise ValueError(f"Unknown property: {prop}")
 
     def stretch_audio(self, audio, speed, fmt):
         seg = AudioSegment(

@@ -8,7 +8,7 @@ Dialog {
     modal: true
     standardButtons: Dialog.Ok
     width: 400
-    height: 400
+    height: 500
     x: (parent ? parent.width : Screen.width) / 2 - width / 2
     y: (parent ? parent.height : Screen.height) / 2 - height / 2
     z: 100
@@ -156,6 +156,61 @@ Dialog {
                 }
             }
         }
+
+        Text {
+            text: "TTS Speed"
+            font.pixelSize: 13
+            Layout.fillWidth: true
+            horizontalAlignment: Text.AlignLeft
+            padding: 4
+            topPadding: 8
+        }
+        Rectangle {
+            Layout.fillWidth: true
+            color: "#f0f0f0"
+            radius: 8
+            border.color: "#e0e0e0"
+            border.width: 1
+            height: 80
+            ColumnLayout {
+                anchors.fill: parent
+                anchors.margins: 12
+                spacing: 10
+                RowLayout {
+                    spacing: 8
+                    Label { text: "Other"; Layout.preferredWidth: 90 }
+                    Slider {
+                        id: ttsSpeedOtherSlider
+                        from: 0.5; to: 2.0
+                        value: settingModel.get("conference.downstream.tts_speed") || 1.0
+                        stepSize: 0.1
+                        Layout.fillWidth: true
+                        onValueChanged: {
+                            if (settingModel.set)
+                                settingModel.set("conference.downstream.tts_speed", value)
+                        }
+                    }
+                    Label { text: ttsSpeedOtherSlider.value.toFixed(1) + "x"; Layout.preferredWidth: 40 }
+                }
+                RowLayout {
+                    spacing: 8
+                    Label { text: "You"; Layout.preferredWidth: 90 }
+                    Slider {
+                        id: ttsSpeedYouSlider
+                        from: 0.5; to: 2.0
+                        value: settingModel.get("conference.upstream.tts_speed") || 1.0
+                        stepSize: 0.1
+                        Layout.fillWidth: true
+                        onValueChanged: {
+                            if (settingModel.set)
+                                settingModel.set("conference.upstream.tts_speed", value)
+                        }
+                    }
+                    Label { text: ttsSpeedYouSlider.value.toFixed(1) + "x"; Layout.preferredWidth: 40 }
+                }
+            }
+        }
+
         Item {
             Layout.fillHeight: true
         }
