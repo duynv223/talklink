@@ -46,7 +46,7 @@ class VpSpeakerSink(VpAudioSink):
     
     async def close(self):
         if self.stream and getattr(self.stream, 'active', False):
-            asyncio.to_thread(self.stream.close)
+            await asyncio.to_thread(self.stream.close)
             self.stream = None
 
     async def write(self, buf):
