@@ -205,7 +205,7 @@ class SpeechTranslatorPipeline(QObject):
             self._set_error(f"Audio Device Change Error: {e}")
         finally:
             self._set_action_state(ActionState.IDLE)
-            
+
     @asyncSlot()
     async def set_output_device(self, device: str):
         self._set_action_state(ActionState.CHANGING_AUDIO_DEVICE)
@@ -249,7 +249,7 @@ class SpeechTranslatorPipeline(QObject):
                 await self.set_tts_enable("downstream", value)
             case "conference.upstream.asr_enable":
                 await self.set_asr_enable("upstream", value)
-            case "audio.upstream.tts_enable":
+            case "conference.upstream.tts_enable":
                 await self.set_tts_enable("upstream", value)
             # Audio device settings
             case "conference.input_device":
