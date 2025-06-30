@@ -14,10 +14,17 @@ class VirtualMicSink(VpAudioSink):
         self.resampler = CacheResampler(sr_in=16000, sr_out=48000, cache_size=128)
 
     async def open(self):
-        self.device = VirtualAudioDeviceClient()
+        def open():
+            self.device = VirtualAudioDeviceClient()
+            self.resampler.warmup()
+        await asyncio.to_thread(open)
 
     async def close(self):
-        self.device.close()
+        def close():
+            if self.device:
+                self.device.close()
+                self.device = None
+        await asyncio.to_thread(close)
 
     async def write(self, buf):
         """

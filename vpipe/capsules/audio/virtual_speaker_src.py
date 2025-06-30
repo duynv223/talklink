@@ -17,11 +17,17 @@ class VpVirtualSpeakerSrc(VpAudioSource):
         )
 
     async def open(self):
-        self.device = VirtualAudioDeviceClient()
-        self.resampler.warmup()
+        def open():
+            self.device = VirtualAudioDeviceClient()
+            self.resampler.warmup()
+        await asyncio.to_thread(open)
 
     async def close(self):
-        self.device.close()
+        def close():
+            if self.device:
+                self.device.close()
+                self.device = None
+        await asyncio.to_thread(close)
 
     async def read_chunk(self, length):
         fmt = self.audio_config.format
