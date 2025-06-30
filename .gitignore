@@ -57,3 +57,7 @@ Thumbs.db
 
 # backup files
 *~*
+processed/
+model/
+model/*/
+dependencies/*/
