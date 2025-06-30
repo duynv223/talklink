@@ -89,7 +89,7 @@ python main.py
     - [ ] Advanced: model/service selection
     - [ ] Error/warning notifications
     - [ ] App icon/logo
-    - [ ] Fix to remove warning console log
+    - [x] Fix to remove warning console log
 - **Pipelines**
     - [ ] Logging
     - [ ] Capsule error handler
