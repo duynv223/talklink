@@ -91,13 +91,13 @@ Dialog {
         ModernComboBox {
             id: inputDeviceCombo
             Layout.fillWidth: true
-            model: audioDeviceManager.inputDevices
+            model: audioDeviceManager ? audioDeviceManager.inputDevices : []
             textRole: "name"
             property int lastIndex: currentIndex
             currentIndex: {
                 let idx = 0;
                 if (settingModel.get && settingModel.get("conference.input_device")) {
-                    let arr = audioDeviceManager.inputDevices;
+                    let arr = audioDeviceManager ? audioDeviceManager.inputDevices : [];
                     for (let i = 0; i < arr.length; ++i) {
                         if (arr[i].name === settingModel.get("conference.input_device")) {
                             idx = i; break;
@@ -107,7 +107,7 @@ Dialog {
                 return idx;
             }
             onCurrentIndexChanged: {
-                let arr = audioDeviceManager.inputDevices;
+                let arr = audioDeviceManager ? audioDeviceManager.inputDevices : [];
                 if (settingModel.set && arr.length > 0)
                     settingModel.set("conference.input_device", arr[currentIndex].name)
             }
@@ -128,13 +128,13 @@ Dialog {
         ModernComboBox {
             id: outputDeviceCombo
             Layout.fillWidth: true
-            model: audioDeviceManager.outputDevices
+            model: audioDeviceManager ? audioDeviceManager.outputDevices : []
             textRole: "name"
             property int lastIndex: currentIndex
             currentIndex: {
                 let idx = 0;
                 if (settingModel.get && settingModel.get("conference.output_device")) {
-                    let arr = audioDeviceManager.outputDevices;
+                    let arr = audioDeviceManager ? audioDeviceManager.outputDevices : [];
                     for (let i = 0; i < arr.length; ++i) {
                         if (arr[i].name === settingModel.get("conference.output_device")) {
                             idx = i; break;
@@ -144,7 +144,7 @@ Dialog {
                 return idx;
             }
             onCurrentIndexChanged: {
-                let arr = audioDeviceManager.outputDevices;
+                let arr = audioDeviceManager ? audioDeviceManager.outputDevices : [];
                 if (settingModel.set && arr.length > 0)
                     settingModel.set("conference.output_device", arr[currentIndex].name)
             }
