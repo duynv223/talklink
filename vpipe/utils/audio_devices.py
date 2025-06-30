@@ -24,7 +24,7 @@ def default_output_filter(name, dev):
 def get_wasapi_index():
     hostapis = sd.query_hostapis()
     for idx, api in enumerate(hostapis):
-        if "WASAPI" in api['name']:
+        if "MME" in api['name']:
             return idx
     raise RuntimeError("WASAPI not found on this system.")
 
@@ -88,3 +88,12 @@ if __name__ == "__main__":
     print("\n>> Output Devices (WASAPI)")
     for idx, name in list_output_devices():
         print(f"[{idx}] {name}")
+
+    import sounddevice as sd
+
+    info = sd.query_devices()
+    default_hostapi_index = sd.default.hostapi
+    hostapi_info = sd.query_hostapis(default_hostapi_index)
+
+    print("Host API mặc định:", hostapi_info['name'])
+

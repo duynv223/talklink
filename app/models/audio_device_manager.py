@@ -9,9 +9,9 @@ class AudioDeviceManager(QObject):
         self._input_devices = []
         self._output_devices = []
         self.refresh()
-        self._timer = QTimer(self)
-        self._timer.timeout.connect(self._auto_refresh)
-        self._timer.start(1000)
+        # self._timer = QTimer(self)
+        # self._timer.timeout.connect(self._auto_refresh)
+        # self._timer.start(1000)
 
     @Slot()
     def refresh(self):
