@@ -27,6 +27,8 @@ class WhisperASRService(ASRServiceInterface):
         self.recv_queue = queue.Queue()
         self._connected = threading.Event()
         self._stop_flag = threading.Event()
+        self._buffer = bytearray()
+        self.min_send_size = 3200 # 0.1s (do not change this value)
         
     async def start(self):
         self.ws = websocket.WebSocketApp(
@@ -40,10 +42,9 @@ class WhisperASRService(ASRServiceInterface):
         self.ws_thread.start()
 
         if not self._connected.wait(timeout=20):
-            raise RuntimeError("Timeout waiting for server readiness")
+            raise RuntimeError("Timeout waiting for Whisper ASR server readiness")
         
     async def stop(self):
-        print("Trigger STOP by system control")
         self._connected.clear()
         self._stop_flag.set()
         if self.ws:
@@ -51,20 +52,26 @@ class WhisperASRService(ASRServiceInterface):
         if self.ws_thread:
             self.ws_thread.join()
 
-    async def transcribe(self, buf: np.ndarray) -> Optional[Tuple[str, bool]]:
+    async def transcribe(self, audio: bytes) -> Optional[Tuple[str, bool]]:
         if not self.ws or not self.ws.sock or not self.ws.sock.connected:
             raise RuntimeError("WebSocket is not connected")
 
+        self._buffer.extend(audio)
+
+        if len(self._buffer) < self.min_send_size:
+            return None
+
+        # Construct message
         header = json.dumps({
             "language": self.language,
         }).encode('utf-8')
         header_len = struct.pack("<I", len(header))
-        pcm16 = buf[:, 0].astype(np.int16).tobytes()
-        message = header_len + header + pcm16
+        message = header_len + header + self._buffer
+        self._buffer.clear()
 
         try:
             self.ws.send(message, opcode=websocket.ABNF.OPCODE_BINARY)
-        except Exception:
+        except Exception as e:
             return None
 
         try:
@@ -89,21 +96,27 @@ class WhisperASRService(ASRServiceInterface):
     def _on_message(self, ws, message):
         try:
             if isinstance(message, bytes):
-                message = message.decode("utf-8", errors="ignore")
+                if len(message) < 4:
+                    print("[WARN] Received short binary message.")
+                    return
 
-            data = json.loads(message)
-            msg_type = data.get("type")
+                header_len = struct.unpack("<I", message[:4])[0]
+                header_json = message[4:4 + header_len].decode("utf-8", errors="ignore")
+                header = json.loads(header_json)
+                text = header.get("text", "").strip()
+                speaker = header.get("speaker", "unknown")
+                wav_bytes = message[4 + header_len:] # samplerate=16000, format="WAV"
 
-            if msg_type == "status" and data.get("ready"):
-                self._connected.set()
+                if text:
+                    result = f"[{speaker}]: {text}"
+                    self.recv_queue.put((result, True))
 
-            elif msg_type == "diarizedTranscript":
-                for seg in data.get("segments", []):
-                    speaker = seg.get("speaker", "unknown")
-                    text = seg.get("text", "").strip()
-                    if text:
-                        message_str = f"[{speaker}]: {text}"
-                        self.recv_queue.put((message_str, True))
-        except Exception:
-            pass
+            else:
+                data = json.loads(message)
+                if data.get("type") == "status" and data.get("ready"):
+                    print("WhisperASRService server is ready.")
+                    self._connected.set()
+
+        except Exception as e:
+            print(f"[ERROR] Failed to process message: {e}")
 
