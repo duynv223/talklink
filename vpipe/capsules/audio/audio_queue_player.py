@@ -6,7 +6,7 @@ from vpipe.core.config import GLOBAL_AUDIO_CONFIG
 
 
 class VpAudioQueuePlayer(VpAudioSource):
-    def __init__(self, name, speed=1.3, audio_config=None):
+    def __init__(self, name, speed=1.0, audio_config=None):
         super().__init__(name=name, audio_config=audio_config or GLOBAL_AUDIO_CONFIG)
 
         self.speed = speed
