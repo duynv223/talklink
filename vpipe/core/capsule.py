@@ -115,7 +115,7 @@ class VpCapsule(VpObject):
             current_index = state_order.index(self.state)
             target_index = state_order.index(new_state)
         except ValueError:
-            print(f"[{self.name}] Invalid state: {self.state} or {new_state}.")
+            self.logger.warning(f"[{self.name}] Invalid state: {self.state} or {new_state}.")
             return False
         
         step = 1 if target_index > current_index else -1
@@ -123,7 +123,7 @@ class VpCapsule(VpObject):
             intermediate_state = state_order[intermediate_state_index]
             transition = VpStateTransition.from_states(self.state, intermediate_state)
             if not transition:
-                print(f"[{self.name}] Invalid state transition from {self.state.name} to {intermediate_state.name}.")
+                self.logger.warning(f"[{self.name}] Invalid state transition from {self.state.name} to {intermediate_state.name}.")
                 return False
             if not await self.change_state(transition):
                 return False
@@ -136,11 +136,11 @@ class VpCapsule(VpObject):
         old_state, new_state = transition.value
 
         if self.state != old_state:
-            print(f"[{self.name}] Current state {self.state.name} does not match transition's old state {old_state.name}.")
+            self.logger.warning(f"[{self.name}] Current state {self.state.name} does not match transition's old state {old_state.name}.")
             return False
 
         if self.state == new_state:
-            print(f"[{self.name}] Already in state {new_state.name}.")
+            self.logger.info(f"[{self.name}] Already in state {new_state.name}.")
             return True
 
         match transition:
@@ -162,7 +162,7 @@ class VpCapsule(VpObject):
                 self.state = new_state
                 return True
             case _:
-                print(f"[{self.name}] Unsupported transition: {transition.name}.")
+                self.logger.warning(f"[{self.name}] Unsupported transition: {transition.name}.")
                 return False
 
     async def _activate_ports(self, activate):

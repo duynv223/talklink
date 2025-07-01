@@ -48,14 +48,14 @@ class TranslationTransform(VpBaseTransform):
                 raise ValueError(f"Unknown property: {key}")
 
     async def start(self):
-        print(f"Starting translation service: {self.service.__class__.__name__}")
+        self.logger.info(f"Starting translation service: {self.service.__class__.__name__}")
         await self.service.start()
-        print(f"Translation service {self.service.__class__.__name__} started")
+        self.logger.info(f"Translation service {self.service.__class__.__name__} started")
 
     async def stop(self):
-        print(f"Stopping translation service: {self.service.__class__.__name__}")
+        self.logger.info(f"Stopping translation service: {self.service.__class__.__name__}")
         await self.service.stop()
-        print(f"Translation service {self.service.__class__.__name__} stopped")
+        self.logger.info(f"Translation service {self.service.__class__.__name__} stopped")
 
     async def transform(self, text) -> str:
         translated_text = await self.service.translate(text, src=self.src, dest=self.dest)

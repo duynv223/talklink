@@ -51,14 +51,14 @@ class TTSTransform(VpBaseTransform):
                 raise ValueError(f"Unknown property: {key}")
 
     async def start(self):
-        print(f"Starting TTS service: {self.service.__class__.__name__}")
+        self.logger.info(f"Starting TTS service: {self.service.__class__.__name__}")
         await self.service.start()
-        print(f"TTS service {self.service.__class__.__name__} started")
+        self.logger.info(f"TTS service {self.service.__class__.__name__} started")
 
     async def stop(self):
-        print(f"Stopping TTS service: {self.service.__class__.__name__}")
+        self.logger.info(f"Stopping TTS service: {self.service.__class__.__name__}")
         await self.service.stop()
-        print(f"TTS service {self.service.__class__.__name__} stopped")
+        self.logger.info(f"TTS service {self.service.__class__.__name__} stopped")
 
     async def transform(self, text: str) -> bytes:
         if self.enable:
