@@ -33,9 +33,9 @@ def calculate_keep_len(text, lang):
     )
 
     if word_count < 5:
-        return 8000 * word_count + 2000 * num_punct
+        return 12000 * word_count + 2000 * num_punct
     elif word_count < 10:
-        return 8000 * word_count + 2000 * num_punct
+        return 10000 * word_count + 2000 * num_punct
     return -1
 
 if __name__ == "__main__": 
