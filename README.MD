@@ -30,7 +30,7 @@ python3.11 -m venv .venv
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 ```
 
-###  2. Clone and Install TTS Module
+### 2. Clone and Install TTS Module
 ```
 cd TTS
 git clone git@github.com:thinhlpg/TTS.git
@@ -44,13 +44,13 @@ From the root directory of `fxtts`:
 pip install -r requirements.txt
 ```
 
-### 3. Install Project Requirements
+### 4. Run the Server 
 ```
 python tts_server.py
 ```
 Wait. You should see logs indicating the service is running on http://localhost:8765.
 
-### 4. Running the Test Client
+### 5. (Optional) Running the Test Client
 After the server is fully initialized, run:
 ```
 python tests/tts_client.py
