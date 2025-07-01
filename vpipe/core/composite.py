@@ -12,6 +12,7 @@ class VpComposite(VpCapsule):
         self._sbus.add_watch(self._sbus_message_handler)
 
     def add(self, capsule):
+        capsule.parent = self
         self._capsules.append(capsule)
         capsule.bus = self._sbus
 

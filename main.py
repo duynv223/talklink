@@ -1,6 +1,9 @@
 import os
 import sys
 import asyncio
+import logging
+import logging.config
+import yaml
 from pathlib import Path
 from PySide6.QtWidgets import QApplication
 from qasync import QEventLoop
@@ -14,7 +17,16 @@ from app.models.audio_device_manager import AudioDeviceManager
 os.environ["QT_QUICK_CONTROLS_STYLE"] = "Fusion"
 
 
+def init_logging():
+    config_path = Path(__file__).resolve().parent /"logging.yaml"
+    with open(config_path, "r") as f:
+        config = yaml.safe_load(f)
+    logging.config.dictConfig(config)
+
+
 async def main():
+    init_logging()
+
     app = QApplication(sys.argv)
     loop = QEventLoop(app)
     asyncio.set_event_loop(loop)

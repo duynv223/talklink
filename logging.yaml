@@ -1,0 +1,32 @@
+version: 1
+disable_existing_loggers: False
+
+formatters:
+  simple:
+    format: "[%(asctime)s] [%(levelname)s] [%(name)s]: %(message)s"
+
+  vpobj:
+    format: "[%(asctime)s] [%(levelname)s] [%(obj_path)s]: %(message)s"
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: INFO
+    formatter: simple
+    stream: ext://sys.stdout
+
+  vpobj_console:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: vpobj
+    stream: ext://sys.stdout
+
+loggers:
+  vpobj:
+    level: DEBUG
+    handlers: [vpobj_console]
+    propagate: False
+
+root:
+  level: INFO
+  handlers: [console]
