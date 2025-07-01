@@ -34,7 +34,7 @@ class VpQueue(VpCapsule):
 
     async def _handle_input(self, name, data):
         if self._maxsize > 0 and self._queue.full():
-            # print(f'{self.name} drop data due to full queue')
+            # self.logger.warning(f'{self.name} drop data due to full queue')
             if self._leaky == DrainPolicy.DOWNSTREAM:
                 try:
                     await self._queue.get()
@@ -49,7 +49,7 @@ class VpQueue(VpCapsule):
         pass
 
     async def flush(self):
-        # print(f'{self.name} flush')
+        # self.logger.warning(f'{self.name} flush')
         items = []
         while not self._queue.empty():
             try:

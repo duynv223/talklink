@@ -38,7 +38,7 @@ class SpeechTranslatorPipeline(QObject):
         self._loop.start()
 
         self._pipeline = DualStreamPipeline(
-            name="downstream-pipeline",
+            name="top",
             script_writer_callback=self._on_script,
             translated_script_writer_callback=self._on_translated,
         )

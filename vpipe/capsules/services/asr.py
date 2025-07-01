@@ -55,14 +55,14 @@ class ASRTransform(VpBaseTransform):
                 raise AttributeError(f"Unknown property: {key}")
 
     async def start(self):
-        print(f"Starting ASR service: {self.service.__class__.__name__}")
+        self.logger.info(f"Starting ASR service: {self.service.__class__.__name__}")
         await self.service.start()
-        print(f"ASR service {self.service.__class__.__name__} started")
+        self.logger.info(f"ASR service {self.service.__class__.__name__} started")
 
     async def stop(self):
-        print(f"Stopping ASR service: {self.service.__class__.__name__}")
+        self.logger.info(f"Stopping ASR service: {self.service.__class__.__name__}")
         await self.service.stop()
-        print(f"ASR service {self.service.__class__.__name__} stopped")
+        self.logger.info(f"ASR service {self.service.__class__.__name__} stopped")
 
     async def transform(self, buf):
         if not self.enable:

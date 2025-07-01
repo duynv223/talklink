@@ -37,7 +37,7 @@ class UpStreamPipeline(VpPipeline):
     (Mic source) → [augmented speech translator] → (virtual mic sink)
     """
     def __init__(self,
-                 name="downstream-pipeline",
+                 name="upstream-pipeline",
                  script_writer_callback=None,
                  translated_script_writer_callback=None):
         

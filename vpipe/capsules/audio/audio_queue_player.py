@@ -48,7 +48,7 @@ class VpAudioQueuePlayer(VpAudioSource):
             await asyncio.wait_for(self.audio_queue.put(stretched_buf), timeout=1.0)
 
         except asyncio.TimeoutError:
-            print("Warning: Audio queue full, dropping buffer")
+            self.logger.warning("Audio queue full, dropping buffer")
 
     async def open(self):
         pass
