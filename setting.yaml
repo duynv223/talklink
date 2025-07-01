@@ -3,17 +3,16 @@ conference:
     asr_enable: true
     tts_enable: true
     tts_speed: 1.0
+  input_device: Microphone (USB Audio Device)
+  input_mute: false
+  other_lang: en
+  output_device: Speakers (USB Audio Device)
+  output_mute: false
   upstream:
     asr_enable: true
     tts_enable: true
     tts_speed: 1.0
-
-  input_device: None
-  output_device: None
-  input_mute: false
-  output_mute: false
-  other_lang: en
-  your_lang: vi
   volume:
     original: 1.0
     translated: 1.0
+  your_lang: vi

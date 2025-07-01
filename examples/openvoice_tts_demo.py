@@ -2,6 +2,7 @@ import asyncio
 import os
 import sys
 import soundfile as sf
+import numpy as np
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
@@ -11,7 +12,8 @@ from services.openvoice_tts_service import OpenVoiceTTSService
 async def main():
     tts_service = OpenVoiceTTSService(
         reference_speaker_path="assets/vixtts_sample.wav",
-        converter_checkpoint_path="model/openvoice/",
+        converter_checkpoint_dir="model/openvoice/converter",
+        base_speakers_dir="model/openvoice/base_speakers/ses",
         device="cuda:0" if torch.cuda.is_available() else "cpu"
     )
     
@@ -57,5 +59,4 @@ async def main():
 
 if __name__ == "__main__":
     import torch
-    import numpy as np
     asyncio.run(main()) 
