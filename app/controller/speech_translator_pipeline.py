@@ -7,7 +7,9 @@ from ..controller.async_loop_thread import AsyncLoopThread
 from pipelines.downstream_pipeline import DownStreamPipeline
 from pipelines.selftalk_pipeline import SelfTalkPipeline
 from pipelines.dualstream_pipeline import DualStreamPipeline
+import logging
 
+logger = logging.getLogger(__name__)
 
 class AppState(Enum):
     STOPPED = "Stopped"
@@ -54,16 +56,19 @@ class SpeechTranslatorPipeline(QObject):
     # --- State Management ---
     def _set_app_state(self, state: AppState):
         if self._app_state != state:
+            logger.info(f"App state changed: {self._app_state.value} -> {state.value}")
             self._app_state = state
             self.appStateChanged.emit(state.value)
 
     def _set_action_state(self, state: ActionState):
         if self._action_state != state:
+            logger.info(f"Action state changed: {self._action_state.value} -> {state.value}")
             self._action_state = state
             self.actionStateChanged.emit(state.value)
 
     def _set_error(self, message: str):
         if self._error_message != message:
+            logger.error(f"Error: {message}")
             self._error_message = message
             self.errorChanged.emit(message)
 
@@ -82,7 +87,6 @@ class SpeechTranslatorPipeline(QObject):
 
     @Property(str)
     def otherLanguage(self):
-        print("Other Language:", self.setting_model.get("conference.other_lang"))
         return self.setting_model.get("conference.other_lang")
 
     @Property(str)
@@ -91,6 +95,7 @@ class SpeechTranslatorPipeline(QObject):
 
     # --- Script Callbacks ---
     def _on_script(self, speaker, text, is_final):
+        logger.debug(f"Script received: speaker={speaker}, is_final={is_final}, text={text}")
         if self._current_you_index is not None:
             self.conversation_model.update(self._current_you_index, speaker, text)
             if is_final:
@@ -100,43 +105,53 @@ class SpeechTranslatorPipeline(QObject):
             self._current_you_index = None if is_final else self.conversation_model.rowCount() - 1
 
     def _on_translated(self, speaker, text):
+        logger.debug(f"Translated script: speaker={speaker}, text={text}")
         self.conversation_model.append(f"{speaker} (Translated)", text)
 
     # --- Control Actions ---
     @asyncSlot()
     async def start(self):
         if self._app_state in (AppState.RUNNING, AppState.STARTING):
+            logger.info("Start called but already running or starting.")
             return
 
+        logger.info("Starting pipeline...")
         self._set_error("")
         self._set_app_state(AppState.STARTING)
         try:
             await self._initialize_pipeline_from_settings()
             await self._loop.run(self._pipeline.set_state(VpState.RUNNING))
             self._set_app_state(AppState.RUNNING)
+            logger.info("Pipeline started.")
         except Exception as e:
             self._set_error(f"Start Error: {e}")
             await self._loop.run(self._pipeline.set_state(VpState.NULL))
             self._set_app_state(AppState.STOPPED)
+            logger.exception("Failed to start pipeline.")
 
     @asyncSlot()
     async def stop(self):
         if self._app_state in (AppState.STOPPED, AppState.STOPPING):
+            logger.info("Stop called but already stopped or stopping.")
             return
 
+        logger.info("Stopping pipeline...")
         self._set_error("")
         self._set_app_state(AppState.STOPPING)
         try:
             await self._loop.run(self._pipeline.set_state(VpState.NULL))
             self._set_app_state(AppState.STOPPED)
+            logger.info("Pipeline stopped.")
         except Exception as e:
             self._set_error(f"Stop Error: {e}")
             await self._loop.run(self._pipeline.set_state(VpState.NULL))
             self._set_app_state(AppState.STOPPED)
+            logger.exception("Failed to stop pipeline.")
 
     # --- Change Language ---
     @asyncSlot(str)
     async def set_other_language(self, lang):
+        logger.info(f"Changing other language to: {lang}")
         self._set_error("")
         self._set_action_state(ActionState.CHANGING_LANGUAGE)
         try:
@@ -144,10 +159,12 @@ class SpeechTranslatorPipeline(QObject):
             await self._loop.run(self._pipeline.upstream.set_prop("dest-lang", lang))
         except Exception as e:
             self._set_error(f"Language Change Error: {e}")
+            logger.exception("Failed to change other language.")
         self._set_action_state(ActionState.IDLE)
 
     @asyncSlot(str)
     async def set_your_language(self, lang):
+        logger.info(f"Changing your language to: {lang}")
         self._set_error("")
         self._set_action_state(ActionState.CHANGING_LANGUAGE)
         try:
@@ -155,6 +172,7 @@ class SpeechTranslatorPipeline(QObject):
             await self._loop.run(self._pipeline.upstream.set_prop("src-lang", lang))
         except Exception as e:
             self._set_error(f"Language Change Error: {e}")
+            logger.exception("Failed to change your language.")
         self._set_action_state(ActionState.IDLE)
 
     # --- Adjust Volume ---
@@ -311,4 +329,4 @@ class SpeechTranslatorPipeline(QObject):
                 await self.set_tts_speed("upstream", value)
             # Unhandled settings
             case _:
-                print(f"Unhandled setting change: {path} = {value}")
+                logger.warning(f"Unhandled setting change: {path} = {value}")

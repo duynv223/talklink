@@ -24,21 +24,6 @@ def init_logging():
         config = yaml.safe_load(f)
     logging.config.dictConfig(config)
 
-    log_queue = Queue()
-
-    stream_handler = logging.StreamHandler(sys.stdout)
-    formatter = logging.Formatter(
-        "[%(asctime)s] [%(levelname)s] [%(name)s]: %(message)s"
-    )
-    stream_handler.setFormatter(formatter)
-
-    listener = logging.handlers.QueueListener(log_queue, stream_handler)
-    listener.start()
-
-    queue_handler = logging.handlers.QueueHandler(log_queue)
-    root_logger = logging.getLogger()
-    root_logger.addHandler(queue_handler)
-
 
 async def main():
     init_logging()
