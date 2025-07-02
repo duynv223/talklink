@@ -1,6 +1,10 @@
 import asyncio
+import logging
 from deepgram import DeepgramClient, LiveTranscriptionEvents, LiveOptions
 from vpipe.capsules.services.asr import ASRServiceInterface
+
+
+logger = logging.getLogger(__name__)
 
 LANG_MODEL_MAP = {
     "en": {"model": "nova-3", "language": "en"},
@@ -9,7 +13,9 @@ LANG_MODEL_MAP = {
 }
 
 class DeepGramASRService(ASRServiceInterface):
-    def __init__(self, lang="en"):
+    def __init__(self, *args, **kwargs):
+        logger.debug(f"Initializing Deepgram ASR service with args: {args}, kwargs: {kwargs}")
+        lang = kwargs.get("lang", "en")
         self.lang = lang if lang in LANG_MODEL_MAP else "en"
         self.model = LANG_MODEL_MAP[self.lang]["model"]
         self.language = LANG_MODEL_MAP[self.lang]["language"]
@@ -26,6 +32,8 @@ class DeepGramASRService(ASRServiceInterface):
         result = kwargs.get("result")
         if result is None:
             return
+
+        logger.debug(f"Received transcript: {result}")
         sentence = result.channel.alternatives[0].transcript
         if sentence:
             await self.recv_queue.put((sentence, result.is_final))
@@ -44,13 +52,17 @@ class DeepGramASRService(ASRServiceInterface):
                 vad_events=True,
                 endpointing=300,
             )
+            logger.info(f"Starting Deepgram ASR service with options: {options}")
             if not await self.conn.start(options):
                 raise RuntimeError("Failed to connect to Deepgram")
+            logger.info("Deepgram ASR service started successfully")
             self.started = True
 
     async def stop(self):
+        logger.info("Stopping Deepgram ASR service")
         if self.started:
             await self.conn.finish()
+            logger.info("Deepgram ASR service stopped successfully")
             self.started = False
 
     async def transcribe(self, audio: bytes) -> tuple[str, bool]:

@@ -5,12 +5,8 @@ from vpipe.core.transform import VpBaseTransform
 from vpipe.capsules.services.asr import ASRTransform
 from vpipe.capsules.services.tts import TTSTransform
 from vpipe.capsules.services.tran import TranslationTransform
+from services.service_manager import ServiceManager
 
-from services.google_translator_service import GoogleTranslatorService
-from services.google_tts_service import GoogleTTSService
-from services.deepgram_asr_service import DeepGramASRService
-from services.whisper_asr_service import WhisperASRService
-from services.xtts_tts_service import XttsTTSService
 
 class TextCompleteFilter(VpBaseTransform):
     async def transform(self, data):
@@ -27,39 +23,50 @@ class SpeechTranslator(VpComposite):
     """
 
     def __init__(self, name=None,
-                 asr_service_cls=DeepGramASRService, #WhisperASRService or DeepGramASRService
-                 tts_service_cls=GoogleTTSService, # XttsTTSService or GoogleTTSService
-                 tran_service_cls=GoogleTranslatorService,
                  src_lang='en',
                  dest_lang='vi'):
         
         super().__init__(name)
-        self._asr_service_cls = asr_service_cls
-        self._tts_service_cls = tts_service_cls
-        self._tran_service_cls = tran_service_cls
         self._src_lang = src_lang
         self._dest_lang = dest_lang
         self.build()
 
     def build(self):
-        # Create services
-        asr_service = self._asr_service_cls(lang=self._src_lang)
-        tts_service = self._tts_service_cls()
-        tran_service = self._tran_service_cls()
+        def asr_service_factory(lang='en'):
+            sm = ServiceManager()
+            sel_id = sm.get_selected_service_id('ASR')
+            service_cls = sm.get_service_class('ASR', sel_id)
+            kwargs = sm.get_service_settings('ASR', sel_id)
+            return service_cls(**kwargs, lang=self._src_lang)
 
+        def tts_service_factory():
+            sm = ServiceManager()
+            sel_id = sm.get_selected_service_id('TTS')
+            service_cls = sm.get_service_class('TTS', sel_id)
+            kwargs = sm.get_service_settings('TTS', sel_id)
+            return service_cls(**kwargs)
+
+        def tran_service_factory(src_lang='en', dest_lang='vi'):
+            sm = ServiceManager()
+            sel_id = sm.get_selected_service_id('TRA')
+            service_cls = sm.get_service_class('TRA', sel_id)
+            kwargs = sm.get_service_settings('TRA', sel_id)
+            return service_cls(**kwargs)
+        
         # ASR
         q1 = VpQueue(name='q1', maxsize=10, leaky=DrainPolicy.DOWNSTREAM)
-        asr_transform = ASRTransform('asr', service=asr_service)
+        asr_transform = ASRTransform('asr', service_factory=asr_service_factory)
         text_complete_filter = TextCompleteFilter()
 
         # Translation
         q2 = VpQueue(name='q2', maxsize=10, leaky=DrainPolicy.DOWNSTREAM)
-        tran_transform = TranslationTransform('tran', service=tran_service,
+        tran_transform = TranslationTransform('tran', service_factory=tran_service_factory,
                                               src=self._src_lang, dest=self._dest_lang)
 
         # TTS
         q3 = VpQueue(name='q3', maxsize=10, leaky=DrainPolicy.DOWNSTREAM)
-        tts_transform = TTSTransform('tts', service=tts_service, lang=self._dest_lang)
+        tts_transform = TTSTransform('tts', service_factory=tts_service_factory,
+                                     lang=self._dest_lang)
 
         # Add capsules
         self.adds(
@@ -100,9 +107,6 @@ class SpeechTranslator(VpComposite):
         """
         self._src_lang = src_lang
 
-        # Reaload ASR with new languages
-        asr_service = self._asr_service_cls(lang=self._src_lang)
-
         queue = self.get_capsule("q1")
         asr = self.get_capsule("asr")
         
@@ -113,7 +117,6 @@ class SpeechTranslator(VpComposite):
         if state in (VpState.PAUSED, VpState.RUNNING):
             await asr.set_state(VpState.READY)
 
-        asr.set_service(asr_service)
         await queue.flush()
         await queue.set_state(state)
         await asr.set_state(state)

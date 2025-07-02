@@ -3,7 +3,7 @@ from googletrans import Translator
 from vpipe.capsules.services.tran import TranslatorServiceInterface
 
 class GoogleTranslatorService(TranslatorServiceInterface):
-    def __init__(self):
+    def __init__(self, **kwargs):
         self.translator = None
 
     def initialize(self):

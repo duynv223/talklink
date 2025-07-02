@@ -1,0 +1,22 @@
+ASR:
+  selected: deepgram
+  settings:
+    deepgram:
+      api_key: "xxx"
+      url: "https://api.deepgram.com"
+    whisper:
+      model_path: "/path/to/model"
+TRA:
+  selected: google
+  settings:
+    google:
+      api_key: "yyy"
+TTS:
+  selected: google
+  settings:
+    google:
+      api_key: "zzz"
+      voice: "en-US-Wavenet-D"
+    elevenlabs:
+      api_key: "abc"
+      voice: "Rachel"
