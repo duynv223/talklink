@@ -6,6 +6,7 @@ logger = logging.getLogger(__name__)
 
 class LocalNLLBTranslatorService(TranslatorServiceInterface):
     def __init__(self, *args, **kwargs):
+        logger.info(f"Initializing LocalNLLBTranslatorService with args: {args}, kwargs: {kwargs}")
         self.base_url = kwargs.get('url', 'http://10.133.134.206:8011')
         self.client = None
 

@@ -27,7 +27,21 @@ class ServiceManager(metaclass=SingletonMeta):
         raise ValueError(f"Service {service_id} not found in {module}")
 
     def get_service_settings(self, module, service_id):
-        return self.settings[module]['settings'].get(service_id, {})
+        settings = self.settings.get(module, {}).get('settings', {}).get(service_id, {})
+        service = next((s for s in self.config.get(module, []) if s['id'] == service_id), None)
+        if not service:
+            return settings
+        schema_path = service.get('schema')
+        with open(schema_path, 'r', encoding='utf-8') as f:
+            schema = yaml.safe_load(f)
+            
+        fields = schema.get('fields', [])
+        result = dict(settings) if settings else {}
+        for field in fields:
+            key = field.get('key')
+            if key and (key not in result or result[key] == ''):
+                result[key] = str(field.get('default', ''))
+        return result
 
     def get_selected_service_id(self, module):
         return self.settings[module]['selected']
