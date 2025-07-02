@@ -1,3 +1,8 @@
+"""
+`get_service_settings`
+For simplicity, all settings are stored as string values.
+The application must handle conversion to the appropriate types.
+"""
 import yaml
 import importlib
 
