@@ -139,6 +139,12 @@ Rectangle {
             RowLayout {
                 spacing: 6
                 Label { text: "Other"; font.bold: true; color: "#333" }
+                SignalIndicator {
+                    id: downstreamRmsIndicator
+                    value: pipeline.rms.find(item => item.stream === "downstream").rms
+                    Layout.preferredWidth: 25
+                    Layout.preferredHeight: 25
+                }
                 ToggleButton {
                     id: otherAsrEnable
                     iconSource: "../assets/asr.svg";
@@ -187,6 +193,12 @@ Rectangle {
             RowLayout {
                 spacing: 6
                 Label { text: "You"; font.bold: true; color: "#333" }
+                SignalIndicator {
+                    id: upstreamRmsIndicator
+                    value: pipeline.rms.find(item => item.stream === "upstream").rms
+                    Layout.preferredWidth: 25
+                    Layout.preferredHeight: 25
+                }
                 ToggleButton {
                     id: youAsrEnable
                     iconSource: "../assets/asr.svg";

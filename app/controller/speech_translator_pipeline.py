@@ -27,6 +27,7 @@ class SpeechTranslatorPipeline(QObject):
     appStateChanged = Signal(str)
     actionStateChanged = Signal(str)
     errorChanged = Signal(str)
+    rmsChanged = Signal(str, float)  # stream, rms
 
     def __init__(self, conversation_model, setting_model, parent=None):
         super().__init__(parent)
@@ -34,6 +35,9 @@ class SpeechTranslatorPipeline(QObject):
         self.conversation_model = conversation_model
         self.setting_model = setting_model
         self.setting_model.valueChanged.connect(self._on_setting_changed)
+
+        self._rms_upstream = 0.0
+        self._rms_downstream = 0.0
 
         # Async event loop for pipeline
         self._loop = AsyncLoopThread()
@@ -43,6 +47,7 @@ class SpeechTranslatorPipeline(QObject):
             name="top",
             script_writer_callback=self._on_script,
             translated_script_writer_callback=self._on_translated,
+            rms_callback=self._on_rms
         )
         
         # Initial states
@@ -53,12 +58,24 @@ class SpeechTranslatorPipeline(QObject):
         # UI state
         self._current_you_index = None
 
+    def _on_rms(self, stream, rms):
+        if stream == "upstream":
+            self._rms_upstream = rms
+        elif stream == "downstream":
+            self._rms_downstream = rms
+        self.rmsChanged.emit(stream, rms)
+
     # --- State Management ---
     def _set_app_state(self, state: AppState):
         if self._app_state != state:
             logger.info(f"App state changed: {self._app_state.value} -> {state.value}")
             self._app_state = state
             self.appStateChanged.emit(state.value)
+            if state == AppState.STOPPED:
+                self._rms_upstream = 0.0
+                self._rms_downstream = 0.0
+                self.rmsChanged.emit("upstream", 0.0)
+                self.rmsChanged.emit("downstream", 0.0)
 
     def _set_action_state(self, state: ActionState):
         if self._action_state != state:
@@ -92,6 +109,13 @@ class SpeechTranslatorPipeline(QObject):
     @Property(str)
     def yourLanguage(self):
         return self.setting_model.get("conference.your_lang")
+
+    @Property('QVariantList', notify=rmsChanged)
+    def rms(self):
+        return [
+            {"stream": "upstream", "rms": self._rms_upstream},
+            {"stream": "downstream", "rms": self._rms_downstream}
+        ]
 
     # --- Script Callbacks ---
     def _on_script(self, speaker, text, is_final):

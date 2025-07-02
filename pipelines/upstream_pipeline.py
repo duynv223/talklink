@@ -7,6 +7,7 @@ from vpipe.capsules.audio.virtual_mic_sink import VirtualMicSink
 from vpipe.capsules.audio.mic_source import VpMicSource
 from vpipe.capsules.audio.volume import VpVolume
 from pipelines.augmented_speech_translator import AugmentedSpeechTranslator
+from vpipe.capsules.audio.rms_transform import VpRmsTransform
 
 
 class ScriptWriter(VpBaseTransform):
@@ -39,11 +40,13 @@ class UpStreamPipeline(VpPipeline):
     def __init__(self,
                  name="upstream-pipeline",
                  script_writer_callback=None,
-                 translated_script_writer_callback=None):
+                 translated_script_writer_callback=None,
+                 rms_callback=lambda data: None):
         
         super().__init__(name)
         self.script_writer_callback = script_writer_callback
         self.translated_script_writer_callback = translated_script_writer_callback
+        self.rms_callback = rms_callback
         self.build()
 
     def build(self):
@@ -52,7 +55,10 @@ class UpStreamPipeline(VpPipeline):
         volume = VpVolume(name="volume-control")
         translator = AugmentedSpeechTranslator(name="augmented-speech-translator",
                                                src_lang='vi', dest_lang='en')
+        rms_transform = VpRmsTransform(name="rms-transform")
+
         src >> volume >> translator >> sink
+        src >> rms_transform
 
         script_writer = ScriptWriter(name="script-writer",
                                     handler=self.script_writer_callback)
@@ -62,12 +68,17 @@ class UpStreamPipeline(VpPipeline):
         
         translator.get_output("asr_script") >> script_writer
         translator.get_output("tran_script") >> translated_script_writer
+        async def on_rms_callback(name, data): self.rms_callback(data)
+        rms_transform.out.set_chain_callback(on_rms_callback)
 
         self.adds(
             src,
             sink,
             translator,
-            volume
+            volume,
+            rms_transform,
+            script_writer,
+            translated_script_writer
         )
     
     async def set_prop(self, prop, value):
