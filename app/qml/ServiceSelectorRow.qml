@@ -19,16 +19,18 @@ RowLayout {
         id: combo
         Layout.preferredWidth: 220
         Layout.alignment: Qt.AlignVCenter
-        model: serviceSettingModel.getServiceList(module)
+        model: serviceSettingModel ? serviceSettingModel.getServiceList(module) : []
         textRole: "name"
         valueRole: "id"
-        currentIndex: serviceSettingModel.getServiceList(module)
+        currentIndex: serviceSettingModel ? serviceSettingModel.getServiceList(module)
             .findIndex(function(s) {
-                return s.id === serviceSettingModel.getSelectedService(module)
-            })
+                return s.id === (serviceSettingModel ? serviceSettingModel.getSelectedService(module) : "")
+            }) : -1
         onCurrentIndexChanged: {
-            let newId = serviceSettingModel.getServiceList(module)[currentIndex].id
-            serviceSettingModel.setSelectedService(module, newId)
+            if (serviceSettingModel) {
+                let newId = serviceSettingModel.getServiceList(module)[currentIndex].id
+                serviceSettingModel.setSelectedService(module, newId)
+            }
         }
     }
     Button {

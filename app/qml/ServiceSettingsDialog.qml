@@ -47,8 +47,8 @@ Dialog {
         }
         
         Repeater {
-            model: fields
-            visible: fields && fields.length > 0
+            model: serviceSettingModel ? fields : []
+            visible: fields && fields.length > 0 && serviceSettingModel
             delegate: RowLayout {
                 spacing: 8
                 Text { text: modelData.label || modelData.key; Layout.preferredWidth: 120 }
@@ -56,9 +56,9 @@ Dialog {
                     property string fieldType: modelData.type || "string"
                     sourceComponent: fieldType === "number" ? numberField : textField
                     property string fieldKey: modelData.key
-                    property string fieldValue: serviceSettingModel.getFieldValue(module, fieldKey)
+                    property string fieldValue: serviceSettingModel ? serviceSettingModel.getFieldValue(module, fieldKey) : ""
                     onLoaded: {
-                        if (item) {
+                        if (item && serviceSettingModel) {
                             item.module = module
                             item.fieldKey = fieldKey
                             item.fieldValue = fieldValue

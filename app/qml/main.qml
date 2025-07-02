@@ -89,16 +89,18 @@ ApplicationWindow {
                 ServiceSettingsDialog {
                     id: settingsDialog
                     property string currentModule: ""
-                    property string currentServiceName: serviceSettingModel.getServiceList(currentModule)
-                        .find(function(s) {
-                            return s.id === serviceSettingModel.getSelectedService(currentModule)
-                        })?.name || ""
+                    property string currentServiceName: serviceSettingModel && currentModule ?
+                        (serviceSettingModel.getServiceList(currentModule)
+                            .find(function(s) {
+                                return s.id === serviceSettingModel.getSelectedService(currentModule)
+                            })?.name || "") : ""
                     function openWithModule(module) {
                         currentModule = module
-                        currentServiceName = serviceSettingModel.getServiceList(module)
-                            .find(function(s) {
-                                return s.id === serviceSettingModel.getSelectedService(module)
-                            })?.name || ""
+                        currentServiceName = serviceSettingModel && module ?
+                            (serviceSettingModel.getServiceList(module)
+                                .find(function(s) {
+                                    return s.id === serviceSettingModel.getSelectedService(module)
+                                })?.name || "") : ""
                         console.log("Opening settings for module:", currentModule, "Service:", currentServiceName)
                         open()
                     }
