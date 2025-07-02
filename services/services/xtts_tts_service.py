@@ -6,11 +6,17 @@ import websockets
 import soundfile as sf
 from vpipe.capsules.services.tts import TTSServiceInterface
 from pydub import AudioSegment
+import logging
 
 SERVER_URL = "ws://localhost:8765"
 
+logger = logging.getLogger(__name__)
+
+
 class XttsTTSService(TTSServiceInterface):
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        logger.info(f"Initializing Xtts TTS service with args: {args}, kwargs: {kwargs}")
+        self.server_url = kwargs.get("url", SERVER_URL)
         self.websocket = None
         self.default_speakers = {
             'vi': "ref/vi_male.wav", 
@@ -20,7 +26,7 @@ class XttsTTSService(TTSServiceInterface):
 
     async def start(self):
         # Open connection once (optional: keep alive across calls)
-        self.websocket = await websockets.connect(SERVER_URL, ping_timeout=None)
+        self.websocket = await websockets.connect(self.server_url, ping_timeout=None)
         print("XTTS websocket openned")
 
     async def stop(self):

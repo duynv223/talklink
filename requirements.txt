@@ -11,3 +11,5 @@ qasync
 aioconsole
 websocket
 PyYAML
+websocket-client
+soundfile

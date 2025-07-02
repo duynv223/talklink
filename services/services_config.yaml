@@ -2,20 +2,24 @@ ASR:
   - id: deepgram
     name: Deepgram ASR
     class: services.services.deepgram_asr_service.DeepGramASRService
-    schema: schemas/deepgram_asr.yaml
+    schema: services/schemas/deepgram_asr.yaml
   - id: whisper
     name: Whisper ASR
     class: services.services.whisper_asr_service.WhisperASRService
-    schema: schemas/whisper_asr.yaml
+    schema: services/schemas/whisper_asr.yaml
 
 TRA:
   - id: google
     name: Google Translate
     class: services.services.google_translator_service.GoogleTranslatorService
-    schema: schemas/google_translate.yaml
+    schema: services/schemas/google_translator.yaml
 
 TTS:
   - id: google
     name: Google TTS
     class: services.services.google_tts_service.GoogleTTSService
-    schema: schemas/google_tts.yaml
+    schema: services/schemas/google_tts.yaml
+  - id: xtts
+    name: XTTS TTS
+    class: services.services.xtts_tts_service.XttsTTSService
+    schema: services/schemas/xtts_tts.yaml
