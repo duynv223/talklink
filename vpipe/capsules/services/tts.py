@@ -25,9 +25,10 @@ class TTSServiceInterface(ABC):
 
 
 class TTSTransform(VpBaseTransform):
-    def __init__(self, name=None, service: TTSServiceInterface = None, lang='en'):
+    def __init__(self, name=None, service_factory=None, lang='en'):
         super().__init__(name=name)
-        self.service = service
+        self.service_factory = service_factory
+        self.service = None
         self.lang = lang
         self.enable = True
 
@@ -51,14 +52,16 @@ class TTSTransform(VpBaseTransform):
                 raise ValueError(f"Unknown property: {key}")
 
     async def start(self):
+        self.service = self.service_factory() if self.service_factory else self.service
         self.logger.info(f"Starting TTS service: {self.service.__class__.__name__}")
         await self.service.start()
         self.logger.info(f"TTS service {self.service.__class__.__name__} started")
 
     async def stop(self):
-        self.logger.info(f"Stopping TTS service: {self.service.__class__.__name__}")
-        await self.service.stop()
-        self.logger.info(f"TTS service {self.service.__class__.__name__} stopped")
+        if self.service:
+            self.logger.info(f"Stopping TTS service: {self.service.__class__.__name__}")
+            await self.service.stop()
+            self.logger.info(f"TTS service {self.service.__class__.__name__} stopped")
 
     async def transform(self, text: str) -> bytes:
         if self.enable:

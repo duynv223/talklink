@@ -39,9 +39,10 @@ class ASRTransform(VpBaseTransform):
     service connection alive
     future: delegate to service if it supports dynamic enabling/disabling
     """
-    def __init__(self, name, service: ASRServiceInterface):
+    def __init__(self, name, service_factory):
         super().__init__(name=name)
-        self.service = service
+        self.service_factory = service_factory
+        self.service = None
         self.enable = True
 
     def set_service(self, service: ASRServiceInterface):
@@ -55,14 +56,16 @@ class ASRTransform(VpBaseTransform):
                 raise AttributeError(f"Unknown property: {key}")
 
     async def start(self):
+        self.service = self.service_factory()
         self.logger.info(f"Starting ASR service: {self.service.__class__.__name__}")
         await self.service.start()
         self.logger.info(f"ASR service {self.service.__class__.__name__} started")
 
     async def stop(self):
-        self.logger.info(f"Stopping ASR service: {self.service.__class__.__name__}")
-        await self.service.stop()
-        self.logger.info(f"ASR service {self.service.__class__.__name__} stopped")
+        if self.service:
+            self.logger.info(f"Stopping ASR service: {self.service.__class__.__name__}")
+            await self.service.stop()
+            self.logger.info(f"ASR service {self.service.__class__.__name__} stopped")
 
     async def transform(self, buf):
         if not self.enable:
