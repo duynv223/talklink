@@ -2,21 +2,17 @@ ASR:
   selected: deepgram
   settings:
     deepgram:
-      api_key: "xxx"
-      url: "https://api.deepgram.com"
+      api_key: ''
+      endpointing: '300'
+      utterance_end_ms: '1024'
     whisper:
-      model_path: "/path/to/model"
+      url: ws://localhost:8012
 TRA:
   selected: google
   settings:
-    google:
-      api_key: "yyy"
+    google: {}
 TTS:
-  selected: google
+  selected: xtts
   settings:
-    google:
-      api_key: "zzz"
-      voice: "en-US-Wavenet-D"
-    elevenlabs:
-      api_key: "abc"
-      voice: "Rachel"
+    google: {}
+    xtts: {}

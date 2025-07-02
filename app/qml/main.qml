@@ -12,7 +12,6 @@ ApplicationWindow {
     RowLayout {
         anchors.fill: parent
 
-        // Sử dụng component SidebarNavigation thay cho Rectangle sidebar
         SidebarNavigation {
             id: sidebar
             width: 110
@@ -60,8 +59,51 @@ ApplicationWindow {
             Item {
                 ColumnLayout {
                     anchors.fill: parent
-                    spacing: 10
-                    Text { text: "Settings (T.B.D)"; font.pixelSize: 24 }
+                    spacing: 16
+                    Text { text: "Services Settings"; font.pixelSize: 24 }
+
+                    ServiceSelectorRow {
+                        module: "ASR"
+                        title: "ASR service"
+                        onSettingsClicked: function(module) {
+                            settingsDialog.openWithModule(module)
+                        }
+                    }
+                    ServiceSelectorRow {
+                        module: "TRA"
+                        title: "Translator service"
+                        onSettingsClicked: function(module) {
+                            settingsDialog.openWithModule(module)
+                        }
+                    }
+                    ServiceSelectorRow {
+                        module: "TTS"
+                        title: "TTS service"
+                        onSettingsClicked: function(module) {
+                            settingsDialog.openWithModule(module)
+                        }
+                    }
+                    Item { Layout.fillWidth: true; Layout.fillHeight: true }
+                }
+
+                ServiceSettingsDialog {
+                    id: settingsDialog
+                    property string currentModule: ""
+                    property string currentServiceName: serviceSettingModel.getServiceList(currentModule)
+                        .find(function(s) {
+                            return s.id === serviceSettingModel.getSelectedService(currentModule)
+                        })?.name || ""
+                    function openWithModule(module) {
+                        currentModule = module
+                        currentServiceName = serviceSettingModel.getServiceList(module)
+                            .find(function(s) {
+                                return s.id === serviceSettingModel.getSelectedService(module)
+                            })?.name || ""
+                        console.log("Opening settings for module:", currentModule, "Service:", currentServiceName)
+                        open()
+                    }
+                    module: currentModule
+                    title: currentServiceName !== "" ? currentServiceName + " Settings" : currentModule + " Settings"
                 }
             }
         }

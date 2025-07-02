@@ -14,7 +14,7 @@ LANG_MODEL_MAP = {
 
 class DeepGramASRService(ASRServiceInterface):
     def __init__(self, *args, **kwargs):
-        logger.debug(f"Initializing Deepgram ASR service with args: {args}, kwargs: {kwargs}")
+        logger.info(f"Initializing Deepgram ASR service with args: {args}, kwargs: {kwargs}")
         lang = kwargs.get("lang", "en")
         self.lang = lang if lang in LANG_MODEL_MAP else "en"
         self.model = LANG_MODEL_MAP[self.lang]["model"]

@@ -6,6 +6,7 @@ import websocket
 import json
 import struct
 import queue
+import logging
 
 LANG_MODEL_MAP = {
     "en": {"model": "large-v3", "language": "en"},
@@ -15,11 +16,18 @@ LANG_MODEL_MAP = {
 
 SERVER_URL = "ws://localhost:8012"
 
+logger = logging.getLogger(__name__)
+
+
 class WhisperASRService(ASRServiceInterface):
-    def __init__(self, lang: str = "en"):
+    def __init__(self, *args: Any, **kwargs: Any):
+        logger.info(f"Initializing Whisper ASR service with args: {args}, kwargs: {kwargs}")
+        lang = kwargs.get("lang", "en")
+        url = kwargs.get("url", SERVER_URL)
+
         if lang not in LANG_MODEL_MAP:
             raise ValueError(f"Unsupported language: {lang}")
-        self.server_url = SERVER_URL
+        self.server_url = url
         self.language = LANG_MODEL_MAP[lang]["language"]
 
         self.ws = None

@@ -11,7 +11,7 @@ formatters:
 handlers:
   console:
     class: logging.StreamHandler
-    level: INFO
+    level: DEBUG
     formatter: simple
     stream: ext://sys.stdout
 
@@ -25,6 +25,11 @@ loggers:
   vpobj:
     level: DEBUG
     handlers: [vpobj_console]
+    propagate: False
+
+  services:
+    level: INFO
+    handlers: [console]
     propagate: False
 
 root:
