@@ -19,6 +19,10 @@ class DeepGramASRService(ASRServiceInterface):
         self.lang = lang if lang in LANG_MODEL_MAP else "en"
         self.model = LANG_MODEL_MAP[self.lang]["model"]
         self.language = LANG_MODEL_MAP[self.lang]["language"]
+        self.utterance_end_ms = int(kwargs.get("utterance_end_ms", "1024"))
+        self.endpointing = int(kwargs.get("endpointing", "300"))
+
+
         self.client = DeepgramClient()
         self.conn = self.client.listen.asyncwebsocket.v("1")
         self.recv_queue = asyncio.Queue()
@@ -48,21 +52,21 @@ class DeepGramASRService(ASRServiceInterface):
                 channels=1,
                 sample_rate=16000,
                 interim_results=True,
-                utterance_end_ms="1000",
+                utterance_end_ms=self.utterance_end_ms,
                 vad_events=True,
-                endpointing=300,
+                endpointing=self.endpointing,
             )
-            logger.info(f"Starting Deepgram ASR service with options: {options}")
+            logger.debug(f"Starting Deepgram ASR service with options: {options}")
             if not await self.conn.start(options):
                 raise RuntimeError("Failed to connect to Deepgram")
-            logger.info("Deepgram ASR service started successfully")
+            logger.debug("Deepgram ASR service started successfully")
             self.started = True
 
     async def stop(self):
-        logger.info("Stopping Deepgram ASR service")
+        logger.debug("Stopping Deepgram ASR service")
         if self.started:
             await self.conn.finish()
-            logger.info("Deepgram ASR service stopped successfully")
+            logger.debug("Deepgram ASR service stopped successfully")
             self.started = False
 
     async def transcribe(self, audio: bytes) -> tuple[str, bool]:
