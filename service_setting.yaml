@@ -4,7 +4,7 @@ ASR:
     deepgram:
       api_key: ''
       endpointing: '300'
-      utterance_end_ms: '1024'
+      utterance_end_ms: '1000'
     whisper:
       url: ws://localhost:8012
 TRA:

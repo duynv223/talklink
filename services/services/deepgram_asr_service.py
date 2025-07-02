@@ -22,8 +22,7 @@ class DeepGramASRService(ASRServiceInterface):
         self.utterance_end_ms = int(kwargs.get("utterance_end_ms", "1024"))
         self.endpointing = int(kwargs.get("endpointing", "300"))
 
-
-        self.client = DeepgramClient()
+        self.client = DeepgramClient(api_key=kwargs.get("api_key") or "")
         self.conn = self.client.listen.asyncwebsocket.v("1")
         self.recv_queue = asyncio.Queue()
         self.buffer = bytearray()
