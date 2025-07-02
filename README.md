@@ -68,30 +68,30 @@ python main.py
 ## Todo Tasks
 
 - **Services**
-    - [ ] ASR service
-    - [ ] Translation service
-    - [ ] TTS service
+    - [x] ASR service
+    - [x] Translation service
+    - [x] TTS service
 - **Application**
     - [x] Upstream pipeline
-    - [-] Settings
+    - [x] Settings
         - [x] Upstream/downstream controls
         - [x] Audio device selector
-        - [ ] Synthesis speed
+        - [x] Synthesis speed
     - [x] Implement setting manager
     - [ ] Audio signal visualization
     - [ ] Conversation list readability
     - [ ] New conversation/history
-    - [ ] System messages
-    - [-] Modes
+    - [ ] List/read saved conversations
+    - [x] System messages
+    - [ ] Modes
         - [x] Conference (virtual mic/speaker)
         - [ ] Self Talk (system mic/speaker)
-    - [ ] List/read saved conversations
-    - [ ] Advanced: model/service selection
-    - [ ] Error/warning notifications
+    - [x] Advanced: model/service selection
+    - [x] Error/warning notifications
     - [ ] App icon/logo
     - [x] Fix to remove warning console log
 - **Pipelines**
-    - [ ] Logging
+    - [x] Logging
     - [ ] Capsule error handler
     - [ ] Flush event
     - [ ] Interface profile/validator
