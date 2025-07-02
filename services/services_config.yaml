@@ -13,6 +13,10 @@ TRA:
     name: Google Translate
     class: services.services.google_translator_service.GoogleTranslatorService
     schema: services/schemas/google_translator.yaml
+  - id: local_nllb
+    name: Local NLLB Translator
+    class: services.services.local_nllb_translator_service.LocalNLLBTranslatorService
+    schema: services/schemas/local_nllb_translator.yaml
 
 TTS:
   - id: google
