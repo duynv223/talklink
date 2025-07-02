@@ -1,0 +1,13 @@
+fields:
+  - key: api_key
+    label: API Key
+    type: text
+  - key: utterance_end_ms
+    label: Utterance End (ms)
+    type: number
+    default: 1000
+  - key: endpointing
+    label: Endpointing
+    type: number
+    default: 300
+

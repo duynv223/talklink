@@ -1,0 +1,5 @@
+fields:
+  - key: url
+    label: Service URL
+    type: text
+    default: ws://localhost:8765

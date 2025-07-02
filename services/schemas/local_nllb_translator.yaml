@@ -1,0 +1,5 @@
+fields:
+  - key: url
+    label: Server URL
+    type: text
+    default: http://10.133.134.206:8011

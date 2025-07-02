@@ -20,9 +20,10 @@ class TranslatorServiceInterface(ABC):
 
 
 class TranslationTransform(VpBaseTransform):
-    def __init__(self, name=None, service: TranslatorServiceInterface = None, src: str = 'en', dest: str = 'vi'):
+    def __init__(self, name=None, service_factory=None, src: str = 'en', dest: str = 'vi'):
         super().__init__(name=name)
-        self.service = service
+        self.service_factory = service_factory
+        self.service = None
         self.src = src
         self.dest = dest
 
@@ -48,14 +49,16 @@ class TranslationTransform(VpBaseTransform):
                 raise ValueError(f"Unknown property: {key}")
 
     async def start(self):
+        self.service = self.service_factory() if self.service_factory else self.service
         self.logger.info(f"Starting translation service: {self.service.__class__.__name__}")
         await self.service.start()
         self.logger.info(f"Translation service {self.service.__class__.__name__} started")
 
     async def stop(self):
-        self.logger.info(f"Stopping translation service: {self.service.__class__.__name__}")
-        await self.service.stop()
-        self.logger.info(f"Translation service {self.service.__class__.__name__} stopped")
+        if self.service:
+            self.logger.info(f"Stopping translation service: {self.service.__class__.__name__}")
+            await self.service.stop()
+            self.logger.info(f"Translation service {self.service.__class__.__name__} stopped")
 
     async def transform(self, text) -> str:
         translated_text = await self.service.translate(text, src=self.src, dest=self.dest)

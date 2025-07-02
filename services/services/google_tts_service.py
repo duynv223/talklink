@@ -6,7 +6,7 @@ import numpy as np
 from vpipe.capsules.services.tts import TTSServiceInterface
 
 class GoogleTTSService(TTSServiceInterface):
-    def __init__(self):
+    def __init__(self, **kwargs):
         pass
     
     async def start(self):
