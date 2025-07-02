@@ -12,7 +12,7 @@ TRA:
   settings:
     google: {}
 TTS:
-  selected: xtts
+  selected: google
   settings:
     google: {}
     xtts: {}
