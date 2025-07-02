@@ -101,7 +101,6 @@ ApplicationWindow {
                                 .find(function(s) {
                                     return s.id === serviceSettingModel.getSelectedService(module)
                                 })?.name || "") : ""
-                        console.log("Opening settings for module:", currentModule, "Service:", currentServiceName)
                         open()
                     }
                     module: currentModule
