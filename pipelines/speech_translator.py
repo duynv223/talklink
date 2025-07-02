@@ -11,6 +11,7 @@ from services.google_tts_service import GoogleTTSService
 from services.deepgram_asr_service import DeepGramASRService
 from services.whisper_asr_service import WhisperASRService
 from services.xtts_tts_service import XttsTTSService
+from services.local_nllb_translator_service import LocalNLLBTranslatorService
 
 class TextCompleteFilter(VpBaseTransform):
     async def transform(self, data):
@@ -29,7 +30,7 @@ class SpeechTranslator(VpComposite):
     def __init__(self, name=None,
                  asr_service_cls=DeepGramASRService, #WhisperASRService or DeepGramASRService
                  tts_service_cls=GoogleTTSService, # XttsTTSService or GoogleTTSService
-                 tran_service_cls=GoogleTranslatorService,
+                 tran_service_cls=LocalNLLBTranslatorService,
                  src_lang='en',
                  dest_lang='vi'):
         
