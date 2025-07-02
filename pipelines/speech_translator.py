@@ -32,7 +32,7 @@ class SpeechTranslator(VpComposite):
         self.build()
 
     def build(self):
-        def asr_service_factory(lang='en'):
+        def asr_service_factory():
             sm = ServiceManager()
             sel_id = sm.get_selected_service_id('ASR')
             service_cls = sm.get_service_class('ASR', sel_id)
@@ -46,7 +46,7 @@ class SpeechTranslator(VpComposite):
             kwargs = sm.get_service_settings('TTS', sel_id)
             return service_cls(**kwargs)
 
-        def tran_service_factory(src_lang='en', dest_lang='vi'):
+        def tran_service_factory():
             sm = ServiceManager()
             sel_id = sm.get_selected_service_id('TRA')
             service_cls = sm.get_service_class('TRA', sel_id)
