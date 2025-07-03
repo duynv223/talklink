@@ -74,8 +74,8 @@ class WhisperASRService(ASRServiceInterface):
             "language": self.language,
         }).encode('utf-8')
         header_len = struct.pack("<I", len(header))
-        message = header_len + header + self._buffer
-        self._buffer.clear()
+        message = header_len + header + self._buffer[self.min_send_size:]
+        self._buffer = self._buffer[:self.min_send_size]
 
         try:
             self.ws.send(message, opcode=websocket.ABNF.OPCODE_BINARY)
