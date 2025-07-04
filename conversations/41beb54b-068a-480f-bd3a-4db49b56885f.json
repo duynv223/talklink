@@ -1,0 +1,106 @@
+[
+    {
+        "id": "5d04fca0-e2ae-44f5-a92e-1badf86d1cfd",
+        "timestamp": 1751659269.604448,
+        "speaker": "SPEAKER_3",
+        "direction": "You",
+        "origin_text": "Hello!",
+        "translated_text": "Xin chào!"
+    },
+    {
+        "id": "28f79a81-cb63-466d-a23e-88ad93acd31a",
+        "timestamp": "03:01:21",
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "Day, and I'm here in San Francisco. I'm back",
+        "translated_text": "Ngày, và tôi ở đây ở San Francisco. Tôi đã trở lại",
+        "direction": "Other"
+    },
+    {
+        "id": "944d695c-0932-4e4b-9d26-5b97709fb91d",
+        "timestamp": "03:01:26",
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "in San Francisco. Last week, we were in Texas.",
+        "translated_text": "ở San Francisco. Tuần trước, chúng tôi đã ở Texas.",
+        "direction": "Other"
+    },
+    {
+        "id": "f83d3329-dd46-4556-b68e-b1c66af8d4d3",
+        "timestamp": "03:01:29",
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "We were at a teaching conference",
+        "translated_text": "Chúng tôi đã có mặt tại một hội nghị giảng dạy",
+        "direction": "Other"
+    },
+    {
+        "id": "6255a3e5-c0f9-4366-9dbd-f44a6f5812a4",
+        "timestamp": "03:01:35",
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "and the leader of the teaching conference was Blaine Ray.",
+        "translated_text": "Và người lãnh đạo của Hội nghị giảng dạy là Blaine Ray.",
+        "direction": "Other"
+    },
+    {
+        "id": "17e3ebce-a3a5-48df-910e-664bd292f324",
+        "timestamp": "03:01:39",
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "And first I just wanna say some nice things about Blayne Ray.",
+        "translated_text": "Và đầu tiên tôi chỉ muốn nói một số điều tốt đẹp về Blayne Ray.",
+        "direction": "Other"
+    },
+    {
+        "id": "f731d582-01c3-4130-9082-ce40e921db04",
+        "timestamp": "03:01:44",
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "Because he's a super nice person, he's a fantastic teacher,",
+        "translated_text": "Bởi vì anh ấy là một người siêu tốt, anh ấy là một giáo viên tuyệt vời,",
+        "direction": "Other"
+    },
+    {
+        "id": "260d2d3c-c304-44b9-ae99-e47eb8994eff",
+        "timestamp": "03:01:49",
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "he's a great teacher trainer, he really helps",
+        "translated_text": "Anh ấy là một huấn luyện viên giáo viên tuyệt vời, anh ấy thực sự giúp đỡ",
+        "direction": "Other"
+    },
+    {
+        "id": "3dc00c71-c1c2-49c0-abdd-82963858304a",
+        "timestamp": "03:01:50",
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "teachers become better and better.",
+        "translated_text": "Giáo viên trở nên tốt hơn và tốt hơn.",
+        "direction": "Other"
+    },
+    {
+        "id": "17253ba9-14ce-4330-9617-e6bcf5d5a25f",
+        "timestamp": "03:01:53",
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "And I went, Tomoe went,",
+        "translated_text": "Và tôi đã đi, Tomoe đã đi,",
+        "direction": "Other"
+    },
+    {
+        "id": "8f0d5331-8556-40c7-8a88-acc85f3cb8a4",
+        "timestamp": "03:01:58",
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "and Kristen went and Joe went, we all learned a lot.",
+        "translated_text": "Và Kristen đã đi và Joe đã đi, tất cả chúng tôi đã học được rất nhiều.",
+        "direction": "Other"
+    },
+    {
+        "id": "67df99d5-d2f3-4706-9283-b77393aecab3",
+        "timestamp": "03:02:00",
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "We will all improve our teaching",
+        "translated_text": "Tất cả chúng ta sẽ cải thiện việc giảng dạy của mình",
+        "direction": "Other"
+    },
+    {
+        "id": "ef020dc6-f02c-4f2c-9b01-c511c8bd4b5a",
+        "timestamp": "03:02:05",
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "as a result of going to the conference. So thank",
+        "translated_text": "kết quả của việc đi đến hội nghị. Vì vậy, cảm ơn",
+        "direction": "Other"
+    }
+]

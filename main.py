@@ -12,8 +12,9 @@ from qasync import QEventLoop
 from app.models.conversation_model import ConversationModel
 from app.models.setting_model import SettingModel
 from app.models.service_setting_model import ServiceSettingModel
+from app.models.history_model import HistoryModel
 from app.controller.speech_translator_pipeline import SpeechTranslatorPipeline
-from app.utils.qml_utils import init_engine, set_window_title
+from app.utils.qml_utils import init_engine, set_window_title, set_window_icon
 from app.models.audio_device_manager import AudioDeviceManager
 from services.service_manager import ServiceManager
 
@@ -38,8 +39,11 @@ async def main():
 
     audio_device_manager = AudioDeviceManager()
     conversation_model = ConversationModel()
+    history_model = HistoryModel()
     setting_model = SettingModel('setting.yaml')
     setting_model.load()
+
+    conversation_model.conversationSaved.connect(history_model.refresh)
 
     pipeline = SpeechTranslatorPipeline(
         conversation_model=conversation_model,
@@ -58,6 +62,7 @@ async def main():
     qml_engine = init_engine(qml_path, {
         "pipeline": pipeline,
         "conversationModel": conversation_model,
+        "historyModel": history_model,
         "settingModel": setting_model,
         "audioDeviceManager": audio_device_manager,
         "serviceSettingModel": service_setting_model
@@ -68,8 +73,9 @@ async def main():
         sys.exit(-1)
 
     root = qml_engine.rootObjects()[0]
-    set_window_title(root, "Speech Translator (Self Talk mode for development)")
-
+    set_window_title(root, "Bridge Talk")
+    app_icon_path = str(Path(__file__).resolve().parent / "app" / "assets" / "app_icon.png")
+    set_window_icon(root, app_icon_path)
     with loop:
         loop.run_forever()
 

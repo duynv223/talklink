@@ -1,0 +1,42 @@
+[
+    {
+        "id": "a6c3cdae-01bc-4897-ae2e-da8cbcd1d242",
+        "timestamp": 1751658640.1667757,
+        "speaker": "SPEAKER_3",
+        "direction": "You",
+        "origin_text": "Hello!",
+        "translated_text": "Xin chào!"
+    },
+    {
+        "id": "7076393b-ba5d-4d43-b7c8-10d225863b31",
+        "timestamp": "02:50:54",
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "Computers, new servers, and a new web host.",
+        "translated_text": "Máy tính, máy chủ mới và máy chủ web mới.",
+        "direction": "Other"
+    },
+    {
+        "id": "0ee1322b-b956-4027-b09b-0b63c0c08bb2",
+        "timestamp": "02:50:59",
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "Everything expensive, high quality, and professional.",
+        "translated_text": "Tất cả mọi thứ đắt tiền, chất lượng cao và chuyên nghiệp.",
+        "direction": "Other"
+    },
+    {
+        "id": "01b5c093-3cad-48e5-88a7-f7e8804a7812",
+        "timestamp": "02:51:04",
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "So now we are ready for a lot of traffic suddenly.",
+        "translated_text": "Vì vậy, bây giờ chúng tôi đã sẵn sàng cho rất nhiều giao thông đột ngột.",
+        "direction": "Other"
+    },
+    {
+        "id": "e0c94f18-e7f0-49cd-9e2d-4557293b5432",
+        "timestamp": "02:51:08",
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "And that's good because Power English is coming soon.",
+        "translated_text": "Và điều đó tốt vì Power English sắp ra mắt.",
+        "direction": "Other"
+    }
+]

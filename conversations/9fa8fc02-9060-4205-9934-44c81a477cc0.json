@@ -1,0 +1,58 @@
+[
+    {
+        "id": "3af72f4e-b39d-4d6a-8e6a-8bdf4c9ab0bf",
+        "timestamp": 1751658463.7061365,
+        "speaker": "SPEAKER_3",
+        "direction": "You",
+        "origin_text": "Hello!",
+        "translated_text": "Xin chào!"
+    },
+    {
+        "id": "b311abb7-5e8a-40f0-8b4a-e7b4909ffa0a",
+        "timestamp": "02:48:37",
+        "speaker": null,
+        "origin_text": "AJ with another effortless",
+        "translated_text": "AJ với một nỗ lực khác",
+        "direction": "Other"
+    },
+    {
+        "id": "fc55a7c4-aef4-425e-9416-cc0d98c390f3",
+        "timestamp": "02:48:42",
+        "speaker": null,
+        "origin_text": "English podcast. So today is Monday,",
+        "translated_text": "Podcast tiếng Anh. Vì vậy, hôm nay là thứ Hai,",
+        "direction": "Other"
+    },
+    {
+        "id": "af2abc39-49fd-4a61-ab04-9dfb143ca82a",
+        "timestamp": "02:48:47",
+        "speaker": null,
+        "origin_text": "and I'm here in San Francisco. I'm back in San Francisco.",
+        "translated_text": "Và tôi ở đây ở San Francisco. Tôi trở lại San Francisco.",
+        "direction": "Other"
+    },
+    {
+        "id": "9f700489-5dd0-4e17-851b-5c9a48a4e224",
+        "timestamp": "02:48:51",
+        "speaker": null,
+        "origin_text": "Last week, we were in Texas. We were at a teaching",
+        "translated_text": "Tuần trước, chúng tôi đã ở Texas. Chúng tôi đã ở một giảng dạy",
+        "direction": "Other"
+    },
+    {
+        "id": "24d9dc78-8459-4109-9e2a-57cecd3ddeb2",
+        "timestamp": "02:48:52",
+        "speaker": null,
+        "origin_text": "conference.",
+        "translated_text": "hội nghị.",
+        "direction": "Other"
+    },
+    {
+        "id": "43fcb9ea-4611-4dce-b039-357767069868",
+        "timestamp": "02:48:59",
+        "speaker": null,
+        "origin_text": "And the leader",
+        "translated_text": null,
+        "direction": "Other"
+    }
+]

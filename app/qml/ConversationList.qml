@@ -13,7 +13,6 @@ Rectangle {
     // Properties
     property bool sidebarVisible: false
     property bool initializedSidebar: false
-    property var uniqueSpeakers: ListModel {}
 
     ListView {
         id: listView
@@ -34,16 +33,7 @@ Rectangle {
 
                 // Time Stamp
                 TextEdit {
-                    text: {
-                        if (model.timestamp) {
-                            var parts = model.timestamp.split(" ");
-                            if (parts.length > 1) {
-                                return parts[1].substring(0, 8); // Return HH:MM:SS
-                            }
-                            return model.timestamp;
-                        }
-                        return "";
-                    }
+                    text: model.timestamp
                     font.pixelSize: 12
                     color: "#666"
                     readOnly: true
@@ -55,12 +45,10 @@ Rectangle {
 
                 // Speaker Name
                 TextEdit {
-                    text: model.direction + ":"
+                    text: model.speaker + ":"
                     font.bold: true
-                    font.italic: model.direction === "System"
-                    color: model.direction === "System"
-                        ? "#888"
-                        : (model.direction.toLowerCase().indexOf("translated") !== -1 ? "#1976d2" : "#1976d2")
+                    font.italic: model.direction === "Other"
+                    color: "#888"
                     font.pixelSize: 13
                     readOnly: true
                     selectByMouse: true
@@ -80,7 +68,7 @@ Rectangle {
                 TextEdit {
                     text: model.originText
                     font.pixelSize: 13
-                    font.italic: model.direction === "System"
+                    font.italic: model.direction === "Other"
                     color: "#333"
                     readOnly: true
                     selectByMouse: true
@@ -99,7 +87,7 @@ Rectangle {
                 TextEdit {
                     text: model.translatedText || ""
                     font.pixelSize: 13
-                    font.italic: true
+                    font.italic: model.direction === "Other"
                     color: "#aaaaaa"
                     readOnly: true
                     selectByMouse: true
@@ -139,8 +127,13 @@ Rectangle {
 
             IconButton {
                 id: summaryConversationButton
+                iconSource: "../assets/conversation_action/historical-sumary-svgrepo-com.svg"
+                onClicked: conversationModel.clear()
+            }
+            IconButton {
+                id: clearConversationButton
                 iconSource: "../assets/conversation_action/clear-12.svg"
-                onClicked: model.clear()
+                onClicked: conversationModel.clear()
             }
             IconButton {
                 id: renameSpeakerButton
@@ -152,9 +145,7 @@ Rectangle {
             IconButton {
                 id: newConversationButton
                 iconSource: "../assets/conversation_action/add-90.svg"
-                onClicked: {
-                    // TODO: Thêm logic đổi tên
-                }
+                onClicked: conversationModel.new_conversation()
             }
         }
     }
@@ -162,13 +153,9 @@ Rectangle {
     RenameSpeakerSideBar {
         id: speakerSidebar
         visible: true
-        speakerModel: uniqueSpeakers
+        speakerModel: []
         onSpeakerRenamed: function(speakerId, newName) {
-            for (var i = 0; i < conversationModel.count; i++) {
-                if (conversationModel.get(i).speaker === speakerId) {
-                    conversationModel.setProperty(i, "speaker", newName)
-                }
-            }
+            conversationModel.updateSpeakerName(speakerId, newName)
         }
         onHideSidebar: {
             sidebarVisible = false
@@ -179,28 +166,20 @@ Rectangle {
         initializedSidebar = true
     }
 
-    onSidebarVisibleChanged: {
-        if (initializedSidebar) {
-            speakerSidebar.isVisible = sidebarVisible
+    Connections {
+        target: conversationModel
+        function onUniqueSpeakersChanged() {
             if (sidebarVisible) {
-                updateUniqueSpeakers()
+                speakerSidebar.speakerModel = conversationModel.getUniqueSpeakerMaps()
             }
         }
     }
 
-    // Update Speaker
-    function updateUniqueSpeakers() {
-        uniqueSpeakers.clear()
-        var speakers = {}
-
-        for (var i = 0; i < conversationModel.count; i++) {
-            var speaker = conversationModel.get(i).speaker
-            if (!speakers[speaker]) {
-                speakers[speaker] = true
-                uniqueSpeakers.append({
-                    "speakerId": speaker,
-                    "speakerName": speaker
-                })
+    onSidebarVisibleChanged: {
+        if (initializedSidebar) {
+            speakerSidebar.isVisible = sidebarVisible
+            if (sidebarVisible) {
+                speakerSidebar.speakerModel = conversationModel.getUniqueSpeakerMaps()
             }
         }
     }

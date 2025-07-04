@@ -1,0 +1,18 @@
+[
+    {
+        "id": "84cf11b7-4dbe-44e1-b562-83bd5d030661",
+        "timestamp": 1751660113.2632778,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "host lần này đến lần khác. Cuối cùng anh ấy đã nhận được",
+        "translated_text": "host this time. He finally received",
+        "direction": "You"
+    },
+    {
+        "id": "59ac2fbf-ad2f-471d-90a5-72de55a845aa",
+        "timestamp": 1751660115.2824588,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "because our website crashed last week, we need to delay",
+        "translated_text": "Bởi vì trang web của chúng tôi đã bị sập vào tuần trước, chúng tôi cần trì hoãn",
+        "direction": "Other"
+    }
+]

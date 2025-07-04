@@ -1,5 +1,6 @@
 from PySide6.QtQml import QQmlApplicationEngine
 from PySide6.QtCore import QUrl
+from PySide6.QtGui import QIcon
 from pathlib import Path
 
 def handle_qml_warnings(warnings):
@@ -25,3 +26,9 @@ def set_window_title(root, title: str):
         root.windowTitle = title
     elif hasattr(root, 'title'):
         root.title = title
+
+def set_window_icon(root, icon_path: str):
+    if hasattr(root, "setIcon") and callable(root.setIcon):
+        root.setIcon(QIcon(icon_path))
+    elif hasattr(root, "icon"):
+        root.icon = QIcon(icon_path)

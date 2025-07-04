@@ -3,6 +3,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
 Rectangle {
+    id: historyList
     width: parent ? parent.width : 400
     color: "#fff"
     radius: 8
@@ -11,7 +12,10 @@ Rectangle {
     clip: true
 
     // Properties
-    property var historyModel: ListModel {}
+    property bool sidebarVisible: false
+    property bool initializedSidebar: false
+
+    signal conversationOpened()
 
     ListView {
         id: listView
@@ -46,13 +50,6 @@ Rectangle {
                         Layout.preferredWidth: 150
                     }
                     
-                    // Duration
-                    Text {
-                        text: "Duration: " + model.duration
-                        font.pixelSize: 13
-                        color: "#666"
-                    }
-                    
                     Item { Layout.fillWidth: true }
                     
                     // Open button
@@ -60,8 +57,8 @@ Rectangle {
                         text: "Open"
                         implicitWidth: 80
                         onClicked: {
-                            // TODO: Open conversation
-                            console.log("Open conversation:", model.id)
+                            conversationModel.loadConversation(model.id)
+                            historyList.conversationOpened()
                         }
                     }
                 }
@@ -84,30 +81,6 @@ Rectangle {
                         maximumLineCount: 2
                     }
                 }
-                
-                // Speakers
-                Flow {
-                    width: parent.width
-                    spacing: 6
-                    
-                    Repeater {
-                        model: JSON.parse(model.speakers || "[]")
-                        
-                        Rectangle {
-                            width: speakerText.width + 16
-                            height: speakerText.height + 8
-                            radius: height / 2
-                            color: "#e0e0e0"
-                            
-                            Text {
-                                id: speakerText
-                                anchors.centerIn: parent
-                                text: modelData
-                                font.pixelSize: 12
-                            }
-                        }
-                    }
-                }
             }
         }
 
@@ -125,63 +98,71 @@ Rectangle {
         }
     }
 
-    // Container cho các buttons
+    // Conversation Action
     Item {
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         height: 60
         width: buttonRow.width + 30
         z: 100
-        
+
         Row {
             id: buttonRow
             spacing: 10
             anchors.centerIn: parent
 
             IconButton {
-                id: clearHistoryButton
+                id: summaryConversationButton
+                iconSource: "../assets/conversation_action/historical-sumary-svgrepo-com.svg"
+                onClicked: conversationModel.clear()
+            }
+            IconButton {
+                id: clearConversationButton
                 iconSource: "../assets/conversation_action/clear-12.svg"
-                onClicked: historyModel.clear()
-                ToolTip.text: "Clear History"
-                ToolTip.visible: hovered
-                ToolTip.delay: 500
+                onClicked: conversationModel.clear()
+            }
+            IconButton {
+                id: renameSpeakerButton
+                iconSource: "../assets/conversation_action/rename-15.svg"
+                onClicked: {
+                    sidebarVisible = !sidebarVisible
+                }
             }
         }
     }
-    
-    // Populate with sample data
-    Component.onCompleted: {
-        // Add sample history data
-        addSampleData()
+
+    // Rename Speaker SideBar
+    RenameSpeakerSideBar {
+        id: speakerSidebar
+        visible: true
+        speakerModel: []
+        onSpeakerRenamed: function(speakerId, newName) {
+            conversationModel.updateSpeakerName(speakerId, newName)
+        }
+        onHideSidebar: {
+            sidebarVisible = false
+        }
     }
-    
-    // Function to add sample data
-    function addSampleData() {
-        historyModel.clear()
-        
-        // Sample conversations
-        historyModel.append({
-            id: "conv1",
-            date: "July 4, 2025 - 10:30 AM",
-            duration: "15:32",
-            preview: "Hello! How can I help you today? I'm interested in learning more about your products.",
-            speakers: JSON.stringify(["You", "Customer", "Translated"])
-        })
-        
-        historyModel.append({
-            id: "conv2",
-            date: "July 3, 2025 - 3:45 PM",
-            duration: "8:15",
-            preview: "I'd like to book a meeting for next week. What time works for you?",
-            speakers: JSON.stringify(["You", "John", "Mary"])
-        })
-        
-        historyModel.append({
-            id: "conv3",
-            date: "July 1, 2025 - 9:00 AM",
-            duration: "22:47",
-            preview: "Let's discuss the project timeline. We need to finalize the delivery dates.",
-            speakers: JSON.stringify(["You", "Manager", "Team Lead"])
-        })
+
+    Component.onCompleted: {
+        initializedSidebar = true
+    }
+
+    Connections {
+        target: conversationModel
+        function onUniqueSpeakersChanged() {
+            if (sidebarVisible) {
+                speakerSidebar.speakerModel = conversationModel.getUniqueSpeakerMaps()
+            }
+        }
+    }
+
+    onSidebarVisibleChanged: {
+        if (initializedSidebar) {
+            speakerSidebar.isVisible = sidebarVisible
+            if (sidebarVisible) {
+                speakerSidebar.speakerModel = conversationModel.getUniqueSpeakerMaps()
+            }
+        }
     }
 }

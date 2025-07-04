@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
+import "."
 
 Rectangle {
     id: renameSpeakerSidebar
@@ -10,7 +11,7 @@ Rectangle {
     anchors.right: parent.right
     
     property bool isVisible: false
-    property var speakerModel: ListModel {}
+    property var speakerModel: []
     signal speakerRenamed(string speakerId, string newName)
     signal hideSidebar()
     
@@ -35,15 +36,16 @@ Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
         height: 50
-        color: "#f5f5f5"
+        color: "#f0f0f0"
         
         Text {
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
             anchors.leftMargin: 15
-            text: "Rename Speakers"
+            text: "Speaker Management"
             font.pixelSize: 16
             font.bold: true
+            color: "#333333"
         }
         
         IconButton {
@@ -60,6 +62,7 @@ Rectangle {
     
     // Speaker List
     ListView {
+        id: speakerListView
         anchors.top: sidebarHeader.bottom
         anchors.bottom: parent.bottom
         anchors.left: parent.left
@@ -70,41 +73,79 @@ Rectangle {
         
         model: speakerModel
         
+        ScrollBar.vertical: ScrollBar {
+            active: true
+            policy: ScrollBar.AsNeeded
+        }
+        
+        boundsBehavior: Flickable.StopAtBounds
+        
         delegate: Rectangle {
             width: parent ? parent.width : 230
-            height: 80
-            color: "#f9f9f9"
-            radius: 5
+            height: 90
+            color: "#f8f8f8"
+            radius: 4
             border.color: "#e0e0e0"
             border.width: 1
             
             Column {
                 anchors.fill: parent
                 anchors.margins: 10
-                spacing: 5
+                spacing: 8
+                
+                // Speaker info
+                Row {
+                    width: parent.width
+                    spacing: 8
+                    
+                    Text {
+                        text: modelData.speaker_Name || modelData.speaker_Id
+                        font.bold: true
+                        font.pixelSize: 14
+                        color: "#333333"
+                        width: parent.width - 10
+                        elide: Text.ElideRight
+                    }
+                }
                 
                 Text {
-                    text: "Current name: " + speakerName
+                    text: "ID: " + modelData.speaker_Id
+                    font.pixelSize: 12
+                    color: "#666666"
+                }
+                
+                // New name input
+                TextField {
+                    id: newNameField
+                    width: parent.width
+                    height: 30
+                    placeholderText: "Enter new name"
                     font.pixelSize: 13
                 }
                 
-                TextField {
-                    id: newNameField
-                    placeholderText: "New name"
-                    width: parent.width
-                }
-                
+                // Update button
                 Button {
-                    text: "Rename"
                     width: parent.width
+                    height: 28
+                    text: "Update"
+                    font.pixelSize: 13
+                    
                     onClicked: {
                         if (newNameField.text.trim() !== "") {
-                            speakerRenamed(speakerId, newNameField.text)
+                            speakerRenamed(modelData.speaker_Id, newNameField.text)
                             newNameField.text = ""
                         }
                     }
                 }
             }
+        }
+        
+        Text {
+            anchors.centerIn: parent
+            text: "No speakers available"
+            color: "#999999"
+            font.pixelSize: 14
+            visible: speakerModel.length === 0
         }
     }
 }
