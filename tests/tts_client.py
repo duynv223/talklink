@@ -1,86 +1,84 @@
 import asyncio
 import websockets
 import json
-import sounddevice as sd
-import numpy as np
-import io
 import soundfile as sf
+import io
+import os
+import numpy as np
+import base64
+import sounddevice as sd 
 
-chunks = [
-    "hôm nay tôi muốn đi siêu thị",
-    "nhưng trời mưa rất to",
-    "có thể tôi sẽ ở nhà",
-    "và đặt đồ ăn qua mạng"
-]
+SERVER_URL = "ws://localhost:8765"  # Change if needed
 
-sent = " ".join(chunks)
+def load_wav_file_as_base64(path):
+    with open(path, "rb") as f:
+        wav_bytes = f.read()
+    return base64.b64encode(wav_bytes).decode("utf-8")
 
-# payload_vi = {
-#     "lang": "vi",
-#     "text": "Bạn có thể giải thích giúp tôi một cách rõ ràng về vấn đề đang gặp phải không? Nếu việc này tốn thời gian của bạn, chúng ta có thể để đến cuộc họp chính thức.",
-#     "speaker_wav": "ref/vi_male.wav"
-# }
+async def send_tts_request(text, lang="vi", speaker_id=None, wav_path=None, save_path="output.wav"):
+    async with websockets.connect(SERVER_URL, ping_timeout=None, max_size=None) as websocket:
+        print("[Client] Connected to server.")
 
-vi_text = "xin chào. hôm nay tôi muốn đi công viên. màu trời rất đẹp"
-
-payload_vi = {
-    "lang": "vi",
-    "text": vi_text,
-    "speaker_wav": "ref/vi.wav"
-}
-
-payload_en = {
-    "lang": "en",
-    "text":"Can you explain clearly what the problem is? Will this take up your time? If so, we can move on to a formal meeting.",
-    "speaker_wav": "ref/en.wav"
-}
-
-
-payload_ja = {
-    "lang": "ja",
-    "text":"何が問題なのか、わかりやすく説明していただけますか？お時間かかりますでしょうか？もしそうであれば、正式な打ち合わせに移りましょう.",
-    "speaker_wav": "ref/ja.wav"
-}
-
-SERVER_URL = "ws://localhost:8765"
-
-async def tts_request(text, lang="vi", speaker_wav=None):
-    async with websockets.connect(SERVER_URL, ping_timeout=None) as websocket:
-        # Prepare and send the message
-        request_data = {
-            "text": text,
+        payload = {
             "lang": lang,
-            "speaker_wav": speaker_wav  # Can be None if server handles default
+            "text": text,
         }
-        await websocket.send(json.dumps(request_data))
-        print(f"[CLIENT] Sent request: {request_data}")
 
-        # Wait for response
+        if speaker_id:
+            payload["speaker_id"] = speaker_id
+
+        if wav_path: 
+            samples, sr = sf.read(wav_path, dtype="int16") 
+            payload["wav_bytes"] = load_wav_file_as_base64(wav_path)
+                        
+        # Send JSON payload
+        await websocket.send(json.dumps(payload))
+        print(f"[Client] Sent request {payload['lang']} {payload['text']}")
+
+        # Receive response
         response = await websocket.recv()
+
         if isinstance(response, bytes):
-            print("[CLIENT] Received audio bytes")
-
-            # Convert bytes to numpy array (float32)
-            audio_bytes = io.BytesIO(response)
-            audio_np, samplerate = sf.read(audio_bytes, dtype='float32')
-
-            print(f"[CLIENT] Playing audio... (Sample rate: {samplerate}, Shape: {audio_np.shape})")
-            sd.play(audio_np, samplerate=samplerate)
+            # Treat as audio
+            audio_np, sr = sf.read(io.BytesIO(response), dtype='int16')
+            print(f"[CLIENT] Playing audio... (Sample rate: {sr}, Shape: {audio_np.shape})")
+            sd.play(audio_np, samplerate=sr)
             sd.wait()
-            sf.write(str("output_ja.wav"), audio_np.squeeze(), samplerate=16000)
-
-        else:
+            sf.write(str(save_path), audio_np.squeeze(), samplerate=16000)
+            return audio_np
+        elif isinstance(response, str):
+            # Probably an error message from server
             try:
-                err = json.loads(response)
-                print(f"[CLIENT] Error response: {err}")
-            except Exception:
-                print("[CLIENT] Received non-audio, non-JSON response")
+                data = json.loads(response)
+                if "error" in data:
+                    print("[SERVER ERROR]", data["error"])
+                else:
+                    print("[ERROR] Unknown response:", data)
+            except Exception as e:
+                print("[ERROR] Failed to parse server message:", response)
+            return np.zeros(16000, dtype=np.int16)
 
+text_ja = "アクティビティ モニターでは、プロセスのリストを階層的に表示して、ターミナルから開始されたプロセスを簡単に見つけることができます。"
+text_en = "In Activity Monitor, you can view the list of processes hierarchically, to easily find any processes started from Terminal."
+text_vi = "Trong Activity Monitor, bạn có thể xem danh sách các tiến trình theo thứ bậc để dễ dàng tìm thấy bất kỳ tiến trình nào được bắt đầu từ Terminal."
+
+
+def main(): 
+    text = text_vi
+    lang = "vi"
+    speaker_id = "user_789"
+    wav_name = "fpt_atu_sample.wav"
+    wav_path = os.path.join("tests", "voices", wav_name)
+    print(wav_path)
+    save_path = f"test_outputs/{speaker_id}_{wav_name}_{lang}.wav"
+    
+    asyncio.run(send_tts_request(
+        text=text,
+        lang=lang,
+        speaker_id=speaker_id, 
+        wav_path=wav_path,
+        save_path=save_path
+    ))
+    
 if __name__ == "__main__":
-    text = "Xin chào, đây là một thử nghiệm chuyển văn bản thành giọng nói."
-    lang = "vi"  # or "en", "ja"
-    speaker_wav = "ref/vi.wav"  # Can use "ref/vi.wav" or leave as None
-    payload = payload_vi
-
-    asyncio.run(tts_request(text=payload['text'], lang=payload['lang'], speaker_wav=payload['speaker_wav']))
- 
+    main()

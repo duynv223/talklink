@@ -3,7 +3,7 @@ from TTS.tts.configs.xtts_config import XttsConfig
 from TTS.tts.models.xtts import Xtts
 import torch
 from underthesea import sent_tokenize
-from utils import normalize_vietnamese_text, calculate_keep_len
+from utils.vietnamese_utils import normalize_vietnamese_text, calculate_keep_len
 import soundfile as sf
 from .base import BaseTTSBackend
 

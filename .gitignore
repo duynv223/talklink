@@ -4,3 +4,6 @@
 __pycache__
 
 tts_models
+
+*outputs
+speakers 

@@ -5,14 +5,14 @@
 `fxtts` is a simple, extensible TTS server built upon Coqui's XTTS v2, supporting Vietnamese, English, and Japanese.
 
 - **Vietnamese (`vi`)**: [`capleaft/vixtts`](https://huggingface.co/capleaf/viXTTS)
-- **English & Japanese (`en`, `ja`)**: [`coqui/XTTS`](hhttps://huggingface.co/coqui/XTTS-v2)
+- **English & Japanese (`en`, `ja`)**: [`coqui/XTTS`](https://huggingface.co/coqui/XTTS-v2)
 - **Recommended Python version**: `3.11`
 
 ---
 
 ## Features
 
-- Support for multiple languages via XTTS
+- Support for multiple languages via XTT
 - Ready-to-run TTS server
 - Test client for quick interaction
 - Modular structure for easy extension
@@ -34,6 +34,7 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 ```
 cd TTS
 git clone git@github.com:thinhlpg/TTS.git
+git checkout ff217b3f27b294de194cc59c5119d1e08b06413c
 cd TTS
 pip install -e .
 ```
