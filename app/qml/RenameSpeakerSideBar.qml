@@ -5,7 +5,7 @@ import "."
 
 Rectangle {
     id: renameSpeakerSidebar
-    width: 250
+    width: 270
     anchors.top: parent.top
     anchors.bottom: parent.bottom
     anchors.right: parent.right
@@ -82,58 +82,41 @@ Rectangle {
         
         delegate: Rectangle {
             width: parent ? parent.width : 230
-            height: 90
+            height: 50
             color: "#f8f8f8"
             radius: 4
             border.color: "#e0e0e0"
             border.width: 1
             
-            Column {
+            RowLayout {
                 anchors.fill: parent
-                anchors.margins: 10
+                anchors.margins: 8
                 spacing: 8
-                
-                // Speaker info
-                Row {
-                    width: parent.width
-                    spacing: 8
-                    
-                    Text {
-                        text: modelData.speaker_Name || modelData.speaker_Id
-                        font.bold: true
-                        font.pixelSize: 14
-                        color: "#333333"
-                        width: parent.width - 10
-                        elide: Text.ElideRight
-                    }
-                }
                 
                 Text {
                     text: "ID: " + modelData.speaker_Id
                     font.pixelSize: 12
                     color: "#666666"
+                    Layout.preferredWidth: 80
+                    elide: Text.ElideRight
                 }
                 
                 // New name input
                 TextField {
                     id: newNameField
-                    width: parent.width
-                    height: 30
+                    text: modelData.speaker_Name
                     placeholderText: "Enter new name"
                     font.pixelSize: 13
-                }
-                
-                // Update button
-                Button {
-                    width: parent.width
                     height: 28
-                    text: "Update"
-                    font.pixelSize: 13
-                    
+                    Layout.fillWidth: true
+                }
+
+                IconButton {
+                    id: summaryConversationButton
+                    iconSource: "../assets/conversation_action/rename-15.svg"
                     onClicked: {
                         if (newNameField.text.trim() !== "") {
                             speakerRenamed(modelData.speaker_Id, newNameField.text)
-                            newNameField.text = ""
                         }
                     }
                 }
