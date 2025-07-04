@@ -55,7 +55,7 @@ class UpStreamPipeline(VpPipeline):
         q1 = VpQueue(name='q1', maxsize=2, leaky=DrainPolicy.DOWNSTREAM)
         sink = VirtualMicSink(name="virtual-mic-sink")
         volume = VpVolume(name="volume-control")
-        translator = AugmentedSpeechTranslator(name="augmented-speech-translator",
+        translator = AugmentedSpeechTranslator(name="ast",
                                                src_lang='vi', dest_lang='en')
         rms_transform = VpRmsTransform(name="rms-transform")
 
@@ -87,7 +87,7 @@ class UpStreamPipeline(VpPipeline):
     async def set_prop(self, prop, value):
         match prop:
             case 'src-lang' | 'dest-lang' | 'src-volume' | 'tts-volume' | 'asr-enable' | 'tts-enable' | 'tts-speed':
-                await self.get_capsule("augmented-speech-translator").set_prop(prop, value)
+                await self.get_capsule("ast").set_prop(prop, value)
             case 'input-device':
                 src = self.get_capsule("mic-src")
                 await src.set_prop("device", value)

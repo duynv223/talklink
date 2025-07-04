@@ -3,10 +3,10 @@ disable_existing_loggers: False
 
 formatters:
   simple:
-    format: "[%(asctime)s] [%(levelname)-7s] [%(name)s]: %(message)s"
+    format: "[%(asctime)s] [%(levelname)-7s] [%(name)-45s]: %(message)s"
 
   vpobj:
-    format: "[%(asctime)s] [%(levelname)-7s] [%(obj_path)-65s]: %(message)s"
+    format: "[%(asctime)s] [%(levelname)-7s] [%(obj_path)-45s]: %(message)s"
 
 handlers:
   console:
@@ -27,6 +27,21 @@ loggers:
     handlers: [vpobj_console]
     propagate: False
 
+  services:
+    level: INFO
+    handlers: [console]
+    propagate: False
+
+  httpx:
+    level: WARNING
+    handlers: [console]
+    propagate: False
+  
+  app:
+    level: INFO
+    handlers: [console]
+    propagate: False
+  
   services:
     level: INFO
     handlers: [console]
