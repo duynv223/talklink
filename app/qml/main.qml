@@ -50,8 +50,20 @@ ApplicationWindow {
             Item {
                 ColumnLayout {
                     anchors.fill: parent
+                    anchors.margins: 10
                     spacing: 10
-                    Text { text: "History (T.B.D)"; font.pixelSize: 24 }
+                    
+                    Text { 
+                        text: "Conversation History"
+                        font.pixelSize: 24
+                        font.bold: true
+                    }
+                    
+                    HistoryList {
+                        id: historyList
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                    }
                 }
             }
 
