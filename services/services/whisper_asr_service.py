@@ -138,8 +138,8 @@ class WhisperASRService(ASRServiceInterface):
 
                     if text:
                         #result = f"[{speaker}]: {text}"
-                        result = f"{text}"
-                        await self._recv_queue.put((result, True))
+                        result = {"text": text, "speaker": speaker, "is_final": True}
+                        await self._recv_queue.put(result)
 
                 elif isinstance(msg, str):
                     try:
