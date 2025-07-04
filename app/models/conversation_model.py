@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 import uuid
 import time
+import asyncio
 
 BASE_PATH = Path(__file__).resolve().parent.parent.parent
 HISTORY_PATH = BASE_PATH / "conversations"
@@ -19,6 +20,9 @@ class ConversationModel(QAbstractListModel):
 
     uniqueSpeakersChanged = Signal()
     conversationSaved = Signal()
+
+    summaryReady = Signal(str)
+    summaryError = Signal(str)
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -237,3 +241,36 @@ class ConversationModel(QAbstractListModel):
         self._data.clear()
         self.endRemoveRows()
         self._save_conversation_to_file()
+
+    @Slot()
+    def summarizeConversation(self):
+        asyncio.create_task(self._do_summary())
+
+    async def _do_summary(self):
+        try:
+            from openai import AsyncOpenAI
+            client = AsyncOpenAI(base_url="https://aiportalapi.stu-platform.live/jpe", api_key="sk-B8guBxC5737sXsR3sJGKmw")
+
+            system_content = f"""
+                You are an AI assistant specialized in summarizing conversations involving multiple speakers.
+                Generate a short and concise summary that captures the key points discussed.
+                Include speaker names if they are important for understanding the context.
+                Avoid repeating every sentence — focus only on the essential ideas, presented in a clear and easy-to-read format, like a condensed meeting note.
+                The conversation content is presented in JSON format, where each object represents a sentence, including both the original text and the translated text.
+            """
+
+            conv_content = json.dumps(self._data, ensure_ascii=False, indent=2)
+            messages = [
+                {"role": "system", "content": system_content},
+                {"role": "user", "content": conv_content}
+            ]
+
+            res = await client.chat.completions.create(
+                model="GPT-4o-mini",
+                messages=messages
+            )
+            summary = res.choices[0].message.content.strip()
+            self.summaryReady.emit(summary)
+
+        except Exception as e:
+            self.summaryError.emit(str(e))

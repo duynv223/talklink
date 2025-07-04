@@ -128,7 +128,11 @@ Rectangle {
             IconButton {
                 id: summaryConversationButton
                 iconSource: "../assets/conversation_action/historical-sumary-svgrepo-com.svg"
-                onClicked: conversationModel.clear()
+                onClicked:  {
+                    summaryPopup.open()
+                    summaryPopup.loading = true
+                    conversationModel.summarizeConversation()
+                }
             }
             IconButton {
                 id: clearConversationButton
@@ -173,6 +177,15 @@ Rectangle {
                 speakerSidebar.speakerModel = conversationModel.getUniqueSpeakerMaps()
             }
         }
+        function onSummaryReady(text) {
+            summaryPopup.loading = false
+            summaryPopup.result = text
+        }
+
+        function onSummaryError(err) {
+            summaryPopup.loading = false
+            summaryPopup.result = "Lỗi: " + err
+        }
     }
 
     onSidebarVisibleChanged: {
@@ -180,6 +193,93 @@ Rectangle {
             speakerSidebar.isVisible = sidebarVisible
             if (sidebarVisible) {
                 speakerSidebar.speakerModel = conversationModel.getUniqueSpeakerMaps()
+            }
+        }
+    }
+
+    Popup {
+        id: summaryPopup
+        modal: true
+        focus: true
+        width: parent ? parent.width * 0.6 : 600
+        height: parent ? parent.height * 0.5 : 400
+        padding: 20
+        closePolicy: Popup.CloseOnEscape
+        anchors.centerIn: parent
+
+        // Custom properties
+        property bool loading: false
+        property string result: ""
+
+        background: Rectangle {
+            color: "#ffffff"
+            radius: 10
+            border.color: "#cccccc"
+        }
+
+        ColumnLayout {
+            anchors.fill: parent
+            spacing: 12
+
+            // Title
+            Label {
+                text: "Summary Conversation"
+                font.pixelSize: 18
+                font.bold: true
+                Layout.alignment: Qt.AlignHCenter
+                horizontalAlignment: Text.AlignHCenter 
+            }
+
+            // Loading indicator
+            Loader {
+                active: summaryPopup.loading
+                sourceComponent: busyIndicatorComponent
+                Layout.alignment: Qt.AlignHCenter
+                visible: summaryPopup.loading
+            }
+
+            // Summary text
+            ScrollView {
+                visible: !summaryPopup.loading
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                clip: true
+                Column {
+                    width: summaryPopup.width - 40
+                    spacing: 10
+
+                    Text {
+                        text: summaryPopup.result
+                        wrapMode: Text.Wrap
+                        font.pixelSize: 14
+                        color: "#333"
+                        width: parent.width
+                    }
+                }
+            }
+
+            // Button bar
+            RowLayout {
+                Layout.alignment: Qt.AlignRight
+                Layout.fillWidth: true
+
+                Button {
+                    text: "Đóng"
+                    onClicked: summaryPopup.close()
+                }
+            }
+        }
+
+        // BusyIndicator component
+        Component {
+            id: busyIndicatorComponent
+            Item {
+                width: 40
+                height: 40
+                BusyIndicator {
+                    running: true
+                    anchors.centerIn: parent
+                }
             }
         }
     }
