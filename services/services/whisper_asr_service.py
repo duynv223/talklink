@@ -36,6 +36,10 @@ class WhisperASRService(ASRServiceInterface):
         self._started = False
         self._stopped = True
 
+    async def switch_lang(self, lang):
+        """ Support dynamic language switching """
+        self.language = LANG_MODEL_MAP.get(lang, LANG_MODEL_MAP["en"])["language"]
+
     async def start(self):
         if self._starting or self._started:
             return
