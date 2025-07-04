@@ -15,9 +15,9 @@ logger = logging.getLogger(__name__)
 
 
 class XttsTTSService(TTSServiceInterface):
-    def __init__(self, *args, **kwargs):
-        logger.info(f"Initializing Xtts TTS service with args: {args}, kwargs: {kwargs}")
-        self.server_url = kwargs.get("url", SERVER_URL)
+    def __init__(self, settings):
+        logger.info(f"Initializing Xtts TTS service with settings: {settings}")
+        self.server_url = settings.get("url", SERVER_URL)
         self.websocket = None
 
     async def start(self):
