@@ -1,15 +1,17 @@
-import asyncio
+import logging
 from enum import Enum
+import asyncio
+
 from PySide6.QtCore import QObject, Signal, Property, Slot
 from qasync import asyncSlot
+from app.models.conversation_model import ConversationModel
+
 from vpipe.core.capsule import VpState
-from ..controller.async_loop_thread import AsyncLoopThread
-from pipelines.downstream_pipeline import DownStreamPipeline
-from pipelines.selftalk_pipeline import SelfTalkPipeline
-from pipelines.dualstream_pipeline import DualStreamPipeline
-import logging
 from vpipe.capsules.services.payload import Payload
-import traceback
+
+from ..controller.async_loop_thread import AsyncLoopThread
+from pipelines.dualstream_pipeline import DualStreamPipeline
+
 
 logger = logging.getLogger(__name__)
 
@@ -30,8 +32,9 @@ class SpeechTranslatorPipeline(QObject):
     actionStateChanged = Signal(str)
     errorChanged = Signal(str)
     rmsChanged = Signal(str, float)  # stream, rms
+    onScript = Signal(Payload)
 
-    def __init__(self, conversation_model, setting_model, parent=None):
+    def __init__(self, conversation_model: ConversationModel, setting_model, parent=None):
         super().__init__(parent)
 
         self.conversation_model = conversation_model
@@ -47,18 +50,28 @@ class SpeechTranslatorPipeline(QObject):
 
         self._pipeline = DualStreamPipeline(
             name=".",
-            script_writer_callback=self._on_script,
-            translated_script_writer_callback=self._on_translated,
+            script_writer_callback=lambda data: self.onScript.emit(data),
+            translated_script_writer_callback=lambda data: self.onScript.emit(data),
             rms_callback=self._on_rms
         )
+        self.onScript.connect(self._uppert_script)
         
         # Initial states
         self._app_state = AppState.STOPPED
         self._action_state = ActionState.IDLE
         self._error_message = ""
 
-        # UI state
-        self._current_you_index = None
+
+    @Slot(Payload)
+    def _uppert_script(self, data: Payload):
+        self.conversation_model.upsert(
+            id=data.id, 
+            timestamp=data.timestamp, 
+            speaker=data.speaker, 
+            origin_text=data.origin_text, 
+            translated_text=data.translated_text, 
+            direction=data.direction
+        )
 
     def _on_rms(self, stream, rms):
         if stream == "upstream":
@@ -118,36 +131,6 @@ class SpeechTranslatorPipeline(QObject):
             {"stream": "upstream", "rms": self._rms_upstream},
             {"stream": "downstream", "rms": self._rms_downstream}
         ]
-
-    # --- Script Callbacks ---
-    def _on_script(self, data: Payload):
-        logger.debug(f"Script received: data={Payload}")
-        print(f"KhoiTV$--------data: {data}")
-        try:
-            self.conversation_model.upsert(
-                id=data.id, 
-                timestamp=data.timestamp, 
-                speaker=data.speaker, 
-                origin_text=data.origin_text, 
-                translated_text=data.translated_text, 
-                direction=data.direction
-            )
-        except Exception as e:
-            traceback.print_exc()
-
-    def _on_translated(self, data: Payload):
-        logger.debug(f"Translated script: data={data}")
-        try:
-            self.conversation_model.upsert(
-                id=data.id, 
-                timestamp=data.timestamp, 
-                speaker=data.speaker, 
-                origin_text=data.origin_text, 
-                translated_text=data.translated_text, 
-                direction=data.direction
-            )
-        except Exception as e:
-            traceback.print_exc()
 
     # --- Control Actions ---
     @asyncSlot()
