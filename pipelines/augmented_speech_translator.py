@@ -25,7 +25,7 @@ class AugmentedSpeechTranslator(VpComposite):
         src1 = src.fork()
         src2 = src.fork()
 
-        speech_translator = SpeechTranslator(name="speech-translator",
+        speech_translator = SpeechTranslator(name="st",
                                              src_lang=self.src_lang, dest_lang=self.dest_lang)
         audio_queue_player = VpAudioQueuePlayer(name="audio-queue-player")
         src1 >> speech_translator >> audio_queue_player
@@ -52,8 +52,14 @@ class AugmentedSpeechTranslator(VpComposite):
 
     async def set_prop(self, prop, value):
         match prop:
-            case 'src-lang' | 'dest-lang' | 'asr-enable' | 'tts-enable':
-                await self.get_capsule("speech-translator").set_prop(prop, value)
+            case 'src-lang' | 'dest-lang' | 'asr-enable':
+                await self.get_capsule("st").set_prop(prop, value)
+            case 'tts-enable':
+                # immediately mute the TTS output if disabled
+                audio_mixer = self.get_capsule("audio-mixer")
+                audio_mixer.get_input("tts").set_property("mute", not value)
+                # set the TTS enable property in the speech translator
+                await self.get_capsule("st").set_prop("tts-enable", value)
             case 'src-volume':
                 self.get_capsule("audio-mixer").get_input("src").set_property('volume', value)
             case 'tts-volume':

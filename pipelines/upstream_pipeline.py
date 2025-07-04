@@ -2,6 +2,7 @@ import asyncio
 
 from vpipe.core.transform import VpBaseTransform
 from vpipe.core.pipeline import VpPipeline
+from vpipe.core.queue import VpQueue, DrainPolicy
 
 from vpipe.capsules.audio.virtual_mic_sink import VirtualMicSink
 from vpipe.capsules.audio.mic_source import VpMicSource
@@ -51,13 +52,14 @@ class UpStreamPipeline(VpPipeline):
 
     def build(self):
         src = VpMicSource(name="mic-src")
+        q1 = VpQueue(name='q1', maxsize=2, leaky=DrainPolicy.DOWNSTREAM)
         sink = VirtualMicSink(name="virtual-mic-sink")
         volume = VpVolume(name="volume-control")
-        translator = AugmentedSpeechTranslator(name="augmented-speech-translator",
+        translator = AugmentedSpeechTranslator(name="ast",
                                                src_lang='vi', dest_lang='en')
         rms_transform = VpRmsTransform(name="rms-transform")
 
-        src >> volume >> translator >> sink
+        src >> volume >> translator >> q1 >> sink
         src >> rms_transform
 
         script_writer = ScriptWriter(name="script-writer",
@@ -73,6 +75,7 @@ class UpStreamPipeline(VpPipeline):
 
         self.adds(
             src,
+            q1,
             sink,
             translator,
             volume,
@@ -84,7 +87,7 @@ class UpStreamPipeline(VpPipeline):
     async def set_prop(self, prop, value):
         match prop:
             case 'src-lang' | 'dest-lang' | 'src-volume' | 'tts-volume' | 'asr-enable' | 'tts-enable' | 'tts-speed':
-                await self.get_capsule("augmented-speech-translator").set_prop(prop, value)
+                await self.get_capsule("ast").set_prop(prop, value)
             case 'input-device':
                 src = self.get_capsule("mic-src")
                 await src.set_prop("device", value)

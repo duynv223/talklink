@@ -2,6 +2,7 @@ import asyncio
 
 from vpipe.core.transform import VpBaseTransform
 from vpipe.core.pipeline import VpPipeline
+from vpipe.core.queue import VpQueue, DrainPolicy
 
 from vpipe.capsules.audio.speaker_sink import VpSpeakerSink
 from vpipe.capsules.audio.virtual_speaker_src import VpVirtualSpeakerSrc
@@ -51,14 +52,15 @@ class DownStreamPipeline(VpPipeline):
 
     def build(self):
         src = VpVirtualSpeakerSrc(name="virtual-speaker-src")
+        q1 = VpQueue(name='q1', maxsize=2, leaky=DrainPolicy.DOWNSTREAM)
         sink = VpSpeakerSink(name="speaker-sink")
         volume = VpVolume(name="volume-control")
         
-        translator = AugmentedSpeechTranslator(name="augmented-speech-translator",
+        translator = AugmentedSpeechTranslator(name="ast",
                                                src_lang='en', dest_lang='vi')
         rms_transform = VpRmsTransform(name="rms-transform")
 
-        src >> translator >> volume >> sink
+        src >> translator >> volume >> q1 >> sink
         src >> rms_transform
 
         script_writer = ScriptWriter(name="script-writer",
@@ -74,6 +76,7 @@ class DownStreamPipeline(VpPipeline):
 
         self.adds(
             src,
+            q1,
             sink,
             translator,
             volume,
@@ -85,7 +88,7 @@ class DownStreamPipeline(VpPipeline):
     async def set_prop(self, prop, value):
         match prop:
             case 'src-lang' | 'dest-lang' | 'src-volume' | 'tts-volume' | 'asr-enable' | 'tts-enable' | 'tts-speed':
-                await self.get_capsule("augmented-speech-translator").set_prop(prop, value)
+                await self.get_capsule("ast").set_prop(prop, value)
             case 'output-device':
                 sink = self.get_capsule("speaker-sink")
                 await sink.set_prop("device", value)

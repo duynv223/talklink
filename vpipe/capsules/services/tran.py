@@ -4,6 +4,11 @@ from vpipe.core.transform import VpBaseTransform
 
 class TranslatorServiceInterface(ABC):
     @abstractmethod
+    def __init__(self, settings={}):
+        """Initialize the translator service with optional settings."""
+        pass
+
+    @abstractmethod
     async def start(self):
         """Start the translator service."""
         pass
@@ -30,7 +35,7 @@ class TranslationTransform(VpBaseTransform):
     def set_service(self, service: TranslatorServiceInterface):
         self.service = service
 
-    def set_prop(self, key: str, value):
+    async def set_prop(self, key: str, value):
         match key:
             case 'src-lang':
                 self.src = value
@@ -49,7 +54,7 @@ class TranslationTransform(VpBaseTransform):
                 raise ValueError(f"Unknown property: {key}")
 
     async def start(self):
-        self.service = self.service_factory() if self.service_factory else self.service
+        self.service = self.service_factory()
         self.logger.info(f"Starting translation service: {self.service.__class__.__name__}")
         await self.service.start()
         self.logger.info(f"Translation service {self.service.__class__.__name__} started")
