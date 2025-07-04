@@ -116,8 +116,13 @@ class ASRTransform(VpBaseTransform):
         if result is None:
             return None
 
+        is_final = result.get("is_final", False)
+        if not is_final:
+            return None
+
         data = Payload()
-        data.origin_text, data.is_final = result.get("text", None), result.get("is_final", False)
+        data.is_final = is_final
+        data.origin_text= result.get("text", None)
 
         # Get các trường optional từ service
         data.speaker = result.get("speaker", None)

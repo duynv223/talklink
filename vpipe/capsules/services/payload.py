@@ -6,7 +6,7 @@ import uuid
 @dataclass
 class Payload:
     # uuid
-    id: uuid.UUID = field(default_factory=uuid.uuid4)
+    id: str = field(default_factory=lambda: str(uuid.uuid4()))
     # TimeStamp
     timestamp: float = field(default_factory=time.time)
 
