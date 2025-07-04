@@ -18,13 +18,10 @@ logger = logging.getLogger(__name__)
 
 
 class WhisperASRService(ASRServiceInterface):
-    def __init__(self, *args: Any, **kwargs: Any):
-        lang = kwargs.get("lang", "en")
-        url = kwargs.get("url", SERVER_URL)
-
+    def __init__(self, lang='en', settings={}):
         if lang not in LANG_MODEL_MAP:
             raise ValueError(f"Unsupported language: {lang}")
-        self.server_url = url
+        self.server_url = settings.get("url", SERVER_URL)
         self.language = LANG_MODEL_MAP[lang]["language"]
 
         self._ws = None

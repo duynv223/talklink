@@ -13,16 +13,15 @@ LANG_MODEL_MAP = {
 }
 
 class DeepGramASRService(ASRServiceInterface):
-    def __init__(self, *args, **kwargs):
-        logger.info(f"Initializing Deepgram ASR service with args: {args}, kwargs: {kwargs}")
-        lang = kwargs.get("lang", "en")
+    def __init__(self, lang='en', settings={}):
+        logger.info(f"Initializing Deepgram ASR service with lang: {lang}, settings: {settings}")
         self.lang = lang if lang in LANG_MODEL_MAP else "en"
         self.model = LANG_MODEL_MAP[self.lang]["model"]
         self.language = LANG_MODEL_MAP[self.lang]["language"]
-        self.utterance_end_ms = int(kwargs.get("utterance_end_ms", "1024"))
-        self.endpointing = int(kwargs.get("endpointing", "300"))
+        self.utterance_end_ms = int(settings.get("utterance_end_ms", "1024"))
+        self.endpointing = int(settings.get("endpointing", "300"))
 
-        self.client = DeepgramClient(api_key=kwargs.get("api_key") or "")
+        self.client = DeepgramClient(api_key=settings.get("api_key") or "")
         self.conn = self.client.listen.asyncwebsocket.v("1")
         self.recv_queue = asyncio.Queue()
         self.buffer = bytearray()
