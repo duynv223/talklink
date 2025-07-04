@@ -56,6 +56,7 @@ class ASRTransform(VpBaseTransform):
         self.service = None
         self.enable = True
         self.lang = lang
+        self.wip_payload = None
 
     def set_service(self, service: ASRServiceInterface):
         self.service = service
@@ -116,17 +117,25 @@ class ASRTransform(VpBaseTransform):
         if result is None:
             return None
 
-        is_final = result.get("is_final", False)
-        if not is_final:
-            return None
+        # At this point, we have a result from the service
+        # Must ensure wip_payload is initialized
+        if not self.wip_payload:
+            self.wip_payload = Payload()
 
-        data = Payload()
-        data.is_final = is_final
-        data.origin_text= result.get("text", None)
+        # Main
+        self.wip_payload.is_final = result.get("is_final", False)
+        self.wip_payload.origin_text= result.get("text", None)
 
-        # Get các trường optional từ service
-        data.speaker = result.get("speaker", None)
-        data.origin_audio = result.get("origin_audio", None)
-        data.src_lang = self.lang
+        # Major
+        self.wip_payload.speaker = result.get("speaker", None)
+        self.wip_payload.origin_audio = result.get("origin_audio", None)
+        self.wip_payload.src_lang = self.lang
 
-        return data
+        # If the payload is final, we can return it
+        # Then prepare for the next payload
+        if self.wip_payload.is_final:
+            com_payload = self.wip_payload
+            self.wip_payload = Payload()
+            return com_payload
+        
+        return self.wip_payload
