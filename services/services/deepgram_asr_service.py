@@ -78,7 +78,7 @@ class DeepGramASRService(ASRServiceInterface):
 
         try:
             result, is_final = self.recv_queue.get_nowait()
-            return result, is_final
+            return {"text": result, "is_final": is_final}
         except asyncio.QueueEmpty:
             return None
 

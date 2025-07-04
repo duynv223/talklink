@@ -2,7 +2,7 @@ import numpy as np
 from abc import ABC, abstractmethod
 from typing import Any
 from vpipe.core.transform import VpBaseTransform
-
+from .payload import Payload
 
 class ASRServiceInterface(ABC):
     @abstractmethod
@@ -111,4 +111,17 @@ class ASRTransform(VpBaseTransform):
     async def transform(self, buf):
         if not self.enable:
             buf = np.zeros_like(buf)
-        return await self.service.transcribe(buf)
+
+        result = await self.service.transcribe(buf)
+        if result is None:
+            return None
+
+        data = Payload()
+        data.origin_text, data.is_final = result.get("text", None), result.get("is_final", False)
+
+        # Get các trường optional từ service
+        data.speaker = result.get("speaker", None)
+        data.origin_audio = result.get("origin_audio", None)
+        data.src_lang = self.lang
+
+        return data

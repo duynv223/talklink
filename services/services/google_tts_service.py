@@ -15,7 +15,7 @@ class GoogleTTSService(TTSServiceInterface):
     async def stop(self):
         pass
 
-    async def synthesize(self, text: str, lang: str) -> bytes:
+    async def synthesize(self, text: str, lang: str, ref_voice: bytearray, speaker_id: str) -> bytes:
         loop = asyncio.get_running_loop()
         buf = io.BytesIO()
 
