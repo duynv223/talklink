@@ -8,11 +8,11 @@ from vpipe.capsules.services.tran import TranslationTransform
 from services.service_manager import ServiceManager
 
 
-class TextCompleteFilter(VpBaseTransform):
-    async def transform(self, data):
-        if data:
-            text, is_final = data
-            return text if is_final else None
+# class TextCompleteFilter(VpBaseTransform):
+#     async def transform(self, data):
+#         if data:
+#             text, is_final = data
+#             return text if is_final else None
 
 
 class SpeechTranslator(VpComposite):
@@ -56,7 +56,7 @@ class SpeechTranslator(VpComposite):
         # ASR
         q1 = VpQueue(name='q1', maxsize=10, leaky=DrainPolicy.DOWNSTREAM)
         asr_transform = ASRTransform('asr', service_factory=asr_service_factory, lang=self._src_lang)
-        text_complete_filter = TextCompleteFilter()
+        # text_complete_filter = TextCompleteFilter()
 
         # Translation
         q2 = VpQueue(name='q2', maxsize=10, leaky=DrainPolicy.DOWNSTREAM)
@@ -70,13 +70,15 @@ class SpeechTranslator(VpComposite):
 
         # Add capsules
         self.adds(
-            q1, asr_transform, text_complete_filter,
+            # q1, asr_transform, text_complete_filter,
+            q1, asr_transform,
             q2, tran_transform,
             q3, tts_transform
         )
 
         # Connect capsules
-        q1 >> asr_transform >> text_complete_filter >> q2 >> tran_transform >> q3 >> tts_transform
+        # q1 >> asr_transform >> text_complete_filter >> q2 >> tran_transform >> q3 >> tts_transform
+        q1 >> asr_transform >> q2 >> tran_transform >> q3 >> tts_transform
 
         # Expose inputs and outputs
         self.expose_input("in", q1.get_input("in"))

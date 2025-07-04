@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from vpipe.core.transform import VpBaseTransform
-
+from .payload import Payload
 
 class TranslatorServiceInterface(ABC):
     @abstractmethod
@@ -65,6 +65,12 @@ class TranslationTransform(VpBaseTransform):
             await self.service.stop()
             self.logger.info(f"Translation service {self.service.__class__.__name__} stopped")
 
-    async def transform(self, text) -> str:
-        translated_text = await self.service.translate(text, src=self.src, dest=self.dest)
-        return translated_text
+    async def transform(self, data: Payload):
+        if not data or not data.is_final:
+            return None
+
+        data.dest_lang = self.dest
+        translated_text = await self.service.translate(data.origin_text, src=data.src_lang, dest=data.dest_lang)
+        data.translated_text = translated_text
+
+        return data

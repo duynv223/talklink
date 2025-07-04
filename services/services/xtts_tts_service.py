@@ -7,6 +7,7 @@ import soundfile as sf
 from vpipe.capsules.services.tts import TTSServiceInterface
 from pydub import AudioSegment
 import logging
+import base64
 
 SERVER_URL = "ws://localhost:8765"
 
@@ -14,56 +15,45 @@ logger = logging.getLogger(__name__)
 
 
 class XttsTTSService(TTSServiceInterface):
-    def __init__(self, settings={}):
-        logger.debug(f"Initializing Xtts TTS service with settings: {settings}")
+    def __init__(self, settings):
+        logger.info(f"Initializing Xtts TTS service with settings: {settings}")
         self.server_url = settings.get("url", SERVER_URL)
         self.websocket = None
-        self.default_speakers = {
-            'vi': "ref/vi_male.wav", 
-            'en': 'ref/en.wav', 
-            'ja': 'ref/ja.wav'
-        }
 
     async def start(self):
         # Open connection once (optional: keep alive across calls)
         self.websocket = await websockets.connect(self.server_url, ping_timeout=None)
-        print("XTTS websocket openned")
+        logger.info("XTTS websocket openned")
 
     async def stop(self):
         if self.websocket:
+            logger.info("XTTS websocket closed")
             await self.websocket.close()
 
-    async def synthesize(self, text: str, lang: str):
-        print("synthesize")
+    async def synthesize(self, text: str, lang: str, ref_voice: bytearray = None, speaker_id: str = None) -> bytes:
+        if not text or not lang:
+            raise ValueError("Both `text` and `lang` must be provided.")
 
+        # Prepare JSON-safe payload
         payload = {
-            "lang": lang,
             "text": text,
-            "speaker_wav": self.default_speakers[lang]
+            "lang": lang,
+            "speaker_id": speaker_id,
+            "wav_bytes": base64.b64encode(ref_voice).decode("utf-8") if ref_voice else None,
         }
 
-        print(f"[DEBUG] Sending payload: {payload}")
+        logger.info(f"[XTTS] Sending payload: lang={lang}, text='{text} ...'")
+
         await self.websocket.send(json.dumps(payload))
+
         response = await self.websocket.recv()
+
         if isinstance(response, bytes):
-            # audio_np, sr = sf.read(io.BytesIO(response), dtype='int16') 
-
-            def play():
-                audio_np_test, samplerate = sf.read(io.BytesIO(response))
-                import sounddevice as sd
-                print(f"[CLIENT] Playing audio... (Sample rate: {samplerate}, Shape: {audio_np_test.shape})")
-                print(f'samplerate {samplerate}')
-                sd.play(audio_np_test, samplerate=samplerate)
-                sd.wait()
-
-            # await asyncio.to_thread(play)
-            # await asyncio.sleep(7)
-
+            # Convert .wav bytes to mono 16kHz int16 numpy
             audio = AudioSegment.from_file(io.BytesIO(response), format="wav")
             audio = audio.set_channels(1).set_frame_rate(16000).set_sample_width(2)
             out = np.frombuffer(audio.raw_data, dtype=np.int16)
             return out
 
-        else:
-            print("[ERROR] Invalid response:", response)
-            return np.zeros(16000, dtype=np.int16)  # 1s of silence fallback
+        logger.error(f"[XTTS] Invalid response from server: {response}")
+        return np.zeros(16000, dtype=np.int16)  # 1 second of silence fallback

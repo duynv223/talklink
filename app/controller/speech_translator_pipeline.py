@@ -8,6 +8,7 @@ from pipelines.downstream_pipeline import DownStreamPipeline
 from pipelines.selftalk_pipeline import SelfTalkPipeline
 from pipelines.dualstream_pipeline import DualStreamPipeline
 import logging
+from vpipe.capsules.services.payload import Payload
 
 logger = logging.getLogger(__name__)
 
@@ -118,19 +119,19 @@ class SpeechTranslatorPipeline(QObject):
         ]
 
     # --- Script Callbacks ---
-    def _on_script(self, speaker, text, is_final):
-        logger.debug(f"Script received: speaker={speaker}, is_final={is_final}, text={text}")
+    def _on_script(self, data: Payload):
+        logger.debug(f"Script received: data={Payload}")
         if self._current_you_index is not None:
-            self.conversation_model.update(self._current_you_index, speaker, text)
-            if is_final:
+            self.conversation_model.update(self._current_you_index, data.direction, data.origin_text)
+            if data.is_final:
                 self._current_you_index = None
         else:
-            self.conversation_model.append(speaker, text)
-            self._current_you_index = None if is_final else self.conversation_model.rowCount() - 1
+            self.conversation_model.append(data.direction, data.origin_text)
+            self._current_you_index = None if data.is_final else self.conversation_model.rowCount() - 1
 
-    def _on_translated(self, speaker, text):
-        logger.debug(f"Translated script: speaker={speaker}, text={text}")
-        self.conversation_model.append(f"{speaker} (Translated)", text)
+    def _on_translated(self, data: Payload):
+        logger.debug(f"Translated script: data={data}")
+        self.conversation_model.append(f"{data.direction} (Translated)", data.translated_text)
 
     # --- Control Actions ---
     @asyncSlot()

@@ -3,7 +3,17 @@ from functools import partial
 from vpipe.core.pipeline import VpPipeline
 from pipelines.downstream_pipeline import DownStreamPipeline
 from pipelines.upstream_pipeline import UpStreamPipeline
+from vpipe.capsules.services.payload import Payload
 
+class PayloadHandlerWrapper:
+    def __init__(self, handler, speaker):
+        self.handler = handler
+        self.speaker = speaker
+        
+    def __call__(self, payload: Payload):
+        if isinstance(payload, Payload):
+            payload.direction = self.speaker
+        return self.handler(payload)
 
 class DualStreamPipeline(VpPipeline):
     def __init__(self, name="dual-stream-pipeline", 
@@ -17,14 +27,14 @@ class DualStreamPipeline(VpPipeline):
 
         self._downstream = DownStreamPipeline(
             name="downstream",
-            script_writer_callback=partial(self.scr_writter, "Other"),
-            translated_script_writer_callback=partial(self.translated_scr_writter, "Other"),
+            script_writer_callback=PayloadHandlerWrapper(self.scr_writter, "Other"),
+            translated_script_writer_callback=PayloadHandlerWrapper(self.translated_scr_writter, "Other"),
             rms_callback=partial(self.rms_callback, "downstream")
         )
         self._upstream = UpStreamPipeline(
             name="upstream",
-            script_writer_callback=partial(self.scr_writter, "You"),
-            translated_script_writer_callback=partial(self.translated_scr_writter, "You"),
+            script_writer_callback=PayloadHandlerWrapper(self.scr_writter, "You"),
+            translated_script_writer_callback=PayloadHandlerWrapper(self.translated_scr_writter, "You"),
             rms_callback=partial(self.rms_callback, "upstream")
         )
 

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from vpipe.core.transform import VpBaseTransform
-
+from .payload import Payload
 
 class TTSServiceInterface(ABC):
     @abstractmethod
@@ -19,7 +19,7 @@ class TTSServiceInterface(ABC):
         pass
 
     @abstractmethod
-    async def synthesize(self, text: str, lang: str) -> bytes:
+    async def synthesize(self, text: str, lang: str, ref_voice: bytearray = None, speaker_id: str = None) -> bytes:
         """
         Synthesize speech from the given text and return audio data.
         Returns:
@@ -68,7 +68,14 @@ class TTSTransform(VpBaseTransform):
             await self.service.stop()
             self.logger.info(f"TTS service {self.service.__class__.__name__} stopped")
 
-    async def transform(self, text: str) -> bytes:
+    async def transform(self, data: Payload) -> bytes:
         if self.enable:
-            audio = await self.service.synthesize(text, lang=self.lang)
-            return audio
+            if not data or not data.is_final or not data.translated_text:
+                return None
+            data.translated_audio = await self.service.synthesize(
+                text=data.translated_text,
+                lang=data.dest_lang,
+                ref_voice=data.origin_audio,
+                speaker_id=data.speaker
+            )
+            return data.translated_audio

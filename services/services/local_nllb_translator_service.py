@@ -11,7 +11,7 @@ class LocalNLLBTranslatorService(TranslatorServiceInterface):
         self.client = None
 
     async def start(self):
-        self.client = httpx.AsyncClient(base_url=self.base_url)
+        self.client = httpx.AsyncClient(base_url=self.base_url, trust_env=False)
         logger.info(f"LocalNLLBTranslator connect to server: {self.base_url}")
 
     async def stop(self):

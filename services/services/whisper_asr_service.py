@@ -98,8 +98,8 @@ class WhisperASRService(ASRServiceInterface):
         self._buffer.extend(audio_bytes)
 
         try:
-            text, speaker, wav_bytes = self._recv_queue.get_nowait()
-            return text, True
+            result = self._recv_queue.get_nowait()
+            return result
         except asyncio.QueueEmpty:
             return None
 
@@ -139,7 +139,13 @@ class WhisperASRService(ASRServiceInterface):
                     wav_bytes = msg[4 + header_len:]
                     
                     if text:
-                        await self._recv_queue.put((text, speaker, wav_bytes))
+                        result = {
+                            "text": text,
+                            "speaker": speaker,
+                            "origin_audio": wav_bytes,
+                            "is_final": True
+                        }
+                        await self._recv_queue.put(result)
 
                 elif isinstance(msg, str):
                     try:

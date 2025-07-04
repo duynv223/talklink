@@ -9,6 +9,7 @@ from vpipe.capsules.audio.virtual_speaker_src import VpVirtualSpeakerSrc
 from vpipe.capsules.audio.volume import VpVolume
 from pipelines.augmented_speech_translator import AugmentedSpeechTranslator
 from vpipe.capsules.audio.rms_transform import VpRmsTransform
+from vpipe.capsules.services.payload import Payload
 
 
 class ScriptWriter(VpBaseTransform):
@@ -16,10 +17,9 @@ class ScriptWriter(VpBaseTransform):
         super().__init__(name)
         self.handler = handler
 
-    async def transform(self, data):
+    async def transform(self, data: Payload):
         if self.handler and data:
-            text, is_final = data
-            self.handler(text, is_final)
+            self.handler(data)
         await asyncio.sleep(0)
 
 
@@ -28,7 +28,7 @@ class TranslatedScriptWriter(VpBaseTransform):
         super().__init__(name)
         self.handler = handler
 
-    async def transform(self, data):
+    async def transform(self, data: Payload):
         if self.handler and data:
             self.handler(data)
         await asyncio.sleep(0)
