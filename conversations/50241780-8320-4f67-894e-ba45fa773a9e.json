@@ -1,0 +1,18 @@
+[
+    {
+        "id": "133a605e-aab7-4f54-9a8c-4a0205652669",
+        "timestamp": 1751679389.6353438,
+        "speaker": "Other",
+        "origin_text": "Date, the final date, the one day only sale for Power English is now August 4.",
+        "translated_text": "Ngày, ngày cuối cùng, một ngày chỉ bán cho Power English là ngày 4 tháng 8.",
+        "direction": "Other"
+    },
+    {
+        "id": "00bdfda6-45da-491a-88cc-7a807b090440",
+        "timestamp": 1751679397.3162227,
+        "speaker": "Other",
+        "origin_text": "August",
+        "translated_text": null,
+        "direction": "Other"
+    }
+]

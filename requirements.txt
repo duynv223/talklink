@@ -13,3 +13,4 @@ websocket
 PyYAML
 websocket-client
 soundfile
+openai

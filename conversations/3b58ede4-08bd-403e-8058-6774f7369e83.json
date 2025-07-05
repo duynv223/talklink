@@ -1,0 +1,18 @@
+[
+    {
+        "id": "79758c27-25cb-49ea-bace-b9a85226eb6c",
+        "timestamp": 1751679219.1261945,
+        "speaker": "Other",
+        "origin_text": "English podcast.",
+        "translated_text": "Podcast tiếng Anh.",
+        "direction": "Other"
+    },
+    {
+        "id": "3e99ed15-6be8-42fb-bb13-77cbaa73aed4",
+        "timestamp": 1751679222.199255,
+        "speaker": "Other",
+        "origin_text": "So today is Monday and I",
+        "translated_text": null,
+        "direction": "Other"
+    }
+]
