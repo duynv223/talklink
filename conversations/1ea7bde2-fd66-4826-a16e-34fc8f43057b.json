@@ -1,0 +1,42 @@
+[
+    {
+        "id": "c28ba0b5-ef84-44c7-b4ec-f12ab25000d4",
+        "timestamp": 1751710827.1297798,
+        "speaker": "Other",
+        "origin_text": "Okay. Well, as always, you can check my Twitter page",
+        "translated_text": "わかった。さて、いつものように、私のTwitterページを確認できます",
+        "direction": "Other"
+    },
+    {
+        "id": "44a71c8c-2a18-47fd-a3c6-fbd4513a5b96",
+        "timestamp": 1751710832.1223414,
+        "speaker": "Other",
+        "origin_text": "for daily audios, every day I do a short audio, sometimes more.",
+        "translated_text": "毎日のオーディオの場合、毎日短いオーディオを行います。",
+        "direction": "Other"
+    },
+    {
+        "id": "4ce69f00-9cf0-41ed-b1d9-8233cb975f05",
+        "timestamp": 1751710835.2884345,
+        "speaker": "Other",
+        "origin_text": "That's twitter.com/ajhoge, ajh0ge. If you're on Facebook, you can also find us on Facebook",
+        "translated_text": "それはtwitter.com/ajhoge、ajh0geです。あなたがFacebookにいるなら、あなたもFacebookで私たちを見つけることができます",
+        "direction": "Other"
+    },
+    {
+        "id": "f89ac979-201a-454e-bf93-cbce70e3b11f",
+        "timestamp": 1751710848.6328428,
+        "speaker": "Other",
+        "origin_text": "search for Effortless English on Facebook.",
+        "translated_text": "Facebookで楽な英語を検索します。",
+        "direction": "Other"
+    },
+    {
+        "id": "20d364c6-0068-4039-80bc-d2e63dfdae3e",
+        "timestamp": 1751710850.665341,
+        "speaker": "Other",
+        "origin_text": "We have an effortless English Facebook page too. So you can see videos. I do",
+        "translated_text": null,
+        "direction": "Other"
+    }
+]

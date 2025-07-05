@@ -19,6 +19,8 @@ Rectangle {
 
     signal conversationOpened()
 
+
+//---------------------- History List ----------------------//
     RowLayout {
         anchors.fill: parent
         spacing: 0
@@ -108,144 +110,47 @@ Rectangle {
             }
         }
 
-        Rectangle { // ngăn cách
+        Rectangle {
             width: 1
             color: "#e0e0e0"
             Layout.fillHeight: true
         }
 
-        ListView {
+        ConversationView {
             id: conversation_view
             Layout.preferredWidth: parent ? parent.width * 0.7 : 500
             Layout.fillHeight: true
-            model: conversation_data
-            spacing: 6
-            clip: true
-            boundsBehavior: Flickable.StopAtBounds
-
-            delegate: Column {
-                width: conversation_view.width
-                spacing: 2
-                property string messageId: modelData.id || index
-
-                // Timestamp and Speaker Row
-                Row {
-                    width: parent.width
-                    spacing: 5
-
-                    // Time Stamp
-                    TextEdit {
-                        text: modelData.timestamp
-                        font.pixelSize: 12
-                        color: "#666"
-                        readOnly: true
-                        selectByMouse: true
-                        wrapMode: TextEdit.NoWrap
-                        width: 70
-                        padding: 0
-                    }
-
-                    // Speaker Name
-                    TextEdit {
-                        text: modelData.speaker + ":"
-                        font.bold: true
-                        font.italic: modelData.direction === "Other"
-                        color: model.direction === "Other" ? "#888" : "#2e7d32"
-                        font.pixelSize: 13
-                        readOnly: true
-                        selectByMouse: true
-                        wrapMode: TextEdit.Wrap
-                        width: parent.width - 75
-                        padding: 0
-                    }
-                }
-
-                // Content Column (includes both original and translated text)
-                Column {
-                    width: parent.width
-                    spacing: 2
-                    leftPadding: 75
-
-                    // Origin Text
-                    TextEdit {
-                        text: modelData.origin_text || ""
-                        font.pixelSize: 13
-                        font.italic: modelData.direction === "Other"
-                        color: model.direction === "Other" ? "#888" : "#2e7d32"
-                        readOnly: true
-                        selectByMouse: true
-                        wrapMode: TextEdit.Wrap
-                        width: parent.width - 75
-                        padding: 0
-                    }
-
-                    Rectangle {
-                        height: 1
-                        width: parent.width
-                        color: "#eee"
-                    }
-
-                    // Translated Text
-                    TextEdit {
-                        text: modelData.translated_text || ""
-                        font.pixelSize: 13
-                        font.italic: modelData.direction === "Other"
-                        color: model.direction === "Other" ? "#888" : "#2e7d32"
-                        readOnly: true
-                        selectByMouse: true
-                        wrapMode: TextEdit.Wrap
-                        width: parent.width - 75
-                        padding: 0
-                        // visible: text.length > 0 // Only show if there's translated text
-                    }
-                }
-            }
-
-            // Footer
-            footer: Item { width: 1; height: 60 }
-
-            ScrollBar.vertical: ScrollBar {
-                policy: ScrollBar.AsNeeded
-            }
-
-            onCountChanged: {
-                if (count > 0)
-                    conversation_view.positionViewAtEnd()
-            }
+            Layout.margins: 10
+            conversationData: historyList.conversation_data
+            otherSpeakerColor: "#888"
+            userSpeakerColor: "#2e7d32"
         }
-
     }
 
-    // Conversation Action
-    Item {
+    // Conversation Connections
+    Connections {
+        target: historyModel
+        function onConversationDataChanged() {
+            historyList.conversation_data = historyModel.getConversationData()
+        }
+    }
+
+//---------------------- History Action ----------------------//
+    ConversationActionBar {
+        id: actionBar
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        height: 60
-        width: buttonRow.width + 30
-        z: 100
-
-        Row {
-            id: buttonRow
-            spacing: 10
-            anchors.centerIn: parent
-
-            IconButton {
-                id: summaryConversationButton
-                iconSource: "../assets/conversation_action/historical-sumary-svgrepo-com.svg"
-                onClicked:  showSummary()
-            }
-
-            IconButton {
-                id: renameSpeakerButton
-                iconSource: "../assets/conversation_action/rename-15.svg"
-                onClicked: {
-                    sidebarVisible = !sidebarVisible
-                }
-            }
-        }
+        
+        showSummaryButton: true
+        showClearButton: false
+        showRenameButton: true
+        showNewButton: false
+        
+        onSummaryClicked: showSummary()
+        onRenameClicked: sidebarVisible = !sidebarVisible
     }
 
-    // Rename Speaker SideBar
+//---------------------- Rename Speacker Sidebar ----------------------//
     RenameSpeakerSideBar {
         id: speakerSidebar
         visible: true
@@ -267,6 +172,18 @@ Rectangle {
         }
     }
 
+    // Rename Speaker Connections
+    Connections {
+        target: historyModel
+        function onUniqueSpeakersChanged() {
+            if (sidebarVisible) {
+                speakerSidebar.speakerModel = historyModel.getUniqueSpeakerMaps()
+            }
+        }
+    }
+
+
+//---------------------- Summary PopUp ----------------------//
     PopUpSummary {
         id: summaryPopup
         title: "Summary Conversation"
@@ -283,6 +200,7 @@ Rectangle {
         historyModel.summarizeConversation()
     }
 
+    // Summary PopUp Connections
     Connections {
         target: historyModel
         function onSummaryReady(text) {
@@ -295,10 +213,15 @@ Rectangle {
         }
     }
 
+    // Initialize sidebar and load conversation data
     Component.onCompleted: {
         initializedSidebar = true
         if (historyModel && historyModel.getConversationData) {
             conversation_data = historyModel.getConversationData()
+        }
+
+        if (historyModel && historyModel.getUniqueSpeakerMaps) {
+            speakerSidebar.speakerModel = historyModel.getUniqueSpeakerMaps()
         }
     }
 }

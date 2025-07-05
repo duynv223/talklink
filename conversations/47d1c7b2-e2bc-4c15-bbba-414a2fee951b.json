@@ -1,0 +1,26 @@
+[
+    {
+        "id": "be93d4b2-ade6-492b-81ed-b6c5cf485f98",
+        "timestamp": 1751710820.3223662,
+        "speaker": "Other",
+        "origin_text": "that's when Power English starts. Check your email then.",
+        "translated_text": "それはパワー英語が始まるときです。その後、メールを確認してください。",
+        "direction": "Other"
+    },
+    {
+        "id": "9a025e59-7b10-4071-8254-1cf881d5f472",
+        "timestamp": 1751710823.537661,
+        "speaker": "Other",
+        "origin_text": "And finally, we're going to see Harry Potter tonight.",
+        "translated_text": "そして最後に、今夜はハリー・ポッターに会います。",
+        "direction": "Other"
+    },
+    {
+        "id": "c28ba0b5-ef84-44c7-b4ec-f12ab25000d4",
+        "timestamp": 1751710827.1297798,
+        "speaker": "Other",
+        "origin_text": "Okay. Well, as always, you can check",
+        "translated_text": null,
+        "direction": "Other"
+    }
+]
