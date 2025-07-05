@@ -38,8 +38,8 @@ class ConversationModel(QAbstractListModel):
         ]
 
         self._unique_speaker_map = [
-            {"speaker_Id": "SPEAKER_1", "speaker_Name": "System"},
-            {"speaker_Id": "SPEAKER_2", "speaker_Name": "Other"},
+            {"speaker_Id": "Other", "speaker_Name": "Other"},
+            {"speaker_Id": "You", "speaker_Name": "You"},
             {"speaker_Id": "SPEAKER_3", "speaker_Name": "SomeOne"},
         ]
 
@@ -150,8 +150,8 @@ class ConversationModel(QAbstractListModel):
         direction: str = None
     ):
         if speaker is None:
-            speaker = "UNKNOWN_USER"
-            self._addNewSpeaker(speaker)
+            speaker = direction
+            self._addNewSpeaker(speaker, direction)
         
         if not self._checkSpeakerExisted(speaker_Id=speaker):
             self._addNewSpeaker(speaker_Id=speaker, speaker_Name="UNKNOWN USER")
@@ -235,7 +235,9 @@ class ConversationModel(QAbstractListModel):
     def new_conversation(self):
         self._save_conversation_to_file()
         self._save_speaker_map_to_file()
+        self.beginRemoveRows(QModelIndex(), 0, self.rowCount() - 1)
         self._data.clear()
+        self.endRemoveRows()
         self._unique_speaker_map.clear()
         self._history_save_file = f"{str(uuid.uuid4())}.json"
 
