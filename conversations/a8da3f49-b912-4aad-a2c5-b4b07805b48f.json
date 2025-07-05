@@ -1,0 +1,114 @@
+[
+    {
+        "id": "5861122a-aab0-4a9b-b121-5b1cc5a38a70",
+        "timestamp": 1751672153.3444307,
+        "speaker": "SPEAKER_3",
+        "direction": "You",
+        "origin_text": "Hello!",
+        "translated_text": "Xin chào!"
+    },
+    {
+        "id": "f24a8bbd-3b07-40e7-bb8f-7cd57de464c8",
+        "timestamp": 1751672161.8396387,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "To delay",
+        "translated_text": "Để trì hoãn",
+        "direction": "Other"
+    },
+    {
+        "id": "87054b6a-aff4-492f-8bd7-ee5f8f7a8a4c",
+        "timestamp": 1751672162.882896,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "Power English just one more week. So the new date, the final date",
+        "translated_text": "Tiếng Anh quyền lực chỉ một tuần nữa. Vì vậy, ngày mới, ngày cuối cùng",
+        "direction": "Other"
+    },
+    {
+        "id": "292f77c3-4f6a-418d-916a-74dca6494b1c",
+        "timestamp": 1751672167.4893541,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "the one day only sale for Power English is now August 4.",
+        "translated_text": "Một ngày chỉ bán cho Power English là ngày 4 tháng 8.",
+        "direction": "Other"
+    },
+    {
+        "id": "e1d35519-82c9-49fc-a69c-f1d312307f7e",
+        "timestamp": 1751672174.2679648,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "August 4, that's next",
+        "translated_text": "Ngày 4 tháng 8, đó là tiếp theo",
+        "direction": "Other"
+    },
+    {
+        "id": "760ee52b-d30b-47b2-9b39-c6b5cd46689c",
+        "timestamp": 1751672178.7250812,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "Tuesday, August 4,",
+        "translated_text": "Thứ ba, ngày 4 tháng 8,",
+        "direction": "Other"
+    },
+    {
+        "id": "ffc6f23d-3cb4-48d9-a4f3-e670ef8b9ebd",
+        "timestamp": 1751672179.7611096,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "one day only,",
+        "translated_text": "chỉ một ngày,",
+        "direction": "Other"
+    },
+    {
+        "id": "6f0e7e0f-f722-4476-9b30-55b0c1a9d530",
+        "timestamp": 1751672182.3283474,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "Power English sale.",
+        "translated_text": "Bán tiền điện.",
+        "direction": "Other"
+    },
+    {
+        "id": "ad9363f6-faed-430a-b2f6-6abb1886058f",
+        "timestamp": 1751672183.8582776,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "Now to get Power English, you must be on my",
+        "translated_text": "Bây giờ để có được sức mạnh tiếng Anh, bạn phải ở trên",
+        "direction": "Other"
+    },
+    {
+        "id": "3e45bec9-499a-43d2-b661-532497149d57",
+        "timestamp": 1751672189.0502746,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "email list.",
+        "translated_text": "Danh sách email.",
+        "direction": "Other"
+    },
+    {
+        "id": "eafe703e-2950-4485-ba2a-69facb11d7be",
+        "timestamp": 1751672189.5108933,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "You must join the seven rules email course.",
+        "translated_text": "Bạn phải tham gia khóa học email bảy quy tắc.",
+        "direction": "Other"
+    },
+    {
+        "id": "c22898e6-c5c4-41b7-9571-f386422a9f54",
+        "timestamp": 1751672194.6130354,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "Because what happens at 12:01AM,",
+        "translated_text": "Bởi vì những gì xảy ra lúc 12:01 sáng,",
+        "direction": "Other"
+    },
+    {
+        "id": "aae8a0c1-a55a-4c9e-8d41-33879315ac06",
+        "timestamp": 1751672199.7384753,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "just after midnight,",
+        "translated_text": "Chỉ sau nửa đêm,",
+        "direction": "Other"
+    },
+    {
+        "id": "c319eb99-1574-405a-9b6a-bc3ac75f0ed0",
+        "timestamp": 1751672202.3010328,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "New York City, that's New",
+        "translated_text": null,
+        "direction": "Other"
+    }
+]

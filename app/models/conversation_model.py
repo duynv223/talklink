@@ -152,6 +152,9 @@ class ConversationModel(QAbstractListModel):
         if speaker is None:
             speaker = "UNKNOWN_USER"
             self._addNewSpeaker(speaker)
+        
+        if not self._checkSpeakerExisted(speaker_Id=speaker):
+            self._addNewSpeaker(speaker_Id=speaker, speaker_Name="UNKNOWN USER")
 
         was_updated = self.update(
             id=id, 
@@ -183,7 +186,7 @@ class ConversationModel(QAbstractListModel):
                 "speaker_Id": speaker_Id,
                 "speaker_Name": speaker_Name
             })
-            self.uniqueSpeakersChanged.emit()
+            self._save_speaker_map_to_file()
 
     def _checkSpeakerExisted(self, speaker_Id: str) -> bool:
         return any(s.get("speaker_Id") == speaker_Id for s in self._unique_speaker_map)
@@ -194,6 +197,7 @@ class ConversationModel(QAbstractListModel):
             save_file = HISTORY_PATH / self._history_save_file
             with open(save_file, 'w', encoding='utf-8') as f:
                 json.dump(self._data, f, ensure_ascii=False, indent=4)
+            self.conversationSaved.emit()
         except IOError as e:
             pass
 
@@ -203,6 +207,7 @@ class ConversationModel(QAbstractListModel):
             save_file = SPEAKER_PATH / self._history_save_file
             with open(save_file, 'w', encoding='utf-8') as f:
                 json.dump(self._unique_speaker_map, f, ensure_ascii=False, indent=4)
+            self.conversationSaved.emit()
         except IOError as e:
             pass
 
@@ -230,9 +235,9 @@ class ConversationModel(QAbstractListModel):
     def new_conversation(self):
         self._save_conversation_to_file()
         self._save_speaker_map_to_file()
+        self._data.clear()
+        self._unique_speaker_map.clear()
         self._history_save_file = f"{str(uuid.uuid4())}.json"
-        self.clear()
-        self.conversationSaved.emit()
 
 
     @Slot()
@@ -251,15 +256,46 @@ class ConversationModel(QAbstractListModel):
             from openai import AsyncOpenAI
             client = AsyncOpenAI(base_url="https://aiportalapi.stu-platform.live/jpe", api_key="sk-B8guBxC5737sXsR3sJGKmw")
 
-            system_content = f"""
-                You are an AI assistant specialized in summarizing conversations involving multiple speakers.
-                Generate a short and concise summary that captures the key points discussed.
-                Include speaker names if they are important for understanding the context.
-                Avoid repeating every sentence — focus only on the essential ideas, presented in a clear and easy-to-read format, like a condensed meeting note.
-                The conversation content is presented in JSON format, where each object represents a sentence, including both the original text and the translated text.
+            system_content = """
+                You are an intelligent assistant specialized in analyzing and summarizing conversations between multiple speakers.
+
+                Your task is to:
+                - Carefully read the provided conversation data (in JSON format)
+                - Understand the context and flow of discussion
+                - Identify the key points, decisions, actions, questions, or ideas mentioned
+                - Eliminate filler phrases or repetitive small talk
+                - Present a concise, clear summary that captures the essential meaning of the conversation
+
+                The conversation is structured in JSON format. Each item represents a single utterance and includes:
+                - speaker: the participant's identifier (e.g., SPEAKER_1)
+                - origin_text: the original spoken sentence
+                - translated_text: the translated version (if applicable)
+                - direction: indicates whether the sentence is from the user or others
+                - timestamp: when the sentence occurred
+
+                Guidelines:
+                - Use the **original text** (`origin_text`) as the primary content to analyze
+                - Refer to `speaker` names when relevant (especially when clarifying who said what)
+                - Format the output as a **short paragraph** or a **bulleted list**, depending on what's more natural
+                - Make the summary sound like a brief meeting note or professional recap
+                - Do **not** repeat every line; instead, group related points and summarize them meaningfully
+                - If no meaningful content is found, respond with: "No significant information to summarize."
+
+                Example output formats:
+                - Paragraph: "The participants discussed X, Y, and Z. They agreed on A and raised concerns about B."
+                - Bulleted list:
+                - Point A: ...
+                - Point B: ...
+
+                Be accurate, neutral, and clear in your language.
             """
 
-            conv_content = json.dumps(self._data, ensure_ascii=False, indent=2)
+            speaker_map = {s["speaker_Id"]: s["speaker_Name"] for s in self._unique_speaker_map}
+            data_with_names = [
+                {**item, "speaker": speaker_map.get(item.get("speaker", ""), item.get("speaker", ""))}
+                for item in self._data
+            ]
+            conv_content = json.dumps(data_with_names, ensure_ascii=False, indent=2)
             messages = [
                 {"role": "system", "content": system_content},
                 {"role": "user", "content": conv_content}

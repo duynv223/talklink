@@ -39,11 +39,11 @@ async def main():
 
     audio_device_manager = AudioDeviceManager()
     conversation_model = ConversationModel()
-    # history_model = HistoryModel()
+    history_model = HistoryModel()
     setting_model = SettingModel('setting.yaml')
     setting_model.load()
 
-    # conversation_model.conversationSaved.connect(history_model.refresh)
+    conversation_model.conversationSaved.connect(history_model.refresh)
 
     pipeline = SpeechTranslatorPipeline(
         conversation_model=conversation_model,
@@ -62,7 +62,7 @@ async def main():
     qml_engine = init_engine(qml_path, {
         "pipeline": pipeline,
         "conversationModel": conversation_model,
-        # "historyModel": history_model,
+        "historyModel": history_model,
         "settingModel": setting_model,
         "audioDeviceManager": audio_device_manager,
         "serviceSettingModel": service_setting_model

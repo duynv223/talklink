@@ -2,7 +2,7 @@ ASR:
   selected: deepgram
   settings:
     deepgram:
-      api_key: 3c3cf4ceecc43e7786894b9726191c1aa524120
+      api_key: 13c3cf4ceecc43e7786894b9726191c1aa524120
       endpointing: '300'
       utterance_end_ms: '1000'
     whisper:

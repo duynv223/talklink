@@ -2,6 +2,8 @@ from PySide6.QtCore import QAbstractListModel, QModelIndex, Qt, Slot, Signal
 import json
 from pathlib import Path
 import time
+import asyncio
+import json
 
 BASE_PATH = Path(__file__).resolve().parent.parent.parent
 HISTORY_PATH = BASE_PATH / "conversations"
@@ -13,21 +15,25 @@ class HistoryModel(QAbstractListModel):
     PreviewRole = Qt.UserRole + 3
 
     uniqueSpeakersChanged = Signal()
+    conversationDataChanged = Signal()
+
+    summaryReady = Signal(str)
+    summaryError = Signal(str)
 
     def __init__(self, parent=None):
         super().__init__(parent)
         self._history_data = []
         self._conversation_data = []
         self._unique_speaker_map = []
-        # self.refresh()
+        self.refresh()
 
     def rowCount(self, parent=QModelIndex()):
-        return len(self._data)
+        return len(self._history_data)
 
     def data(self, index, role):
-        if not index.isValid() or not (0 <= index.row() < len(self._data)):
+        if not index.isValid() or not (0 <= index.row() < len(self._history_data)):
             return None
-        item = self._data[index.row()]
+        item = self._history_data[index.row()]
         if role == self.IdRole:
             return item.get("id", "")
         elif role == self.DateRole:
@@ -92,14 +98,12 @@ class HistoryModel(QAbstractListModel):
 
         self.endResetModel()
 
+    @Slot(str)
     def changeConversation(self, id):
-        self.beginResetModel()
-        self._history_data.clear()
         self._conversation_data.clear()
         self._unique_speaker_map.clear()
         
         if not HISTORY_PATH.exists():
-            self.endResetModel()
             return
 
         conv_file = HISTORY_PATH / id
@@ -112,20 +116,15 @@ class HistoryModel(QAbstractListModel):
             with open(speaker_file, 'r', encoding='utf-8') as f:
                 speaker_data = json.load(f)
                 self._unique_speaker_map = speaker_data
-        self.endResetModel()
+
+        self.conversationDataChanged.emit()
+        self.uniqueSpeakersChanged.emit()
+
 
     def _getSpeakerName(self, speaker_Id: str):
         return next(
             (speaker["speaker_Name"] for speaker in self._unique_speaker_map if speaker.get("speaker_Id") == speaker_Id), "UNKNOWN USER"
         )
-
-    def _addNewSpeaker(self, speaker_Id: str, speaker_Name: str = "UNKOWN USER"):
-        if not self._checkSpeakerExisted(speaker_Id):
-            self._unique_speaker_map.append({
-                "speaker_Id": speaker_Id,
-                "speaker_Name": speaker_Name
-            })
-            self.uniqueSpeakersChanged.emit()
 
     def _checkSpeakerExisted(self, speaker_Id: str) -> bool:
         return any(s.get("speaker_Id") == speaker_Id for s in self._unique_speaker_map)
@@ -149,6 +148,16 @@ class HistoryModel(QAbstractListModel):
             pass
 
     @Slot(result='QVariantList')
+    def getConversationData(self):
+        speaker_map = {s["speaker_Id"]: s["speaker_Name"] for s in self._unique_speaker_map}
+        data_with_names = [
+            {**item, "speaker": speaker_map.get(item.get("speaker", ""), item.get("speaker", ""))}
+            for item in self._conversation_data
+        ]
+        return data_with_names
+
+
+    @Slot(result='QVariantList')
     def getUniqueSpeakerMaps(self):
         return self._unique_speaker_map
 
@@ -161,9 +170,72 @@ class HistoryModel(QAbstractListModel):
                 updated = True
                 break
         if updated:
+            self.conversationDataChanged.emit()
             self.uniqueSpeakersChanged.emit()
-            if self.rowCount() > 0:
-                top = self.index(0, 0)
-                bottom = self.index(self.rowCount() - 1, 0)
-                self.dataChanged.emit(top, bottom, [self.SpeakerRole])
             self._save_speaker_map_to_file()
+
+
+    @Slot()
+    def summarizeConversation(self):
+        asyncio.create_task(self._do_summary())
+
+    async def _do_summary(self):
+        try:
+            from openai import AsyncOpenAI
+            client = AsyncOpenAI(base_url="https://aiportalapi.stu-platform.live/jpe", api_key="sk-B8guBxC5737sXsR3sJGKmw")
+
+            system_content = """
+                You are an intelligent assistant specialized in analyzing and summarizing conversations between multiple speakers.
+
+                Your task is to:
+                - Carefully read the provided conversation data (in JSON format)
+                - Understand the context and flow of discussion
+                - Identify the key points, decisions, actions, questions, or ideas mentioned
+                - Eliminate filler phrases or repetitive small talk
+                - Present a concise, clear summary that captures the essential meaning of the conversation
+
+                The conversation is structured in JSON format. Each item represents a single utterance and includes:
+                - speaker: the participant's identifier (e.g., SPEAKER_1)
+                - origin_text: the original spoken sentence
+                - translated_text: the translated version (if applicable)
+                - direction: indicates whether the sentence is from the user or others
+                - timestamp: when the sentence occurred
+
+                Guidelines:
+                - Use the **original text** (`origin_text`) as the primary content to analyze
+                - Refer to `speaker` names when relevant (especially when clarifying who said what)
+                - Format the output as a **short paragraph** or a **bulleted list**, depending on what's more natural
+                - Make the summary sound like a brief meeting note or professional recap
+                - Do **not** repeat every line; instead, group related points and summarize them meaningfully
+                - If no meaningful content is found, respond with: "No significant information to summarize."
+
+                Example output formats:
+                - Paragraph: "The participants discussed X, Y, and Z. They agreed on A and raised concerns about B."
+                - Bulleted list:
+                - Point A: ...
+                - Point B: ...
+
+                Be accurate, neutral, and clear in your language.
+            """
+
+            speaker_map = {s["speaker_Id"]: s["speaker_Name"] for s in self._unique_speaker_map}
+            data_with_names = [
+                {**item, "speaker": speaker_map.get(item.get("speaker", ""), item.get("speaker", ""))}
+                for item in self._conversation_data
+            ]
+            conv_content = json.dumps(data_with_names, ensure_ascii=False, indent=2)
+            messages = [
+                {"role": "system", "content": system_content},
+                {"role": "user", "content": conv_content}
+            ]
+
+            res = await client.chat.completions.create(
+                model="GPT-4o-mini",
+                messages=messages
+            )
+
+            summary = res.choices[0].message.content.strip()
+            self.summaryReady.emit(summary)
+
+        except Exception as e:
+            self.summaryError.emit(str(e))

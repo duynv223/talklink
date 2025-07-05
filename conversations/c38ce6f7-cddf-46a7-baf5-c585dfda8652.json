@@ -1,0 +1,202 @@
+[
+    {
+        "id": "c319eb99-1574-405a-9b6a-bc3ac75f0ed0",
+        "timestamp": 1751672202.3010328,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "New York City, that's New York City time,",
+        "translated_text": "Thành phố New York, đó là giờ thành phố New York,",
+        "direction": "Other"
+    },
+    {
+        "id": "b7a74f7e-a855-4e89-9982-e27555e25d2a",
+        "timestamp": 1751672204.85107,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "I will send an email",
+        "translated_text": "Tôi sẽ gửi email",
+        "direction": "Other"
+    },
+    {
+        "id": "dadacf23-043f-4557-8ac2-6eaa045f8c22",
+        "timestamp": 1751672207.4127083,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "to everybody in the seven rules email list.",
+        "translated_text": "cho tất cả mọi người trong danh sách email bảy quy tắc.",
+        "direction": "Other"
+    },
+    {
+        "id": "b7f6a4e1-f187-454b-8bb6-705434feb5a6",
+        "timestamp": 1751672211.4895618,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "That actually will be almost",
+        "translated_text": "Điều đó thực sự sẽ gần như",
+        "direction": "Other"
+    },
+    {
+        "id": "a0872a74-1b93-4b63-bccc-758de23e326c",
+        "timestamp": 1751672216.6332426,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "1,000,000 people because our friends, Kristen and Joe, they're all",
+        "translated_text": "1.000.000 người vì bạn bè của chúng tôi, Kristen và Joe, tất cả đều",
+        "direction": "Other"
+    },
+    {
+        "id": "30cced16-3154-4d8b-8f35-8133f5d8d1db",
+        "timestamp": 1751672220.3789907,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "sending emails. So, anyway, you will get an email",
+        "translated_text": "Gửi email. Vì vậy, dù sao, bạn sẽ nhận được một email",
+        "direction": "Other"
+    },
+    {
+        "id": "db920038-920a-4f0e-83d8-4f49d6b4d370",
+        "timestamp": 1751672224.3098657,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "and it will have a link inside. Click the link,",
+        "translated_text": "Và nó sẽ có một liên kết bên trong. Nhấp vào liên kết,",
+        "direction": "Other"
+    },
+    {
+        "id": "1a4698c6-d743-44a8-9dcb-8eb5a976ff1f",
+        "timestamp": 1751672228.4007015,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "the link will go to the Power English sale page",
+        "translated_text": "Liên kết sẽ đi đến trang bán hàng tiếng Anh Power",
+        "direction": "Other"
+    },
+    {
+        "id": "8ce9d961-0524-4d3f-8bef-9cd7872005a5",
+        "timestamp": 1751672233.022787,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "and you just click that big red button, it'll say buy lessons now etcetera.",
+        "translated_text": "Và bạn chỉ cần nhấp vào nút màu đỏ lớn đó, nó sẽ nói rằng hãy mua bài học ngay bây giờ.",
+        "direction": "Other"
+    },
+    {
+        "id": "ed791b37-a78d-4a11-9638-703fd7e483d9",
+        "timestamp": 1751672238.1390154,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "Click that red button, you get Power English. So",
+        "translated_text": "Nhấp vào nút màu đỏ đó, bạn có được Power English. Vì thế",
+        "direction": "Other"
+    },
+    {
+        "id": "2b9f2e18-80d8-4f46-842a-694b3044c656",
+        "timestamp": 1751672242.2379057,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "if you don't know about Power English then you probably are not on my email list",
+        "translated_text": "Nếu bạn không biết về Power English thì có lẽ bạn không có trong danh sách email của tôi",
+        "direction": "Other"
+    },
+    {
+        "id": "5b56419a-e137-49d8-97b9-12ad72cdcaf0",
+        "timestamp": 1751672245.292862,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "and don't worry about it.",
+        "translated_text": "Và đừng lo lắng về nó.",
+        "direction": "Other"
+    },
+    {
+        "id": "d4fca327-1bb7-41ff-b5ac-7ca83eac8ae5",
+        "timestamp": 1751672246.8325064,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "You're fine. You can just listen to my podcast.",
+        "translated_text": "Bạn ổn. Bạn chỉ có thể nghe podcast của tôi.",
+        "direction": "Other"
+    },
+    {
+        "id": "8fb45a48-3659-489b-8285-d0fc15b2a2a4",
+        "timestamp": 1751672251.4436898,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "It's too late for me to tell you everything about Power English now.",
+        "translated_text": "Đã quá muộn để tôi nói với bạn mọi thứ về Power English bây giờ.",
+        "direction": "Other"
+    },
+    {
+        "id": "1700af9d-e5d0-4e67-b067-ff73f11d425c",
+        "timestamp": 1751672255.0271726,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "So, but if you are wanting Power English,",
+        "translated_text": "Vì vậy, nhưng nếu bạn đang muốn Power English,",
+        "direction": "Other"
+    },
+    {
+        "id": "e6e82fb3-834c-4046-bdf1-2e5e6816e471",
+        "timestamp": 1751672258.6046298,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "then you need to be on my email list.",
+        "translated_text": "Sau đó, bạn cần phải có trong danh sách email của tôi.",
+        "direction": "Other"
+    },
+    {
+        "id": "9778c2b6-754c-44d9-85e1-f38f39cc3d3d",
+        "timestamp": 1751672260.1311927,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "And you probably probably already are.",
+        "translated_text": "Và có lẽ bạn đã có.",
+        "direction": "Other"
+    },
+    {
+        "id": "bf222b98-088a-436d-89b2-1ec509961f8d",
+        "timestamp": 1751672263.7437913,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "Okay. So anyway, so August 4, it's only one day and only",
+        "translated_text": "Được rồi. Vì vậy, dù sao đi nữa, ngày 4 tháng 8, chỉ một ngày và chỉ",
+        "direction": "Other"
+    },
+    {
+        "id": "c66b7f5b-4a6d-4c2f-862a-0b8bb746b44b",
+        "timestamp": 1751672268.8438134,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "thousand copies.",
+        "translated_text": "ngàn bản.",
+        "direction": "Other"
+    },
+    {
+        "id": "bc4e4c05-1060-4099-8ff6-53a5e93f12ec",
+        "timestamp": 1751672270.8988683,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "So we are limiting the number of lessons.",
+        "translated_text": "Vì vậy, chúng tôi đang giới hạn số lượng bài học.",
+        "direction": "Other"
+    },
+    {
+        "id": "22859557-5502-46d0-bd9d-8a6afaa3159b",
+        "timestamp": 1751672275.521335,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "On August 4 to just 15,000.",
+        "translated_text": "Vào ngày 4 tháng 8 đến chỉ 15.000.",
+        "direction": "Other"
+    },
+    {
+        "id": "53acb666-5871-48ca-9574-23cba615a388",
+        "timestamp": 1751672277.0682683,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "I think probably most of those will be gone quickly in a few hours.",
+        "translated_text": "Tôi nghĩ có lẽ hầu hết trong số đó sẽ biến mất trong vài giờ.",
+        "direction": "Other"
+    },
+    {
+        "id": "cb5880c8-45d4-4a44-8937-f253ecf3f6a6",
+        "timestamp": 1751672282.1692472,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "So if you really want Power English, I I recommend that you",
+        "translated_text": "Vì vậy, nếu bạn thực sự muốn sức mạnh tiếng Anh, tôi khuyên bạn nên bạn",
+        "direction": "Other"
+    },
+    {
+        "id": "1173fb21-3e07-4f1e-850c-6f6bc643422d",
+        "timestamp": 1751672286.7522726,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "open your email immediately at 12:01AM just after midnight.",
+        "translated_text": "Mở email của bạn ngay lúc 12:01 sáng chỉ sau nửa đêm.",
+        "direction": "Other"
+    },
+    {
+        "id": "58d8c5f0-f4b2-484e-b5ea-63095575df37",
+        "timestamp": 1751672292.9270597,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "Just",
+        "translated_text": null,
+        "direction": "Other"
+    }
+]

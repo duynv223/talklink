@@ -1,0 +1,34 @@
+[
+    {
+        "id": "a3cd7cf2-5f8e-4d79-9239-925cb6c79fd4",
+        "timestamp": 1751672467.4253085,
+        "speaker": "SPEAKER_3",
+        "direction": "You",
+        "origin_text": "Hello!",
+        "translated_text": "Xin chào!"
+    },
+    {
+        "id": "12e51fbc-74bf-4272-9a17-7cebd138b597",
+        "timestamp": 1751672488.2485054,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "And first, I just wanna say some nice things about Blaine Ray.",
+        "translated_text": "Và trước tiên, tôi chỉ muốn nói một số điều tốt đẹp về Blaine Ray.",
+        "direction": "Other"
+    },
+    {
+        "id": "11636daf-335b-4feb-bb1f-879f47cda974",
+        "timestamp": 1751672491.4396222,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "Because he's a super nice person, he's a fantastic teacher,",
+        "translated_text": "Bởi vì anh ấy là một người siêu tốt, anh ấy là một giáo viên tuyệt vời,",
+        "direction": "Other"
+    },
+    {
+        "id": "4ac3c25e-887f-47b2-90b1-4fb9808273d6",
+        "timestamp": 1751672496.0533743,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "He's a great teacher",
+        "translated_text": null,
+        "direction": "Other"
+    }
+]

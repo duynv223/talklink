@@ -52,12 +52,8 @@ ApplicationWindow {
                     anchors.fill: parent
                     anchors.margins: 10
                     spacing: 10
-                    
-                    Text { 
-                        text: "Conversation History"
-                        font.pixelSize: 24
-                        font.bold: true
-                    }
+
+                    Text { text: "Conversation History"; font.pixelSize: 24 }
                     
                     HistoryList {
                         id: historyList

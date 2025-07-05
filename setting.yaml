@@ -4,7 +4,7 @@ conference:
     tts_enable: true
     tts_speed: 1.0
   input_device: Microphone (High Definition Aud
-  input_mute: false
+  input_mute: true
   other_lang: en
   output_device: Speakers (High Definition Audio
   output_mute: false

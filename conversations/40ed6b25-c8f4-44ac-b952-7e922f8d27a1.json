@@ -1,0 +1,58 @@
+[
+    {
+        "id": "4516d5c3-e020-4893-a8e0-198ceefab731",
+        "timestamp": 1751672348.1754034,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "But you guys know Kristen's from Learn Real English. Todd is just a good friend of ours.",
+        "translated_text": "Nhưng các bạn biết Kristen từ học tiếng Anh thực sự. Todd chỉ là một người bạn tốt của chúng ta.",
+        "direction": "Other"
+    },
+    {
+        "id": "cf9e6fcf-2441-481a-93af-104f1010a564",
+        "timestamp": 1751672352.875329,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "And, of course, Tomoe and I, we're all going to see the new Harry Potter movie",
+        "translated_text": "Và, tất nhiên, Tomoe và tôi, tất cả chúng ta sẽ xem bộ phim Harry Potter mới",
+        "direction": "Other"
+    },
+    {
+        "id": "7302c1cb-6a49-4e1a-92f4-c9949f178b8f",
+        "timestamp": 1751672357.8912416,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "Yay.",
+        "translated_text": "Yay.",
+        "direction": "Other"
+    },
+    {
+        "id": "acb2c3f8-08db-47e1-a7ab-2ce264c63a81",
+        "timestamp": 1751672358.4062645,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "And, you know, I have never read the Harry Potter books.",
+        "translated_text": "Và, bạn biết đấy, tôi chưa bao giờ đọc những cuốn sách Harry Potter.",
+        "direction": "Other"
+    },
+    {
+        "id": "e458ec87-b930-4193-8d4c-bd77adfff127",
+        "timestamp": 1751672363.5167577,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "So I don't know what happens in this story. So the movie fun for me.",
+        "translated_text": "Vì vậy, tôi không biết điều gì xảy ra trong câu chuyện này. Vì vậy, bộ phim thú vị cho tôi.",
+        "direction": "Other"
+    },
+    {
+        "id": "9455aa2c-20d5-4264-87b4-a06d3e822063",
+        "timestamp": 1751672366.610826,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "When the new movies come, I really I have no idea what's going to happen. So I enjoy it.",
+        "translated_text": "Khi những bộ phim mới đến, tôi thực sự không biết chuyện gì sẽ xảy ra. Vì vậy, tôi thích nó.",
+        "direction": "Other"
+    },
+    {
+        "id": "9526d61b-2db0-4b9d-8508-ea3ab2b513b9",
+        "timestamp": 1751672370.6940045,
+        "speaker": "UNKNOWN_USER",
+        "origin_text": "Maybe someday I'll",
+        "translated_text": null,
+        "direction": "Other"
+    }
+]

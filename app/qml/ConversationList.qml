@@ -201,8 +201,8 @@ Rectangle {
         id: summaryPopup
         modal: true
         focus: true
-        width: parent ? parent.width * 0.6 : 600
-        height: parent ? parent.height * 0.5 : 400
+        width: parent ? parent.width * 0.75 : 700
+        height: parent ? parent.height * 0.6 : 500
         padding: 20
         closePolicy: Popup.CloseOnEscape
         anchors.centerIn: parent
@@ -248,11 +248,13 @@ Rectangle {
                     width: summaryPopup.width - 40
                     spacing: 10
 
-                    Text {
+                    TextEdit {
                         text: summaryPopup.result
-                        wrapMode: Text.Wrap
+                        wrapMode: TextEdit.Wrap
                         font.pixelSize: 14
                         color: "#333"
+                        readOnly: true
+                        selectByMouse: true
                         width: parent.width
                     }
                 }
