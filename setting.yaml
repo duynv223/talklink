@@ -7,7 +7,7 @@ conference:
   input_mute: true
   other_lang: en
   output_device: Speakers (High Definition Audio
-  output_mute: false
+  output_mute: true
   upstream:
     asr_enable: true
     tts_enable: true
@@ -15,4 +15,4 @@ conference:
   volume:
     original: 1.0
     translated: 1.0
-  your_lang: vi
+  your_lang: ja

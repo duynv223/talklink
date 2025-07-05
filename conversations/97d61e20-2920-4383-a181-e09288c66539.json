@@ -1,0 +1,162 @@
+[
+    {
+        "id": "1ca89b5b-3024-44de-b81e-8ffc6d351748",
+        "timestamp": 1751683888.6051543,
+        "speaker": "Other",
+        "origin_text": "email list.",
+        "translated_text": "メーリングリスト。",
+        "direction": "Other"
+    },
+    {
+        "id": "9348f5a8-6642-4a69-84d5-51c1f7d07493",
+        "timestamp": 1751683889.7373788,
+        "speaker": "Other",
+        "origin_text": "You must",
+        "translated_text": "絶対です",
+        "direction": "Other"
+    },
+    {
+        "id": "12e23feb-01af-4223-9979-b1dfa2c43109",
+        "timestamp": 1751683891.1704051,
+        "speaker": "Other",
+        "origin_text": "join the seven rules email course.",
+        "translated_text": "7つのルールメールコースに参加してください。",
+        "direction": "Other"
+    },
+    {
+        "id": "3f78c029-72c2-4b46-a71c-3d45cf89a152",
+        "timestamp": 1751683894.7504983,
+        "speaker": "Other",
+        "origin_text": "Because what happens at 12:01AM,",
+        "translated_text": "午前12時1分に何が起こるので、",
+        "direction": "Other"
+    },
+    {
+        "id": "816c035a-67ed-4cea-a486-9f6473562294",
+        "timestamp": 1751683899.3419178,
+        "speaker": "Other",
+        "origin_text": "just after midnight in New York City, that's New York City time,",
+        "translated_text": "ニューヨーク市の真夜中を過ぎると、それはニューヨーク市の時間です。",
+        "direction": "Other"
+    },
+    {
+        "id": "2f0493bb-56b0-45da-95cf-b682782d0f42",
+        "timestamp": 1751683904.971495,
+        "speaker": "Other",
+        "origin_text": "I will send an email to everybody in the seven rules",
+        "translated_text": "7つのルールで全員にメールを送信します",
+        "direction": "Other"
+    },
+    {
+        "id": "ac3b3573-fd42-44b6-be9e-0688985fcdf3",
+        "timestamp": 1751683909.5888734,
+        "speaker": "Other",
+        "origin_text": "email list.",
+        "translated_text": "メーリングリスト。",
+        "direction": "Other"
+    },
+    {
+        "id": "04d720a1-cdd2-4f06-b88a-237ed8f7e342",
+        "timestamp": 1751683911.6282046,
+        "speaker": "Other",
+        "origin_text": "That actually will be almost 1,000,000 people.",
+        "translated_text": "それは実際にはほぼ1,000,000人になります。",
+        "direction": "Other"
+    },
+    {
+        "id": "45c44bcd-9e22-48fd-bc01-093b5dbc643c",
+        "timestamp": 1751683916.749624,
+        "speaker": "Other",
+        "origin_text": "Because",
+        "translated_text": "なぜなら",
+        "direction": "Other"
+    },
+    {
+        "id": "e63518d0-be98-445f-a475-48066d0d3d1a",
+        "timestamp": 1751683917.9036062,
+        "speaker": "Other",
+        "origin_text": "our friends, Kristen and Joe, they're also sending emails. So",
+        "translated_text": "私たちの友人、クリステンとジョーは、彼らもメールを送信しています。それで",
+        "direction": "Other"
+    },
+    {
+        "id": "d8c1dab6-195a-41e7-a431-a5ae2bb8b168",
+        "timestamp": 1751683921.871187,
+        "speaker": "Other",
+        "origin_text": "anyway, you will get an email",
+        "translated_text": "とにかく、あなたは電子メールを受け取るでしょう",
+        "direction": "Other"
+    },
+    {
+        "id": "dc607095-b64d-4d44-99c9-024b17726a59",
+        "timestamp": 1751683924.4276748,
+        "speaker": "Other",
+        "origin_text": "and it will have a link inside",
+        "translated_text": "また、内部にリンクがあります",
+        "direction": "Other"
+    },
+    {
+        "id": "cf391fd4-d00b-4537-b0c8-0827c89c805b",
+        "timestamp": 1751683926.9956493,
+        "speaker": "Other",
+        "origin_text": "Click the link,",
+        "translated_text": "リンクをクリックして、",
+        "direction": "Other"
+    },
+    {
+        "id": "cb70e4cb-0dd0-4def-94b6-65f7f4a406f7",
+        "timestamp": 1751683928.5297508,
+        "speaker": "Other",
+        "origin_text": "the link will go to the Power English sale page",
+        "translated_text": "リンクはパワーイングリッシュセールページに送信されます",
+        "direction": "Other"
+    },
+    {
+        "id": "ecdd34f7-aa0e-4d93-86aa-5591d666fa51",
+        "timestamp": 1751683933.1326308,
+        "speaker": "Other",
+        "origin_text": "and you just click that big red button, it'll say buy lessons now etcetera.",
+        "translated_text": "そして、あなたはその大きな赤いボタンをクリックするだけです、それは今すぐレッスンを購入すると言います。",
+        "direction": "Other"
+    },
+    {
+        "id": "2c72dffb-6165-40b7-ae37-5730323ece9c",
+        "timestamp": 1751683938.2583215,
+        "speaker": "Other",
+        "origin_text": "Click that red button, you get Power English.",
+        "translated_text": "その赤いボタンをクリックすると、パワー英語が得られます。",
+        "direction": "Other"
+    },
+    {
+        "id": "c82c2767-b6f8-4c35-8282-acc7be7a1802",
+        "timestamp": 1751683939.8043199,
+        "speaker": "Other",
+        "origin_text": "So if you don't know about Power English then you probably are not on my",
+        "translated_text": "だからあなたがパワー英語について知らないなら、あなたはおそらく私のことではない",
+        "direction": "Other"
+    },
+    {
+        "id": "e21a97e0-ebb2-4070-bc70-603af76e796f",
+        "timestamp": 1751683945.0357044,
+        "speaker": "Other",
+        "origin_text": "email list and don't worry about it. You're fine.",
+        "translated_text": "メーリングリストとそれについて心配しないでください。あなたは元気です。",
+        "direction": "Other"
+    },
+    {
+        "id": "b1654c8f-d37f-4d2d-a518-b41cbe70d951",
+        "timestamp": 1751683949.505615,
+        "speaker": "Other",
+        "origin_text": "You can just listen to my podcast. It's too late for me to tell you everything about",
+        "translated_text": "あなたは私のポッドキャストを聞くことができます。私があなたにすべてを話すには遅すぎます",
+        "direction": "Other"
+    },
+    {
+        "id": "61ad9189-827c-4292-a299-9704eda560f1",
+        "timestamp": 1751683953.1039898,
+        "speaker": "Other",
+        "origin_text": "Power English now.",
+        "translated_text": null,
+        "direction": "Other"
+    }
+]

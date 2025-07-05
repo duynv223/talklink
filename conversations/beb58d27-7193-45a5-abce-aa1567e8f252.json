@@ -1,0 +1,18 @@
+[
+    {
+        "id": "89f9fa33-228d-4c0d-a49f-81a99e12a1e9",
+        "timestamp": 1751679947.668029,
+        "speaker": "Other",
+        "origin_text": "So now we are ready for a lot of traffic suddenly.",
+        "translated_text": "Vì vậy, bây giờ chúng tôi đã sẵn sàng cho rất nhiều giao thông đột ngột.",
+        "direction": "Other"
+    },
+    {
+        "id": "6c0eb601-fbaf-4601-82d8-56cfe7e9064e",
+        "timestamp": 1751679951.7662926,
+        "speaker": "Other",
+        "origin_text": "And that's good because Power English is coming soon.",
+        "translated_text": null,
+        "direction": "Other"
+    }
+]

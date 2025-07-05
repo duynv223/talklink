@@ -48,7 +48,7 @@ Rectangle {
                     text: model.speaker + ":"
                     font.bold: true
                     font.italic: model.direction === "Other"
-                    color: "#888"
+                    color: model.direction === "Other" ? "#888" : "#2e7d32"
                     font.pixelSize: 13
                     readOnly: true
                     selectByMouse: true
@@ -69,7 +69,7 @@ Rectangle {
                     text: model.originText
                     font.pixelSize: 13
                     font.italic: model.direction === "Other"
-                    color: "#333"
+                    color: model.direction === "Other" ? "#888" : "#2e7d32"
                     readOnly: true
                     selectByMouse: true
                     wrapMode: TextEdit.Wrap
@@ -88,7 +88,7 @@ Rectangle {
                     text: model.translatedText || ""
                     font.pixelSize: 13
                     font.italic: model.direction === "Other"
-                    color: "#aaaaaa"
+                    color: model.direction === "Other" ? "#888" : "#2e7d32"
                     readOnly: true
                     selectByMouse: true
                     wrapMode: TextEdit.Wrap
@@ -128,11 +128,7 @@ Rectangle {
             IconButton {
                 id: summaryConversationButton
                 iconSource: "../assets/conversation_action/historical-sumary-svgrepo-com.svg"
-                onClicked:  {
-                    summaryPopup.open()
-                    summaryPopup.loading = true
-                    conversationModel.summarizeConversation()
-                }
+                onClicked: showSummary()
             }
             IconButton {
                 id: clearConversationButton
@@ -197,92 +193,31 @@ Rectangle {
         }
     }
 
-    Popup {
+    PopUpSummary {
         id: summaryPopup
-        modal: true
-        focus: true
-        width: parent ? parent.width * 0.75 : 700
-        height: parent ? parent.height * 0.6 : 500
-        padding: 20
-        closePolicy: Popup.CloseOnEscape
-        anchors.centerIn: parent
+        title: "Summary Conversation"
+        okText: "Close"
+        showCancelButton: false
 
-        // Custom properties
-        property bool loading: false
-        property string result: ""
-
-        background: Rectangle {
-            color: "#ffffff"
-            radius: 10
-            border.color: "#cccccc"
+        Component.onCompleted: {
         }
+    }
 
-        ColumnLayout {
-            anchors.fill: parent
-            spacing: 12
+    function showSummary() {
+        summaryPopup.setLoading(true)
+        summaryPopup.open()
+        conversationModel.summarizeConversation()
+    }
 
-            // Title
-            Label {
-                text: "Summary Conversation"
-                font.pixelSize: 18
-                font.bold: true
-                Layout.alignment: Qt.AlignHCenter
-                horizontalAlignment: Text.AlignHCenter 
-            }
-
-            // Loading indicator
-            Loader {
-                active: summaryPopup.loading
-                sourceComponent: busyIndicatorComponent
-                Layout.alignment: Qt.AlignHCenter
-                visible: summaryPopup.loading
-            }
-
-            // Summary text
-            ScrollView {
-                visible: !summaryPopup.loading
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                clip: true
-                Column {
-                    width: summaryPopup.width - 40
-                    spacing: 10
-
-                    TextEdit {
-                        text: summaryPopup.result
-                        wrapMode: TextEdit.Wrap
-                        font.pixelSize: 14
-                        color: "#333"
-                        readOnly: true
-                        selectByMouse: true
-                        width: parent.width
-                    }
-                }
-            }
-
-            // Button bar
-            RowLayout {
-                Layout.alignment: Qt.AlignRight
-                Layout.fillWidth: true
-
-                Button {
-                    text: "Đóng"
-                    onClicked: summaryPopup.close()
-                }
-            }
+    Connections {
+        target: conversationModel
+        function onSummaryReady(text) {
+            summaryPopup.setLoading(false)
+            summaryPopup.setResult(text)
         }
-
-        // BusyIndicator component
-        Component {
-            id: busyIndicatorComponent
-            Item {
-                width: 40
-                height: 40
-                BusyIndicator {
-                    running: true
-                    anchors.centerIn: parent
-                }
-            }
+        function onSummaryError(err) {
+            summaryPopup.setLoading(false)
+            summaryPopup.setContent("Error: " + err)
         }
     }
 }

@@ -135,7 +135,7 @@ class HistoryModel(QAbstractListModel):
     def _save_speaker_map_to_file(self):
         try:
             SPEAKER_PATH.mkdir(parents=True, exist_ok=True)
-            save_file = SPEAKER_PATH / self._history_save_file
+            save_file = SPEAKER_PATH / self._data_file_name
             with open(save_file, 'w', encoding='utf-8') as f:
                 json.dump(self._unique_speaker_map, f, ensure_ascii=False, indent=4)
         except IOError as e:

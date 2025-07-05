@@ -1,0 +1,18 @@
+[
+    {
+        "id": "1bbba703-4e50-45b0-a866-adca6105425c",
+        "timestamp": 1751679779.8021376,
+        "speaker": "SPEAKER_3",
+        "direction": "You",
+        "origin_text": "Hello!",
+        "translated_text": "Xin chào!"
+    },
+    {
+        "id": "3b83d0df-0109-4e9b-9298-f7dfd172b03f",
+        "timestamp": 1751679808.3994317,
+        "speaker": "Other",
+        "origin_text": "So today is Monday, and I'm here in San Francisco. I'm back",
+        "translated_text": "Vì vậy, hôm nay là thứ Hai, và tôi ở San Francisco. Tôi đã trở lại",
+        "direction": "Other"
+    }
+]

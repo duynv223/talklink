@@ -118,7 +118,6 @@ Rectangle {
             id: conversation_view
             Layout.preferredWidth: parent ? parent.width * 0.7 : 500
             Layout.fillHeight: true
-            Layout.margins: 10
             model: conversation_data
             spacing: 6
             clip: true
@@ -151,7 +150,7 @@ Rectangle {
                         text: modelData.speaker + ":"
                         font.bold: true
                         font.italic: modelData.direction === "Other"
-                        color: "#888"
+                        color: model.direction === "Other" ? "#888" : "#2e7d32"
                         font.pixelSize: 13
                         readOnly: true
                         selectByMouse: true
@@ -172,7 +171,7 @@ Rectangle {
                         text: modelData.origin_text || ""
                         font.pixelSize: 13
                         font.italic: modelData.direction === "Other"
-                        color: "#333"
+                        color: model.direction === "Other" ? "#888" : "#2e7d32"
                         readOnly: true
                         selectByMouse: true
                         wrapMode: TextEdit.Wrap
@@ -191,7 +190,7 @@ Rectangle {
                         text: modelData.translated_text || ""
                         font.pixelSize: 13
                         font.italic: modelData.direction === "Other"
-                        color: "#aaaaaa"
+                        color: model.direction === "Other" ? "#888" : "#2e7d32"
                         readOnly: true
                         selectByMouse: true
                         wrapMode: TextEdit.Wrap
@@ -233,11 +232,7 @@ Rectangle {
             IconButton {
                 id: summaryConversationButton
                 iconSource: "../assets/conversation_action/historical-sumary-svgrepo-com.svg"
-                onClicked:  {
-                    summaryPopup.open()
-                    summaryPopup.loading = true
-                    historyModel.summarizeConversation()
-                }
+                onClicked:  showSummary()
             }
 
             IconButton {
@@ -263,38 +258,6 @@ Rectangle {
         }
     }
 
-    Component.onCompleted: {
-        initializedSidebar = true
-        
-        // Lấy dữ liệu conversation khi mở view
-        if (historyModel && historyModel.getConversationData) {
-            conversation_data = historyModel.getConversationData()
-        }
-    }
-
-    Connections {
-        target: historyModel
-        function onUniqueSpeakersChanged() {
-            if (sidebarVisible) {
-                speakerSidebar.speakerModel = historyModel.getUniqueSpeakerMaps()
-            }
-        }
-
-        function onConversationDataChanged() {
-            historyList.conversation_data = historyModel.getConversationData()
-        }
-
-        function onSummaryReady(text) {
-            summaryPopup.loading = false
-            summaryPopup.result = text
-        }
-
-        function onSummaryError(err) {
-            summaryPopup.loading = false
-            summaryPopup.result = "Error: " + err
-        }
-    }
-
     onSidebarVisibleChanged: {
         if (initializedSidebar) {
             speakerSidebar.isVisible = sidebarVisible
@@ -304,92 +267,38 @@ Rectangle {
         }
     }
 
-    Popup {
+    PopUpSummary {
         id: summaryPopup
-        modal: true
-        focus: true
-        width: parent ? parent.width * 0.75 : 700
-        height: parent ? parent.height * 0.6 : 500
-        padding: 20
-        closePolicy: Popup.CloseOnEscape
-        anchors.centerIn: parent
+        title: "Summary Conversation"
+        okText: "Close"
+        showCancelButton: false
 
-        // Custom properties
-        property bool loading: false
-        property string result: ""
-
-        background: Rectangle {
-            color: "#ffffff"
-            radius: 10
-            border.color: "#cccccc"
+        Component.onCompleted: {
         }
+    }
 
-        ColumnLayout {
-            anchors.fill: parent
-            spacing: 12
+    function showSummary() {
+        summaryPopup.setLoading(true)
+        summaryPopup.open()
+        historyModel.summarizeConversation()
+    }
 
-            // Title
-            Label {
-                text: "Summary Conversation"
-                font.pixelSize: 18
-                font.bold: true
-                Layout.alignment: Qt.AlignHCenter
-                horizontalAlignment: Text.AlignHCenter 
-            }
-
-            // Loading indicator
-            Loader {
-                active: summaryPopup.loading
-                sourceComponent: busyIndicatorComponent
-                Layout.alignment: Qt.AlignHCenter
-                visible: summaryPopup.loading
-            }
-
-            // Summary text
-            ScrollView {
-                visible: !summaryPopup.loading
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                clip: true
-                Column {
-                    width: summaryPopup.width - 40
-                    spacing: 10
-
-                    TextEdit {
-                        text: summaryPopup.result
-                        wrapMode: TextEdit.Wrap
-                        font.pixelSize: 14
-                        color: "#333"
-                        readOnly: true
-                        selectByMouse: true
-                        width: parent.width
-                    }
-                }
-            }
-
-            // Button bar
-            RowLayout {
-                Layout.alignment: Qt.AlignRight
-                Layout.fillWidth: true
-
-                Button {
-                    text: "Đóng"
-                    onClicked: summaryPopup.close()
-                }
-            }
+    Connections {
+        target: historyModel
+        function onSummaryReady(text) {
+            summaryPopup.setLoading(false)
+            summaryPopup.setResult(text)
         }
+        function onSummaryError(err) {
+            summaryPopup.setLoading(false)
+            summaryPopup.setContent("Error: " + err)
+        }
+    }
 
-        // BusyIndicator component
-        Component {
-            id: busyIndicatorComponent
-            Item {
-                width: 40
-                height: 40
-                BusyIndicator {
-                    running: true
-                    anchors.centerIn: parent
-                }
-            }
+    Component.onCompleted: {
+        initializedSidebar = true
+        if (historyModel && historyModel.getConversationData) {
+            conversation_data = historyModel.getConversationData()
         }
     }
 }
