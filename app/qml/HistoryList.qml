@@ -118,6 +118,7 @@ Rectangle {
             id: conversation_view
             Layout.preferredWidth: parent ? parent.width * 0.7 : 500
             Layout.fillHeight: true
+            Layout.margins: 10
             model: conversation_data
             spacing: 6
             clip: true
@@ -168,7 +169,7 @@ Rectangle {
 
                     // Origin Text
                     TextEdit {
-                        text: modelData.originText || ""
+                        text: modelData.origin_text || ""
                         font.pixelSize: 13
                         font.italic: modelData.direction === "Other"
                         color: "#333"
@@ -187,7 +188,7 @@ Rectangle {
 
                     // Translated Text
                     TextEdit {
-                        text: modelData.translatedText || ""
+                        text: modelData.translated_text || ""
                         font.pixelSize: 13
                         font.italic: modelData.direction === "Other"
                         color: "#aaaaaa"

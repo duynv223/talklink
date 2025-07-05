@@ -149,11 +149,20 @@ class HistoryModel(QAbstractListModel):
 
     @Slot(result='QVariantList')
     def getConversationData(self):
-        speaker_map = {s["speaker_Id"]: s["speaker_Name"] for s in self._unique_speaker_map}
-        data_with_names = [
-            {**item, "speaker": speaker_map.get(item.get("speaker", ""), item.get("speaker", ""))}
-            for item in self._conversation_data
-        ]
+        speaker_map = {
+            s["speaker_Id"]: s["speaker_Name"]
+            for s in self._unique_speaker_map
+        }
+
+        data_with_names = []
+        for item in self._conversation_data:
+            new_item = item.copy()
+            speaker_id = new_item.get("speaker", "")
+            new_item["speaker"] = speaker_map.get(speaker_id, speaker_id)
+            timestamp = new_item.get("timestamp", 0)
+            new_item["timestamp"] = time.strftime("%H:%M:%S", time.localtime(timestamp))
+            data_with_names.append(new_item)
+
         return data_with_names
 
 
