@@ -1,0 +1,986 @@
+[
+    {
+        "id": "eb9c377f-6a18-4a69-9da0-ae0521e2392e",
+        "timestamp": 1751713759.1467881,
+        "speaker": "SPEAKER_3",
+        "direction": "You",
+        "origin_text": "Hello!",
+        "translated_text": "Xin chào!"
+    },
+    {
+        "id": "750c0204-d425-4895-8adf-51cf7d9c4dbf",
+        "timestamp": 1751713768.9394739,
+        "speaker": "Other",
+        "origin_text": "So today is Monday, and I'm here in San Francisco. I'm back",
+        "translated_text": "今日は月曜日で、私はここサンフランシスコにいます。戻ってきました",
+        "direction": "Other"
+    },
+    {
+        "id": "223c8e44-c77f-4af6-9305-9d807e8f43a1",
+        "timestamp": 1751713773.0294802,
+        "speaker": "Other",
+        "origin_text": "in San Francisco. Last week, we were in Texas.",
+        "translated_text": "サンフランシスコで。先週、私たちはテキサスにいました。",
+        "direction": "Other"
+    },
+    {
+        "id": "e6e4956f-8a84-4a51-859c-048a09161d29",
+        "timestamp": 1751713778.2838824,
+        "speaker": "Other",
+        "origin_text": "We were at a teaching conference.",
+        "translated_text": "私たちは教育会議に参加しました。",
+        "direction": "Other"
+    },
+    {
+        "id": "ac56a350-bc0e-4617-91d2-97263792a65f",
+        "timestamp": 1751713780.8317947,
+        "speaker": "Other",
+        "origin_text": "And the leader of the teaching conference was Blaine Ray.",
+        "translated_text": "そして、教育会議のリーダーはブレイン・レイでした。",
+        "direction": "Other"
+    },
+    {
+        "id": "d4e2535d-1590-4f23-9e4f-4e03ca94c440",
+        "timestamp": 1751713786.8533843,
+        "speaker": "Other",
+        "origin_text": "And first I just wanna say some nice things about Blaine Ray.",
+        "translated_text": "そして、最初にブレイン・レイについていくつかのいいことを言いたいだけです。",
+        "direction": "Other"
+    },
+    {
+        "id": "3341e777-0fcb-4fe2-8d73-2810d2e5796f",
+        "timestamp": 1751713791.0670617,
+        "speaker": "Other",
+        "origin_text": "Because he's a super nice person, he's a fantastic teacher,",
+        "translated_text": "彼はとても素敵な人だから、彼は素晴らしい先生です、",
+        "direction": "Other"
+    },
+    {
+        "id": "c7e21b13-e54c-4fe6-a2af-93e18f49b99c",
+        "timestamp": 1751713796.21979,
+        "speaker": "Other",
+        "origin_text": "he is a great teacher trainer, he really helps",
+        "translated_text": "彼は素晴らしい教師トレーナーです、彼は本当に助けます",
+        "direction": "Other"
+    },
+    {
+        "id": "f6c5b298-1ed7-4074-bb2c-3c76122543f9",
+        "timestamp": 1751713801.3099594,
+        "speaker": "Other",
+        "origin_text": "teachers become better and better.",
+        "translated_text": "教師はどんどん良くなります。",
+        "direction": "Other"
+    },
+    {
+        "id": "19431a6a-5d5c-4116-9cf4-d33c3ed0a18e",
+        "timestamp": 1751713802.2076492,
+        "speaker": "Other",
+        "origin_text": "And I went, Tomoe went,",
+        "translated_text": "そして私は行った、トムーは行った、",
+        "direction": "Other"
+    },
+    {
+        "id": "20833f6b-9a62-49b2-9676-c3031c9bc644",
+        "timestamp": 1751713805.9176795,
+        "speaker": "Other",
+        "origin_text": "and Kristen went and Joe went. We all learned a lot.",
+        "translated_text": "そしてクリステンは行き、ジョーは行きました。私たちは皆多くを学びました。",
+        "direction": "Other"
+    },
+    {
+        "id": "ad32d7fa-10a4-4599-acd1-1637f015e977",
+        "timestamp": 1751713810.52145,
+        "speaker": "Other",
+        "origin_text": "We will all improve our teaching as a result",
+        "translated_text": "その結果、私たちは皆、教育を改善します",
+        "direction": "Other"
+    },
+    {
+        "id": "15d6ac7b-3dc0-4605-8e5f-90c3ac50cc63",
+        "timestamp": 1751713814.6184142,
+        "speaker": "Other",
+        "origin_text": "of going to the conference. So thank you, Blaine Ray. You are great.",
+        "translated_text": "会議に行く。ありがとう、ブレインレイ。あなたは素晴らしいです。",
+        "direction": "Other"
+    },
+    {
+        "id": "171aa97e-ce4b-4b20-8e9a-efc8bf2d4ff6",
+        "timestamp": 1751713819.2208705,
+        "speaker": "Other",
+        "origin_text": "See, the next thing that happened",
+        "translated_text": "次に起こったことを参照してください",
+        "direction": "Other"
+    },
+    {
+        "id": "b7a23aae-ef97-4c7c-9058-c8c874717c3f",
+        "timestamp": 1751713824.3583202,
+        "speaker": "Other",
+        "origin_text": "week was that our computers crashed",
+        "translated_text": "週はコンピューターがクラッシュしたことでした",
+        "direction": "Other"
+    },
+    {
+        "id": "cfd3f239-d136-4b87-ad34-6647d7271e7f",
+        "timestamp": 1751713827.4458122,
+        "speaker": "Other",
+        "origin_text": "Oh, no. Oh, no.",
+        "translated_text": "なんてこった。なんてこった。",
+        "direction": "Other"
+    },
+    {
+        "id": "083da34c-3961-4f1d-acaa-2478cdd09464",
+        "timestamp": 1751713830.39805,
+        "speaker": "Other",
+        "origin_text": "Yes. Our website crashed. So what happened?",
+        "translated_text": "はい。私たちのウェブサイトがクラッシュしました。では、何が起こったのでしょうか？",
+        "direction": "Other"
+    },
+    {
+        "id": "e2c117b4-ebeb-4b99-b9e9-9aaa63d4f52e",
+        "timestamp": 1751713832.4256618,
+        "speaker": "Other",
+        "origin_text": "First, we got too many visitors. We got a lot of traffic.",
+        "translated_text": "まず、訪問者が多すぎました。たくさんのトラフィックがありました。",
+        "direction": "Other"
+    },
+    {
+        "id": "4ad3b6de-8241-4504-a444-2173e8648033",
+        "timestamp": 1751713837.552321,
+        "speaker": "Other",
+        "origin_text": "People watching the videos and trying to comment",
+        "translated_text": "ビデオを見てコメントしようとしている人々",
+        "direction": "Other"
+    },
+    {
+        "id": "74ccd244-b65f-4ab0-abec-3cb315e51677",
+        "timestamp": 1751713841.630769,
+        "speaker": "Other",
+        "origin_text": "all suddenly same time. So that crashed our site.",
+        "translated_text": "突然同じ時間。それが私たちのサイトをクラッシュさせました。",
+        "direction": "Other"
+    },
+    {
+        "id": "15573bfe-4748-4fe3-ad2e-ad799c3f7eab",
+        "timestamp": 1751713845.357885,
+        "speaker": "Other",
+        "origin_text": "Our website went down.",
+        "translated_text": "私たちのウェブサイトはダウンしました。",
+        "direction": "Other"
+    },
+    {
+        "id": "6775e60b-3b8c-48f5-81a3-34728146f2c3",
+        "timestamp": 1751713846.2659874,
+        "speaker": "Other",
+        "origin_text": "But, you know, that's okay. That's not a terrible problem. Usually, you can recover quickly.",
+        "translated_text": "しかし、ご存知のように、それは大丈夫です。それはひどい問題ではありません。通常、すぐに回復できます。",
+        "direction": "Other"
+    },
+    {
+        "id": "b8d690ef-8ca7-4299-9463-424dd1591168",
+        "timestamp": 1751713851.5018654,
+        "speaker": "Other",
+        "origin_text": "But the next problem was that our backup file",
+        "translated_text": "しかし、次の問題は、バックアップファイルです",
+        "direction": "Other"
+    },
+    {
+        "id": "eceaaf0d-202d-4b9d-8586-68b56ac37f24",
+        "timestamp": 1751713856.5038762,
+        "speaker": "Other",
+        "origin_text": "our website backup had a problem.",
+        "translated_text": "私たちのウェブサイトのバックアップには問題がありました。",
+        "direction": "Other"
+    },
+    {
+        "id": "f09924a8-97db-473b-a530-e45bee531da5",
+        "timestamp": 1751713860.071233,
+        "speaker": "Other",
+        "origin_text": "The website host, Bluehost, terrible, don't use them.",
+        "translated_text": "Webサイトのホスト、Bluehost、ひどい、それらを使用しないでください。",
+        "direction": "Other"
+    },
+    {
+        "id": "8feb4cba-11ab-4e8e-a6e5-c036cf99b81d",
+        "timestamp": 1751713865.3237388,
+        "speaker": "Other",
+        "origin_text": "Bluehost, their backup file was bad.",
+        "translated_text": "Bluehost、彼らのバックアップファイルは悪かった。",
+        "direction": "Other"
+    },
+    {
+        "id": "22575e76-3f85-4210-a2bb-cc81c0263fe1",
+        "timestamp": 1751713869.926574,
+        "speaker": "Other",
+        "origin_text": "It had some it was corrupt is what they say, but it basically had some problems.",
+        "translated_text": "彼らが言うことは腐敗していたものがありましたが、基本的にいくつかの問題がありました。",
+        "direction": "Other"
+    },
+    {
+        "id": "dcd906b2-af44-4766-9038-31f79fed59cd",
+        "timestamp": 1751713874.5415797,
+        "speaker": "Other",
+        "origin_text": "It was broken a little bit.",
+        "translated_text": "少し壊れていました。",
+        "direction": "Other"
+    },
+    {
+        "id": "d94c9053-0b56-46a8-be77-5a2ebc5564d0",
+        "timestamp": 1751713876.9613616,
+        "speaker": "Other",
+        "origin_text": "So we could not get the website up again quickly.",
+        "translated_text": "そのため、すぐにウェブサイトを再び上げることができませんでした。",
+        "direction": "Other"
+    },
+    {
+        "id": "48019209-8f0e-45c6-9340-cb59d3063aed",
+        "timestamp": 1751713881.1858492,
+        "speaker": "Other",
+        "origin_text": "So finally, our computer engineer, his name is Vic Medcalf,",
+        "translated_text": "最後に、私たちのコンピューターエンジニア、彼の名前はVic Medcalfです。",
+        "direction": "Other"
+    },
+    {
+        "id": "727b9e04-b891-4737-9d3f-b4256cf4ff1b",
+        "timestamp": 1751713886.3049092,
+        "speaker": "Other",
+        "origin_text": "He worked hard, he worked, he worked.",
+        "translated_text": "彼は一生懸命働いて、働いていた、彼は働いた。",
+        "direction": "Other"
+    },
+    {
+        "id": "14469ee3-8470-4aff-b069-56e1ce0e182e",
+        "timestamp": 1751713888.8747997,
+        "speaker": "Other",
+        "origin_text": "Trying to talk to Bluehost again and again. Finally, he got",
+        "translated_text": "BlueHostと何度も話しようとしています。最後に、彼は手に入れました",
+        "direction": "Other"
+    },
+    {
+        "id": "91796d59-3737-4472-868e-21fbb0189032",
+        "timestamp": 1751713893.996453,
+        "speaker": "Other",
+        "origin_text": "a good backup file.",
+        "translated_text": "良いバックアップファイル。",
+        "direction": "Other"
+    },
+    {
+        "id": "6f2081be-b67e-4000-8224-395d12040a48",
+        "timestamp": 1751713896.050779,
+        "speaker": "Other",
+        "origin_text": "Then we moved everything to new computers",
+        "translated_text": "次に、すべてを新しいコンピューターに移動しました",
+        "direction": "Other"
+    },
+    {
+        "id": "5d222bbc-d7ed-4fb4-a09b-09b8d45bb6da",
+        "timestamp": 1751713901.0318475,
+        "speaker": "Other",
+        "origin_text": "new servers, and a new web host.",
+        "translated_text": "新しいサーバー、および新しいWebホスト。",
+        "direction": "Other"
+    },
+    {
+        "id": "ebcec043-49fe-413d-bd9a-7ad9f91c5545",
+        "timestamp": 1751713903.5869582,
+        "speaker": "Other",
+        "origin_text": "Everything expensive, high quality, and professional.",
+        "translated_text": "高価で、高品質で、プロフェッショナルなものすべて。",
+        "direction": "Other"
+    },
+    {
+        "id": "cb3c7837-6c77-434e-bb7f-bd41e1ae120a",
+        "timestamp": 1751713908.20004,
+        "speaker": "Other",
+        "origin_text": "So now you're ready for a lot of traffic suddenly.",
+        "translated_text": "だから今、あなたは突然多くのトラフィックの準備ができています。",
+        "direction": "Other"
+    },
+    {
+        "id": "95ab4e38-6d0d-4588-9ff6-f45a47fa58a8",
+        "timestamp": 1751713912.820064,
+        "speaker": "Other",
+        "origin_text": "And that's good because Power English is coming soon. Our",
+        "translated_text": "パワー英語がまもなく来るので、それは良いことです。私たちの",
+        "direction": "Other"
+    },
+    {
+        "id": "adebd24a-44cf-482b-b286-2454daab02f1",
+        "timestamp": 1751713917.422965,
+        "speaker": "Other",
+        "origin_text": "one day only sale.",
+        "translated_text": "ある日のみ販売。",
+        "direction": "Other"
+    },
+    {
+        "id": "f9003ce8-24c1-47dc-8752-09487cc08d74",
+        "timestamp": 1751713918.9522316,
+        "speaker": "Other",
+        "origin_text": "Unfortunately, we must change the date again.",
+        "translated_text": "残念ながら、日付をもう一度変更する必要があります。",
+        "direction": "Other"
+    },
+    {
+        "id": "efdb2ca6-eb23-4f3a-ad44-990019c8ed39",
+        "timestamp": 1751713924.2069507,
+        "speaker": "Other",
+        "origin_text": "Right? We were hoping for tomorrow but",
+        "translated_text": "右？私たちは明日を望んでいましたが",
+        "direction": "Other"
+    },
+    {
+        "id": "e5632a2e-e8cf-47fb-b5ff-f67d033faac7",
+        "timestamp": 1751713927.6513352,
+        "speaker": "Other",
+        "origin_text": "because our website crashed last week, we need to delay",
+        "translated_text": "先週私たちのウェブサイトがクラッシュしたため、遅延する必要があります",
+        "direction": "Other"
+    },
+    {
+        "id": "1c2d3cd5-81c0-4053-9586-24120ad656d5",
+        "timestamp": 1751713932.263845,
+        "speaker": "Other",
+        "origin_text": "Power English just one more week. So the new date",
+        "translated_text": "パワーイングリッシュはもう1週間です。だから新しい日付",
+        "direction": "Other"
+    },
+    {
+        "id": "9a7de498-f23e-4fc6-9bad-4828c724d5f3",
+        "timestamp": 1751713937.3751836,
+        "speaker": "Other",
+        "origin_text": "the final date, the one day only sale for Power English",
+        "translated_text": "最終日、パワー英語のための1日のみ販売",
+        "direction": "Other"
+    },
+    {
+        "id": "f4ca4734-dff5-4761-b393-326087c9aff1",
+        "timestamp": 1751713941.624932,
+        "speaker": "Other",
+        "origin_text": "is now August 4.",
+        "translated_text": "現在8月4日です。",
+        "direction": "Other"
+    },
+    {
+        "id": "d37235e9-1d95-4f4a-9e63-b13bd88180fd",
+        "timestamp": 1751713944.8160975,
+        "speaker": "Other",
+        "origin_text": "August 4, that's next Tuesday, August 4,",
+        "translated_text": "8月4日、それは次の8月4日火曜日です",
+        "direction": "Other"
+    },
+    {
+        "id": "17e9c2d4-3f72-4ddd-831d-7d39ecc80509",
+        "timestamp": 1751713949.7025778,
+        "speaker": "Other",
+        "origin_text": "one day only,",
+        "translated_text": "ある日だけ、",
+        "direction": "Other"
+    },
+    {
+        "id": "8c4a72ac-2041-49c0-b879-59d8ed156891",
+        "timestamp": 1751713952.3742425,
+        "speaker": "Other",
+        "origin_text": "Power English sale.",
+        "translated_text": "パワーイングリッシュセール。",
+        "direction": "Other"
+    },
+    {
+        "id": "2ea4f9e3-5600-440c-a296-16a7619aedbc",
+        "timestamp": 1751713954.7988086,
+        "speaker": "Other",
+        "origin_text": "Now to get Power English, you must be on my email list.",
+        "translated_text": "パワー英語を取得するには、私のメールリストに載っている必要があります。",
+        "direction": "Other"
+    },
+    {
+        "id": "ce3852b8-7511-4a95-9b97-3b6a3a7c3d58",
+        "timestamp": 1751713959.922605,
+        "speaker": "Other",
+        "origin_text": "You must",
+        "translated_text": "絶対です",
+        "direction": "Other"
+    },
+    {
+        "id": "3cff342c-07d1-4749-b6e9-608bc28b0535",
+        "timestamp": 1751713961.4555023,
+        "speaker": "Other",
+        "origin_text": "join the seven rules email course.",
+        "translated_text": "7つのルールメールコースに参加してください。",
+        "direction": "Other"
+    },
+    {
+        "id": "b42587cf-cd0d-4618-b2d5-be2292d58a11",
+        "timestamp": 1751713965.1647768,
+        "speaker": "Other",
+        "origin_text": "Because what happens",
+        "translated_text": "何が起こるのか",
+        "direction": "Other"
+    },
+    {
+        "id": "3af9bb9d-0219-4a07-8fcc-5ee52038d368",
+        "timestamp": 1751713966.5751526,
+        "speaker": "Other",
+        "origin_text": "at 12:01AM,",
+        "translated_text": "午前12時1分、",
+        "direction": "Other"
+    },
+    {
+        "id": "1939d6ce-edae-4008-8b3f-ba035928fe22",
+        "timestamp": 1751713969.655069,
+        "speaker": "Other",
+        "origin_text": "just after midnight in New York City, that's New York City time,",
+        "translated_text": "ニューヨーク市の真夜中を過ぎると、それはニューヨーク市の時間です。",
+        "direction": "Other"
+    },
+    {
+        "id": "eb9e83ca-bbd4-44b0-bcca-5d7213387eb4",
+        "timestamp": 1751713975.4092398,
+        "speaker": "Other",
+        "origin_text": "I will send an email",
+        "translated_text": "メールを送信します",
+        "direction": "Other"
+    },
+    {
+        "id": "4347cdf9-a428-4583-9824-1320671d70dd",
+        "timestamp": 1751713977.9716532,
+        "speaker": "Other",
+        "origin_text": "to everybody in the seven rules",
+        "translated_text": "7つのルールの全員に",
+        "direction": "Other"
+    },
+    {
+        "id": "92bca164-db29-48d7-8e7c-f157f5d7e765",
+        "timestamp": 1751713980.403134,
+        "speaker": "Other",
+        "origin_text": "email list.",
+        "translated_text": "メーリングリスト。",
+        "direction": "Other"
+    },
+    {
+        "id": "fced9f8d-8fac-4f35-9a13-16145d7496dd",
+        "timestamp": 1751713982.4387581,
+        "speaker": "Other",
+        "origin_text": "That actually will be almost",
+        "translated_text": "それは実際にはほとんどでしょう",
+        "direction": "Other"
+    },
+    {
+        "id": "94470008-aeb6-43a4-a246-f742c190dd6e",
+        "timestamp": 1751713987.5495632,
+        "speaker": "Other",
+        "origin_text": "1,000,000 people because",
+        "translated_text": "1,000,000人のためです",
+        "direction": "Other"
+    },
+    {
+        "id": "a4ec58a2-88d0-4144-8270-abcba1a32c7b",
+        "timestamp": 1751713988.1451542,
+        "speaker": "Other",
+        "origin_text": "our friends, Kristen and Joe, they're also sending emails. So",
+        "translated_text": "私たちの友人、クリステンとジョーは、彼らもメールを送信しています。それで",
+        "direction": "Other"
+    },
+    {
+        "id": "f229d613-1a96-477a-8edf-b90cc837667a",
+        "timestamp": 1751713992.3134263,
+        "speaker": "Other",
+        "origin_text": "anyway, you will get an email",
+        "translated_text": "とにかく、あなたは電子メールを受け取るでしょう",
+        "direction": "Other"
+    },
+    {
+        "id": "eb0fe7c8-4480-4218-a14e-eb0a8c90cbb3",
+        "timestamp": 1751713994.7314072,
+        "speaker": "Other",
+        "origin_text": "and it will have a link inside. Click the link,",
+        "translated_text": "また、内部にリンクがあります。リンクをクリックして、",
+        "direction": "Other"
+    },
+    {
+        "id": "b17641e7-2277-4d99-ab51-ab79f8810683",
+        "timestamp": 1751713998.949726,
+        "speaker": "Other",
+        "origin_text": "the link will go to the Power English sale page",
+        "translated_text": "リンクはパワーイングリッシュセールページに送信されます",
+        "direction": "Other"
+    },
+    {
+        "id": "ca34e5ed-fff5-436f-8d76-27fafc4de440",
+        "timestamp": 1751714003.561244,
+        "speaker": "Other",
+        "origin_text": "and you just click that big red button, it'll say buy lessons now etcetera.",
+        "translated_text": "そして、あなたはその大きな赤いボタンをクリックするだけです、それは今すぐレッスンを購入すると言います。",
+        "direction": "Other"
+    },
+    {
+        "id": "6d7aad84-2ef9-4c37-9369-39c79144d42c",
+        "timestamp": 1751714008.682671,
+        "speaker": "Other",
+        "origin_text": "Click that red button, you get Power English. So",
+        "translated_text": "その赤いボタンをクリックすると、パワー英語が得られます。それで",
+        "direction": "Other"
+    },
+    {
+        "id": "53c65853-2451-4d20-a90d-1e946fcfc56d",
+        "timestamp": 1751714012.7797089,
+        "speaker": "Other",
+        "origin_text": "if you don't know about Power English then you probably are not on my email list",
+        "translated_text": "あなたがパワー英語について知らないなら、あなたはおそらく私のメールリストに載っていません",
+        "direction": "Other"
+    },
+    {
+        "id": "0a57a32c-d26c-499a-872b-7bb4ca09d072",
+        "timestamp": 1751714015.8545809,
+        "speaker": "Other",
+        "origin_text": "and don't worry about it.",
+        "translated_text": "心配しないでください。",
+        "direction": "Other"
+    },
+    {
+        "id": "2c3e8e82-eb67-4fb7-8a70-f536742f03e5",
+        "timestamp": 1751714017.3919914,
+        "speaker": "Other",
+        "origin_text": "You're fine. You can just listen to my podcast.",
+        "translated_text": "あなたは元気です。あなたは私のポッドキャストを聞くことができます。",
+        "direction": "Other"
+    },
+    {
+        "id": "8c384a19-6230-4527-b8d8-f032a3a51561",
+        "timestamp": 1751714022.490518,
+        "speaker": "Other",
+        "origin_text": "It's too late for me to tell you everything about Power English now. So,",
+        "translated_text": "私が今パワー英語についてすべてをあなたに話すのは遅すぎます。それで、",
+        "direction": "Other"
+    },
+    {
+        "id": "1a78f7b3-4559-4d62-b0d1-87125d05d5ad",
+        "timestamp": 1751714025.4539459,
+        "speaker": "Other",
+        "origin_text": "but if you are wanting Power English, then you need to be on my email list.",
+        "translated_text": "ただし、Power Englishが必要な場合は、メールリストに載る必要があります。",
+        "direction": "Other"
+    },
+    {
+        "id": "f721f4ba-426a-4847-9229-a28836037f50",
+        "timestamp": 1751714030.7172947,
+        "speaker": "Other",
+        "origin_text": "And you probably already are.",
+        "translated_text": "そして、あなたはおそらくすでにそうです。",
+        "direction": "Other"
+    },
+    {
+        "id": "bb43ef30-7939-405b-ad4b-9288f78521c6",
+        "timestamp": 1751714034.6709971,
+        "speaker": "Other",
+        "origin_text": "Okay. So anyway, so August 4, it's",
+        "translated_text": "わかった。とにかく、8月4日です",
+        "direction": "Other"
+    },
+    {
+        "id": "e85f497e-fdd2-4c96-8f56-dbfc56cab25d",
+        "timestamp": 1751714039.9002316,
+        "speaker": "Other",
+        "origin_text": "only one day and only 15,000 copies.",
+        "translated_text": "1日とたった15,000部のコピー。",
+        "direction": "Other"
+    },
+    {
+        "id": "11ecc70c-7120-428d-b43f-788476aef193",
+        "timestamp": 1751714041.461046,
+        "speaker": "Other",
+        "origin_text": "So we are limiting the number of lessons.",
+        "translated_text": "そのため、レッスンの数を制限しています。",
+        "direction": "Other"
+    },
+    {
+        "id": "d682f2b3-705f-49e6-a0a1-0c7c058f7d1a",
+        "timestamp": 1751714046.4513028,
+        "speaker": "Other",
+        "origin_text": "On August 4 to just 15,000.",
+        "translated_text": "8月4日にわずか15,000。",
+        "direction": "Other"
+    },
+    {
+        "id": "94a0dfa3-71b4-4c8b-9390-fa239263e15c",
+        "timestamp": 1751714047.4694679,
+        "speaker": "Other",
+        "origin_text": "I think probably most of those will be gone quickly in a few hours.",
+        "translated_text": "おそらくそれらのほとんどは数時間ですぐに消えてしまうと思います。",
+        "direction": "Other"
+    },
+    {
+        "id": "b77cb630-6006-429c-a966-a0d49b6ef3c0",
+        "timestamp": 1751714052.6961286,
+        "speaker": "Other",
+        "origin_text": "So if you really want Power English,",
+        "translated_text": "だからあなたが本当にパワー英語が欲しいなら、",
+        "direction": "Other"
+    },
+    {
+        "id": "451285d2-3ddc-4202-b487-e9a0eb8e6742",
+        "timestamp": 1751714055.1595228,
+        "speaker": "Other",
+        "origin_text": "I I recommend that you",
+        "translated_text": "私はあなたをお勧めします",
+        "direction": "Other"
+    },
+    {
+        "id": "db55284f-0838-4427-9aa3-b76037aecdae",
+        "timestamp": 1751714057.8468301,
+        "speaker": "Other",
+        "origin_text": "open your email immediately at 12:01AM just after midnight.",
+        "translated_text": "真夜中の直後の午前12時01分にすぐにメールを開きます。",
+        "direction": "Other"
+    },
+    {
+        "id": "a003420d-fcb8-4f22-9b11-67059d3dae61",
+        "timestamp": 1751714063.970229,
+        "speaker": "Other",
+        "origin_text": "Just, you know, midnight, August 3, 11:59,",
+        "translated_text": "ちょうど、あなたが知っている、真夜中、8月3日、11：59、",
+        "direction": "Other"
+    },
+    {
+        "id": "0e72097b-df9c-48de-a9fc-4e357dd49494",
+        "timestamp": 1751714068.9746404,
+        "speaker": "Other",
+        "origin_text": "then midnight becomes August 4 in New York City.",
+        "translated_text": "その後、真夜中はニューヨーク市で8月4日になります。",
+        "direction": "Other"
+    },
+    {
+        "id": "a236630b-abb5-4018-8852-12c332aea200",
+        "timestamp": 1751714073.1886716,
+        "speaker": "Other",
+        "origin_text": "Check your email. That's when the email will come.",
+        "translated_text": "メールを確認してください。それがメールが来るときです。",
+        "direction": "Other"
+    },
+    {
+        "id": "95e14a34-8393-4e27-9e2a-0b844b460d06",
+        "timestamp": 1751714077.796245,
+        "speaker": "Other",
+        "origin_text": "And that's when you can get Power English.",
+        "translated_text": "そして、それはあなたがパワー英語を得ることができるときです。",
+        "direction": "Other"
+    },
+    {
+        "id": "5fac8299-bbea-4bb4-832a-ee6235165f61",
+        "timestamp": 1751714078.8006234,
+        "speaker": "Other",
+        "origin_text": "Okay. So enough of that. What else am I doing?",
+        "translated_text": "わかった。それで十分です。私は他に何をしていますか？",
+        "direction": "Other"
+    },
+    {
+        "id": "0cd980de-aef5-4b3b-b4cc-815d50fe7877",
+        "timestamp": 1751714083.935926,
+        "speaker": "Other",
+        "origin_text": "So I just finished doing some videos",
+        "translated_text": "だから私はちょうどいくつかのビデオを作り終えました",
+        "direction": "Other"
+    },
+    {
+        "id": "db670600-32e1-4a9f-8337-bb31afe4a1b5",
+        "timestamp": 1751714086.900921,
+        "speaker": "Other",
+        "origin_text": "because we lost a little bit of work, little bit",
+        "translated_text": "私たちは少し仕事を失ったので、少し",
+        "direction": "Other"
+    },
+    {
+        "id": "346de3f6-5865-4a10-aba8-47d376334ccd",
+        "timestamp": 1751714091.6308358,
+        "speaker": "Other",
+        "origin_text": "from the website crash, just three days.",
+        "translated_text": "ウェブサイトのクラッシュから、わずか3日間。",
+        "direction": "Other"
+    },
+    {
+        "id": "9afa4418-0588-4971-ac50-4331544c474d",
+        "timestamp": 1751714097.3758774,
+        "speaker": "Other",
+        "origin_text": "So today, I have been making videos and, doing some work to",
+        "translated_text": "だから今日、私はビデオを作っていて、",
+        "direction": "Other"
+    },
+    {
+        "id": "5f2e0531-6cc6-417b-b6a0-6bbf9c0ad26c",
+        "timestamp": 1751714100.21238,
+        "speaker": "Other",
+        "origin_text": "recover what we lost",
+        "translated_text": "私たちが失ったものを取り戻します",
+        "direction": "Other"
+    },
+    {
+        "id": "ce898543-c22c-4945-8892-4d067a815ac3",
+        "timestamp": 1751714102.782049,
+        "speaker": "Other",
+        "origin_text": "And then later tonight, actually, we are going to see Harry Potter.",
+        "translated_text": "そして今夜遅く、実際には、ハリー・ポッターに会うでしょう。",
+        "direction": "Other"
+    },
+    {
+        "id": "4ae239ec-9468-47d2-bc56-f58cc7baff98",
+        "timestamp": 1751714107.9982965,
+        "speaker": "Other",
+        "origin_text": "We're going to see the new Harry Potter movie. It will be,",
+        "translated_text": "新しいハリー・ポッターの映画を見るつもりです。そうなる、",
+        "direction": "Other"
+    },
+    {
+        "id": "d79f8b1f-3436-41a7-93e3-e1904511f622",
+        "timestamp": 1751714112.1297832,
+        "speaker": "Other",
+        "origin_text": "Kristen and Todd, my good friend Todd,",
+        "translated_text": "クリステンとトッド、私の親友のトッド、",
+        "direction": "Other"
+    },
+    {
+        "id": "38a686c4-f777-4509-89aa-149dfb939032",
+        "timestamp": 1751714116.69645,
+        "speaker": "Other",
+        "origin_text": "I don't know if Joe is going to go,",
+        "translated_text": "ジョーが行くかどうかはわかりません、",
+        "direction": "Other"
+    },
+    {
+        "id": "a461e6f9-fc07-474e-914b-e784aefb0dd6",
+        "timestamp": 1751714120.1666155,
+        "speaker": "Other",
+        "origin_text": "but you guys know Kristen's from Learn Real English. Todd is just a good friend of ours.",
+        "translated_text": "しかし、皆さんは、本物の英語を学んだことからクリステンのことを知っています。トッドは私たちの良い友達です。",
+        "direction": "Other"
+    },
+    {
+        "id": "ee1a09a0-05d1-4e50-93ff-e5a7732b0813",
+        "timestamp": 1751714124.7903407,
+        "speaker": "Other",
+        "origin_text": "And, of course, Tomoe and I, we're all going to see the new Harry Potter movie",
+        "translated_text": "そして、もちろん、Tomoeと私は皆、新しいハリー・ポッターの映画を見るつもりです",
+        "direction": "Other"
+    },
+    {
+        "id": "eb8b531a-c3f9-4159-a3f2-e2b7f741a7de",
+        "timestamp": 1751714130.016994,
+        "speaker": "Other",
+        "origin_text": "Yay.",
+        "translated_text": "わーい。",
+        "direction": "Other"
+    },
+    {
+        "id": "caf46fe1-49a7-44a2-b821-409466e1c9c1",
+        "timestamp": 1751714130.527482,
+        "speaker": "Other",
+        "origin_text": "And, you know, I have never read the Harry Potter books.",
+        "translated_text": "そして、ご存知のように、私はハリー・ポッターの本を読んだことがありません。",
+        "direction": "Other"
+    },
+    {
+        "id": "7ed9f16c-caf8-4a9a-bcf6-69f1fd48ef45",
+        "timestamp": 1751714135.6622224,
+        "speaker": "Other",
+        "origin_text": "I don't know what happens in this story. So the movies are fun for me,",
+        "translated_text": "この話で何が起こるかわかりません。だから映画は私にとって楽しいです、",
+        "direction": "Other"
+    },
+    {
+        "id": "a7878246-1ef3-4268-a4c4-dbcc8027e501",
+        "timestamp": 1751714138.7493882,
+        "speaker": "Other",
+        "origin_text": "When the new movies come, I really I have no idea what's going to happen.",
+        "translated_text": "新しい映画が来るとき、私は本当に何が起こるか分かりません。",
+        "direction": "Other"
+    },
+    {
+        "id": "4acf8c41-9794-4b54-991e-37d39b184e1e",
+        "timestamp": 1751714142.8205082,
+        "speaker": "Other",
+        "origin_text": "So I enjoy it. Maybe someday I'll read the books.",
+        "translated_text": "だから私はそれを楽しんでいます。たぶんいつか私は本を読みます。",
+        "direction": "Other"
+    },
+    {
+        "id": "24e63c69-7b2b-4c58-a870-25a7156020a3",
+        "timestamp": 1751714146.424528,
+        "speaker": "Other",
+        "origin_text": "So again, anyway, that's it. I guess that's the big update. So the",
+        "translated_text": "とにかく、それだけです。それが大きなアップデートだと思います。だから",
+        "direction": "Other"
+    },
+    {
+        "id": "5463ef52-7f2c-41a6-8ef6-daaf07d9a592",
+        "timestamp": 1751714149.9987454,
+        "speaker": "Other",
+        "origin_text": "computers are working again.",
+        "translated_text": "コンピューターは再び機能しています。",
+        "direction": "Other"
+    },
+    {
+        "id": "4743f372-a41e-4aba-bec1-0a3f066ab7f3",
+        "timestamp": 1751714150.6138802,
+        "speaker": "Other",
+        "origin_text": "Have a totally new system, very professional and",
+        "translated_text": "非常に専門的で、まったく新しいシステムを持っています",
+        "direction": "Other"
+    },
+    {
+        "id": "31694640-2961-4d15-8d65-4f7fcde8ca0c",
+        "timestamp": 1751714155.6360998,
+        "speaker": "Other",
+        "origin_text": "expensive unfortunately, but that's okay. Very professional. We are ready for a lot of",
+        "translated_text": "残念ながら高価ですが、それは大丈夫です。非常にプロフェッショナル。私たちはたくさんの準備ができています",
+        "direction": "Other"
+    },
+    {
+        "id": "f3edee82-63df-44cf-a0bd-dd804a196e0d",
+        "timestamp": 1751714159.1035373,
+        "speaker": "Other",
+        "origin_text": "traffic now. We are growing fast and now we're ready.",
+        "translated_text": "今トラフィック。私たちは急速に成長していますが、今は準備ができています。",
+        "direction": "Other"
+    },
+    {
+        "id": "9f8a2e89-3939-4ddb-a931-f4f286bbc213",
+        "timestamp": 1751714163.8266497,
+        "speaker": "Other",
+        "origin_text": "We are ready for almost 1,000,000 people possibly",
+        "translated_text": "私たちはおそらく約1,000,000人の準備ができています",
+        "direction": "Other"
+    },
+    {
+        "id": "cb3bbdb6-5867-41aa-9e1f-549cd5b2d968",
+        "timestamp": 1751714167.9184818,
+        "speaker": "Other",
+        "origin_text": "come and try to get Power English.",
+        "translated_text": "来て、英語のパワーを手に入れようとしてください。",
+        "direction": "Other"
+    },
+    {
+        "id": "9bc2d462-825f-44e4-b1dc-47eb539e2933",
+        "timestamp": 1751714168.8881505,
+        "speaker": "Other",
+        "origin_text": "Power English, the one day only sale.",
+        "translated_text": "Power English、The One Day Only Sale。",
+        "direction": "Other"
+    },
+    {
+        "id": "58aaa111-9d25-4279-b5f0-3194a7d540e3",
+        "timestamp": 1751714174.0792687,
+        "speaker": "Other",
+        "origin_text": "Is now August 4.",
+        "translated_text": "現在8月4日です。",
+        "direction": "Other"
+    },
+    {
+        "id": "1477a9ef-b3d3-4db8-84f6-7ed3f23c5bb9",
+        "timestamp": 1751714174.950954,
+        "speaker": "Other",
+        "origin_text": "Next Tuesday. New York City time, it's just after midnight.",
+        "translated_text": "来週の火曜日。ニューヨーク市の時間、それは真夜中過ぎです。",
+        "direction": "Other"
+    },
+    {
+        "id": "655fd260-43a6-455c-8f6d-6448fb1dd69a",
+        "timestamp": 1751714180.2113748,
+        "speaker": "Other",
+        "origin_text": "12:01AM.",
+        "translated_text": "12:01 am。",
+        "direction": "Other"
+    },
+    {
+        "id": "3345e3e7-efe8-4ac9-b9bf-b5a463a820db",
+        "timestamp": 1751714181.2513134,
+        "speaker": "Other",
+        "origin_text": "So just after, you know, just",
+        "translated_text": "だから、ちょうどあなたが知っているだけです",
+        "direction": "Other"
+    },
+    {
+        "id": "ea3f785b-295a-4c0c-86e8-28d971f3e7de",
+        "timestamp": 1751714186.2293713,
+        "speaker": "Other",
+        "origin_text": "when August 4 begins, the first minute,",
+        "translated_text": "8月4日が始まると、最初の1分",
+        "direction": "Other"
+    },
+    {
+        "id": "3df674eb-9f16-4bbb-9179-2f44ccf6f660",
+        "timestamp": 1751714187.8942065,
+        "speaker": "Other",
+        "origin_text": "that's when Power English starts. Check your email then.",
+        "translated_text": "それはパワー英語が始まるときです。その後、メールを確認してください。",
+        "direction": "Other"
+    },
+    {
+        "id": "b59ffd57-baef-4045-9643-a420ac6a661d",
+        "timestamp": 1751714191.4750786,
+        "speaker": "Other",
+        "origin_text": "And finally, we're going to see Harry Potter tonight.",
+        "translated_text": "そして最後に、今夜はハリー・ポッターに会います。",
+        "direction": "Other"
+    },
+    {
+        "id": "ebaa5cb4-3a13-4937-83a5-aacc990147b6",
+        "timestamp": 1751714194.4122353,
+        "speaker": "Other",
+        "origin_text": "Okay. Well, as always, you can check my Twitter page for",
+        "translated_text": "わかった。さて、いつものように、あなたは私のTwitterページをチェックすることができます",
+        "direction": "Other"
+    },
+    {
+        "id": "a790010e-9385-4e3c-98b3-fa024cb86dfd",
+        "timestamp": 1751714199.6699407,
+        "speaker": "Other",
+        "origin_text": "daily audios, every day I do a short audio, sometimes more.",
+        "translated_text": "毎日のオーディオ、毎日私は短いオーディオをします、時にはそれ以上。",
+        "direction": "Other"
+    },
+    {
+        "id": "363007be-0544-4c73-970f-92dd326e7ef1",
+        "timestamp": 1751714202.742742,
+        "speaker": "Other",
+        "origin_text": "That's twitter.com/ajhoegh,ajh0ge. If you're on Facebook, you can also find us on Facebook",
+        "translated_text": "それはtwitter.com/ajhoegh、ajh0geです。あなたがFacebookにいるなら、あなたもFacebookで私たちを見つけることができます",
+        "direction": "Other"
+    },
+    {
+        "id": "a9486aed-5632-4edd-bb17-257b2a562383",
+        "timestamp": 1751714216.0385056,
+        "speaker": "Other",
+        "origin_text": "Search for Effortless English on Facebook.",
+        "translated_text": "Facebookで楽な英語を検索します。",
+        "direction": "Other"
+    },
+    {
+        "id": "1c2519d2-9874-4595-80c9-69e10983dfad",
+        "timestamp": 1751714217.9556632,
+        "speaker": "Other",
+        "origin_text": "We have an Effortless English Facebook page too. So you can see videos. I do videos almost every day on Facebook.",
+        "translated_text": "簡単な英語のFacebookページもあります。だからあなたはビデオを見ることができます。私はFacebookでほぼ毎日ビデオをしています。",
+        "direction": "Other"
+    },
+    {
+        "id": "bdb756dd-36d6-4573-849c-28ff28215453",
+        "timestamp": 1751714225.757714,
+        "speaker": "Other",
+        "origin_text": "And of course keep checking the podcast here.",
+        "translated_text": "そしてもちろん、ここでポッドキャストをチェックしてください。",
+        "direction": "Other"
+    },
+    {
+        "id": "3bc5b1f6-a562-49bb-bf3a-33be63f87fe2",
+        "timestamp": 1751714230.9078553,
+        "speaker": "Other",
+        "origin_text": "So I hope you're enjoying all this English. Keep listening. Keep smiling.",
+        "translated_text": "だから私はあなたがこのすべての英語を楽しんでいることを願っています。聞き続けてください。笑ってください。",
+        "direction": "Other"
+    },
+    {
+        "id": "eafb6513-0aa5-41d2-8cb2-3a258d1b1ccc",
+        "timestamp": 1751714234.9777927,
+        "speaker": "Other",
+        "origin_text": "Keep enjoying your English learning. See you again. Bye bye.",
+        "translated_text": "英語の学習を楽しんでください。また会いましょう。バイバイ。",
+        "direction": "Other"
+    }
+]

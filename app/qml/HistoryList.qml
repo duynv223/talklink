@@ -23,16 +23,30 @@ Rectangle {
 //---------------------- History List ----------------------//
     RowLayout {
         anchors.fill: parent
+        anchors.margins: 0
         spacing: 0
+        
+        // Điều chỉnh tỷ lệ cho các thành phần
+        Layout.fillWidth: true
+        Layout.fillHeight: true
         ListView {
             id: history_view
             Layout.preferredWidth: parent ? parent.width * 0.3 : 300
+            Layout.minimumWidth: 250
             Layout.fillHeight: true
             Layout.margins: 10
             model: historyModel
             clip: true
             spacing: 12
             boundsBehavior: Flickable.StopAtBounds
+            
+            // Property to track if user is viewing the top of the list
+            property bool atBeginning: true // Default to true for initial load
+            
+            // Monitor scroll position
+            onContentYChanged: {
+                atBeginning = contentY < 50
+            }
 
             delegate: Rectangle {
                 width: history_view.width
@@ -89,8 +103,11 @@ Rectangle {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        history_view.currentIndex = index
-                        historyModel.changeConversation(model.id)
+                        // Only change conversation if not already selected
+                        if (history_view.currentIndex !== index) {
+                            history_view.currentIndex = index
+                            historyModel.changeConversation(model.id)
+                        }
                     }
                     cursorShape: Qt.PointingHandCursor
                 }
@@ -111,6 +128,7 @@ Rectangle {
         }
 
         Rectangle {
+            Layout.margins: 10
             width: 1
             color: "#e0e0e0"
             Layout.fillHeight: true
@@ -119,8 +137,13 @@ Rectangle {
         ConversationView {
             id: conversation_view
             Layout.preferredWidth: parent ? parent.width * 0.7 : 500
+            Layout.minimumWidth: 350
             Layout.fillHeight: true
-            Layout.margins: 10
+            Layout.fillWidth: true
+            Layout.rightMargin: 10
+            Layout.leftMargin: 0
+            Layout.topMargin: 10
+            Layout.bottomMargin: 10
             conversationData: historyList.conversation_data
             otherSpeakerColor: "#888"
             userSpeakerColor: "#2e7d32"
@@ -131,7 +154,66 @@ Rectangle {
     Connections {
         target: historyModel
         function onConversationDataChanged() {
+            // Kiểm tra trạng thái cuộc hội thoại hiện tại
+            var wasAtEnd = conversation_view.atEnd
+            
+            // Cập nhật dữ liệu
             historyList.conversation_data = historyModel.getConversationData()
+            
+            // Đợi cập nhật hoàn tất và cập nhật vị trí cuộn nếu cần
+            refreshTimer.wasAtEnd = wasAtEnd
+            refreshTimer.restart()
+            
+            // Báo hiệu rằng một cuộc hội thoại đã được mở
+            historyList.conversationOpened()
+        }
+        
+        // Xử lý khi historyModel thay đổi (thêm/xóa cuộc hội thoại)
+        function onLayoutChanged() {
+            // Lưu trữ vị trí cuộn hiện tại
+            var scrollPos = history_view.contentY
+            
+            // Chỉ cập nhật vị trí xem nếu người dùng đang ở đầu danh sách
+            if (history_view.atBeginning) {
+                // Sử dụng Qt.callLater để đảm bảo dữ liệu đã được cập nhật trước khi cuộn
+                Qt.callLater(function() {
+                    history_view.positionViewAtBeginning()
+                })
+            } else {
+                // Sử dụng timer để khôi phục vị trí cuộn
+                historyScrollTimer.scrollPos = scrollPos
+                historyScrollTimer.restart()
+            }
+        }
+    }
+    
+    // Timer để xử lý cập nhật giao diện cho cuộc hội thoại
+    Timer {
+        id: refreshTimer
+        interval: 50
+        property bool wasAtEnd: false
+        
+        onTriggered: {
+            // Nếu người dùng đang ở cuối danh sách, cuộn xuống cuối
+            if (wasAtEnd) {
+                Qt.callLater(function() {
+                    conversation_view.scrollToEnd()
+                })
+            }
+            // Không cần khôi phục vị trí cuộn vì ConversationView đã xử lý điều này
+        }
+    }
+    
+    // Timer để xử lý cập nhật vị trí cuộn cho history view
+    Timer {
+        id: historyScrollTimer
+        interval: 50
+        property real scrollPos: 0
+        
+        onTriggered: {
+            Qt.callLater(function() {
+                history_view.contentY = scrollPos
+            })
         }
     }
 
