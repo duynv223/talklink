@@ -26,7 +26,6 @@ Rectangle {
             spacing: 2
             property string messageId: model.id || index
 
-            // Timestamp and Speaker Row
             Row {
                 width: parent.width
                 spacing: 5
@@ -112,44 +111,25 @@ Rectangle {
         }
     }
 
-    // Conversation Action
-    Item {
+//---------------------- History Action ----------------------//
+    ConversationActionBar {
+        id: actionBar
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        height: 60
-        width: buttonRow.width + 30
-        z: 100
-
-        Row {
-            id: buttonRow
-            spacing: 10
-            anchors.centerIn: parent
-
-            IconButton {
-                id: summaryConversationButton
-                iconSource: "../assets/conversation_action/historical-sumary-svgrepo-com.svg"
-                onClicked: showSummary()
-            }
-            IconButton {
-                id: clearConversationButton
-                iconSource: "../assets/conversation_action/clear-12.svg"
-                onClicked: conversationModel.clear()
-            }
-            IconButton {
-                id: renameSpeakerButton
-                iconSource: "../assets/conversation_action/rename-15.svg"
-                onClicked: {
-                    sidebarVisible = !sidebarVisible
-                }
-            }
-            IconButton {
-                id: newConversationButton
-                iconSource: "../assets/conversation_action/add-90.svg"
-                onClicked: conversationModel.new_conversation()
-            }
-        }
+        
+        showSummaryButton: true
+        showClearButton: true
+        showRenameButton: true
+        showNewButton: true
+        
+        onSummaryClicked: showSummary()
+        onClearClicked: conversationModel.clear()
+        onRenameClicked: sidebarVisible = !sidebarVisible
+        onNewConversationClicked: conversationModel.new_conversation()
     }
 
+
+//---------------------- Rename Speacker Sidebar ----------------------//
     RenameSpeakerSideBar {
         id: speakerSidebar
         visible: true
@@ -162,25 +142,12 @@ Rectangle {
         }
     }
 
-    Component.onCompleted: {
-        initializedSidebar = true
-    }
-
     Connections {
         target: conversationModel
         function onUniqueSpeakersChanged() {
             if (sidebarVisible) {
                 speakerSidebar.speakerModel = conversationModel.getUniqueSpeakerMaps()
             }
-        }
-        function onSummaryReady(text) {
-            summaryPopup.loading = false
-            summaryPopup.result = text
-        }
-
-        function onSummaryError(err) {
-            summaryPopup.loading = false
-            summaryPopup.result = "Lỗi: " + err
         }
     }
 
@@ -193,6 +160,7 @@ Rectangle {
         }
     }
 
+//---------------------- Summary PopUp ----------------------//
     PopUpSummary {
         id: summaryPopup
         title: "Summary Conversation"
@@ -218,6 +186,14 @@ Rectangle {
         function onSummaryError(err) {
             summaryPopup.setLoading(false)
             summaryPopup.setContent("Error: " + err)
+        }
+    }
+
+
+    Component.onCompleted: {
+        initializedSidebar = true
+        if (conversationModel && conversationModel.getUniqueSpeakerMaps) {
+            speakerSidebar.speakerModel = conversationModel.getUniqueSpeakerMaps()
         }
     }
 }

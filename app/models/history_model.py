@@ -139,7 +139,7 @@ class HistoryModel(QAbstractListModel):
             with open(save_file, 'w', encoding='utf-8') as f:
                 json.dump(self._unique_speaker_map, f, ensure_ascii=False, indent=4)
         except IOError as e:
-            pass
+            print(f"Error {e}")
 
     @Slot(result='QVariantList')
     def getConversationData(self):
