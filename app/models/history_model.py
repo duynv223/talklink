@@ -25,6 +25,8 @@ class HistoryModel(QAbstractListModel):
         self._history_data = []
         self._conversation_data = []
         self._unique_speaker_map = []
+        self._data_file_name = ""
+
         self.refresh()
 
     def rowCount(self, parent=QModelIndex()):
@@ -70,18 +72,19 @@ class HistoryModel(QAbstractListModel):
             try:
                 conv_id = conv_file.name
                 
-                # Date from file modification time
                 mtime = conv_file.stat().st_mtime
                 date_str = time.strftime("%B %d, %Y - %I:%M %p", time.localtime(mtime))
 
-                # Preview from conversation data
-                with open(conv_file, 'r', encoding='utf-8') as f:
+                data_file = HISTORY_PATH / conv_id
+                with open(data_file, 'r', encoding='utf-8') as f:
                     conv_data = json.load(f)
                     if i == 0:
                         self._conversation_data = conv_data
+                        self._data_file_name = conv_id
+
                 preview = " ".join(item.get("origin_text", "") for item in conv_data[:2]).strip()
 
-                speaker_file = SPEAKER_PATH / f"{conv_id}.json"
+                speaker_file = SPEAKER_PATH / conv_id
                 if speaker_file.exists():
                     with open(speaker_file, 'r', encoding='utf-8') as f:
                         speaker_data = json.load(f)
@@ -128,15 +131,6 @@ class HistoryModel(QAbstractListModel):
 
     def _checkSpeakerExisted(self, speaker_Id: str) -> bool:
         return any(s.get("speaker_Id") == speaker_Id for s in self._unique_speaker_map)
-
-    def _save_conversation_to_file(self):
-        try:
-            HISTORY_PATH.mkdir(parents=True, exist_ok=True)
-            save_file = HISTORY_PATH / self._history_save_file
-            with open(save_file, 'w', encoding='utf-8') as f:
-                json.dump(self._data, f, ensure_ascii=False, indent=4)
-        except IOError as e:
-            pass
 
     def _save_speaker_map_to_file(self):
         try:
